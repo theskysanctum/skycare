@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Safety and Care Checklist</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Lexend for high legibility -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lexend', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .big-card {
+            box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+        }
+        .option-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Active Choice Highlighting */
+        .selected-ok {
+            background-color: #4CAF50 !important;
+            color: #FFFFFF !important;
+            border-color: #2E7D32 !important;
+            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.35);
+        }
+        .selected-help {
+            background-color: #FFB74D !important;
+            color: #FFFFFF !important;
+            border-color: #E65100 !important;
+            box-shadow: 0 4px 14px rgba(255, 183, 77, 0.35);
+        }
+        .selected-teach {
+            background-color: #E57373 !important;
+            color: #FFFFFF !important;
+            border-color: #C62828 !important;
+            box-shadow: 0 4px 14px rgba(229, 115, 115, 0.35);
+        }
+
+        @keyframes gentle-pop {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        .pop-in {
+            animation: gentle-pop 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased pb-20">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-slate-800 border-b-4 border-emerald-300 dark:border-emerald-600 sticky top-0 z-50 shadow-sm transition-colors duration-300">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 dark:bg-emerald-950 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl shadow-inner flex-shrink-0">
+                    🧸
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white tracking-wide">
+                        Universal Safety and Care Checklist
+                    </h1>
+                    <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">Tap how each thing feels for you today!</p>
+                </div>
+            </div>
+            
+            <!-- Dark / Light Mode Toggle -->
+            <button onclick="toggleDarkMode()" class="option-btn p-3 rounded-2xl bg-slate-100 dark:bg-slate-700 border-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-amber-300 font-extrabold flex items-center gap-2 shadow-sm">
+                <span id="themeIcon" class="text-2xl">🌙</span>
+                <span id="themeLabel" class="hidden md:inline text-sm font-bold">Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-3xl mx-auto px-4 py-6 flex-1 w-full space-y-8">
+
+        <!-- Welcome Banner -->
+        <div class="bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-slate-800 dark:to-emerald-950 border-3 border-teal-200 dark:border-emerald-700 rounded-3xl p-5 text-center space-y-2 pop-in">
+            <div class="text-3xl">💛</div>
+            <h2 class="text-xl font-extrabold text-teal-900 dark:text-emerald-200">It is okay to ask for help!</h2>
+            <p class="text-base font-bold text-teal-700 dark:text-emerald-300">
+                Pick green if you know it, yellow if you need help, or red if you want to learn it!
+            </p>
+        </div>
+
+        <!-- Categorized Domains Container -->
+        <div id="domainsContainer" class="space-y-12"></div>
+
+        <!-- Add Custom Skill Section -->
+        <div class="bg-white dark:bg-slate-800 border-3 border-purple-200 dark:border-purple-800 rounded-3xl p-6 big-card space-y-4">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">✏️</span>
+                <h3 class="text-xl font-extrabold text-purple-900 dark:text-purple-300">Add Something Else</h3>
+            </div>
+            <p class="text-base font-bold text-slate-600 dark:text-slate-300">Is there another thing you want to ask about?</p>
+            
+            <form onsubmit="addCustomThing(event)" class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="customInput" placeholder="Type here... (like: washing my hair)" class="flex-1 bg-purple-50 dark:bg-slate-700 border-2 border-purple-200 dark:border-purple-600 rounded-2xl px-5 py-4 text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-purple-500 placeholder-purple-300 dark:placeholder-slate-400">
+                <button type="submit" class="option-btn bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-lg px-6 py-4 rounded-2xl border-b-4 border-purple-900 shadow-sm flex items-center justify-center gap-2">
+                    <span>➕ Add It</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- General Note Section -->
+        <div class="bg-white dark:bg-slate-800 border-3 border-blue-200 dark:border-blue-800 rounded-3xl p-6 big-card space-y-3">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">💬</span>
+                <h3 class="text-xl font-extrabold text-blue-900 dark:text-blue-300">Extra Notes & Thoughts</h3>
+            </div>
+            <p class="text-base font-bold text-slate-600 dark:text-slate-300">Want to add anything else to your list?</p>
+            <textarea id="helperMessage" rows="3" placeholder="Write anything you want to share..." class="w-full bg-blue-50 dark:bg-slate-700 border-2 border-blue-200 dark:border-blue-600 rounded-2xl p-4 text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-blue-500 placeholder-blue-300 dark:placeholder-slate-400 resize-y"></textarea>
+        </div>
+
+        <!-- Save & Export Button -->
+        <div class="pt-4 text-center">
+            <button onclick="saveAndExportList()" class="option-btn w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xl sm:text-2xl py-6 px-8 rounded-3xl border-b-8 border-emerald-800 shadow-lg flex items-center justify-center gap-4">
+                <span class="text-4xl">📄</span>
+                <span>Done! Save my list</span>
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        const domains = [
+            {
+                id: "d1",
+                icon: "🛁",
+                title: "1. Body Care & Hygiene",
+                desc: "This part is all about taking good care of your physical body! Taking care of your skin, teeth, hair, and private areas keeps your body feeling fresh, clean, and happy every single day."
+            },
+            {
+                id: "d2",
+                icon: "👕",
+                title: "2. Clothing & Personal Living",
+                desc: "This part is about picking out comfortable clothes and taking care of your living space! Learning how to dress for the weather and keep your room tidy helps you feel cozy and organized."
+            },
+            {
+                id: "d3",
+                icon: "🍎",
+                title: "3. Nutrition, Hydration & Kitchen Safety",
+                desc: "This part helps you listen to your tummy! Drinking plenty of fresh water, eating healthy foods when you are hungry, and staying safe around hot kitchen items gives your body energy to play and grow."
+            },
+            {
+                id: "d4",
+                icon: "🛡️",
+                title: "4. Physical Safety, Privacy & Boundaries",
+                desc: "This part is all about keeping your body safe and respecting others! Knowing how to protect your personal space, closing bathroom doors for privacy, and staying safe around hazards protects you inside and outside."
+            },
+            {
+                id: "d5",
+                icon: "🧠",
+                title: "5. Emotional Self-Regulation, Mental Health & Trauma Care",
+                desc: "This part helps you handle big feelings inside your heart and mind! Whether you feel scared, anxious, sad, heavy, or triggered by past memories, these skills help bring your body back to feeling calm and safe."
+            },
+            {
+                id: "d6",
+                icon: "💬",
+                title: "6. Social Mechanics, Vocal Control & Impulse Dynamics",
+                desc: "This part is about how we talk with others and manage our habits! Learning to take turns speaking, using a gentle voice tone, and knowing when to pause repetitive urges helps us get along wonderfully with people around us."
+            }
+        ];
+
+        const defaultItems = [
+            // Domain 1: Body Care & Hygiene
+            { id: "item_1", domain: "d1", icon: "🧻", title: "Wiping after using the bathroom", desc: "Wiping front to back until the paper comes back clean.", help: "Take your time, use moist wipes if needed, and check paper until clean." },
+            { id: "item_2", domain: "d1", icon: "🧼", title: "Washing down there", desc: "Using gentle soap and water to wash private parts in the shower or bath.", help: "Use warm water, mild soap, and gently wash front to back." },
+            { id: "item_3", domain: "d1", icon: "🪥", title: "Brushing my teeth", desc: "Brushing all teeth with toothpaste twice every day.", help: "Brush in tiny circles for 2 minutes—top, bottom, front, and back!" },
+            { id: "item_4", domain: "d1", icon: "🧵", title: "Flossing my teeth", desc: "Using string or a floss stick to clean between my teeth.", help: "Use a colorful floss pick and gently slide between teeth once a day." },
+            { id: "item_5", domain: "d1", icon: "👅", title: "Brushing my tongue", desc: "Gently brushing my tongue so my mouth feels fresh.", help: "Stick out your tongue and sweep softly from back to front 3 times." },
+            { id: "item_6", domain: "d1", icon: "👂", title: "Cleaning out my ears", desc: "Washing inside and behind both ears softly with water.", help: "Use a warm wet washcloth over your finger to wipe around the ear." },
+            { id: "item_7", domain: "d1", icon: "🌸", title: "Cleaning skin folds", desc: "Washing and drying under chest skin folds every day.", help: "Wash gently with soap and pat completely dry with a soft towel." },
+            { id: "item_8", domain: "d1", icon: "🔘", title: "Cleaning my belly button", desc: "Washing inside belly button with water and soap.", help: "Gently wipe inside with soap on your finger during bath time." },
+            { id: "item_9", domain: "d1", icon: "🦶", title: "Cleaning between my toes", desc: "Getting soap and water between every toe when washing.", help: "Wiggle your toes in soapy water and dry between them after." },
+            { id: "item_10", domain: "d1", icon: "🧼", title: "Cleaning my neck & chin", desc: "Washing around the front, back of my neck, and under my chin.", help: "Tilt chin up and wipe in gentle circles with warm soapy water." },
+            { id: "item_11", domain: "d1", icon: "🧴", title: "How much deodorant to use", desc: "Putting the right amount of deodorant stick under my arms every morning.", help: "Swipe up and down 2 or 3 times under each arm after dressing." },
+            { id: "item_12", domain: "d1", icon: "✂️", title: "Cutting my fingernails", desc: "Trimming fingernails safely so they do not hurt or get dirty.", help: "Ask a helper to clip fingernails after bath time when nails are soft." },
+            { id: "item_13", domain: "d1", icon: "✂️", title: "Cutting my toenails", desc: "Trimming toenails straight across so they grow nicely.", help: "Cut straight across so the corners don't poke your skin." },
+            { id: "item_14", domain: "d1", icon: "🚿", title: "Washing my hair with shampoo", desc: "Putting shampoo in wet hair, rubbing my head, and rinsing it all out.", help: "Close eyes tightly, massage shampoo like making bubbles, then rinse well." },
+            { id: "item_15", domain: "d1", icon: "🧴", title: "Using hair conditioner", desc: "Putting conditioner on hair ends so it brushes smoothly.", help: "Put a penny-size drop on hair ends, count to 10, then rinse with water." },
+            { id: "item_16", domain: "d1", icon: "🪮", title: "Brushing my hair", desc: "Gently combing hair so it does not have tangles.", help: "Start brushing at the bottom ends of hair first, then work up to the top." },
+            { id: "item_17", domain: "d1", icon: "🧼", title: "Washing my hands after bathroom", desc: "Using soap and warm water for 20 seconds after using the toilet.", help: "Sing 'Happy Birthday' twice while scrubbing hands with soap and water." },
+            { id: "item_18", domain: "d1", icon: "🧼", title: "Washing hands before eating", desc: "Washing hands with soap before touching food.", help: "Scrub palms, backs of hands, and fingers before sitting down to eat." },
+            { id: "item_19", domain: "d1", icon: "🤧", title: "Blowing my nose into a tissue", desc: "Blowing nose softly, throwing tissue away, and washing hands.", help: "Press one side shut, blow out softly, throw away tissue, and wash hands." },
+            { id: "item_20", domain: "d1", icon: "🩸", title: "Changing hygiene pads", desc: "Taking off dirty pads, putting clean ones on underwear, and wrapping dirty ones up.", help: "Peel off old pad, wrap in toilet paper, throw in trash, stick new pad on." },
+            { id: "item_21", domain: "d1", icon: "🧼", title: "Washing up during periods", desc: "Keeping private parts clean and dry when bleeding happens.", help: "Use warm water and soft wipes to stay fresh and dry throughout the day." },
+            { id: "item_22", domain: "d1", icon: "🩹", title: "Taking care of cuts and scrapes", desc: "Washing a small cut, drying it, and putting a band-aid on.", help: "Rinse cut under cool water, pat dry, and cover with a cute bandage." },
+            { id: "item_58", domain: "d1", icon: "🚽", title: "Knowing when I have to pee or poop", desc: "Going to the bathroom right away before it becomes an emergency or an accident.", help: "Stop playing right away when tummy feels full pressure and walk to bathroom." },
+            { id: "item_59", domain: "d1", icon: "🩳", title: "Pulling pants up and down", desc: "Pulling my pants and underwear all the way down before sitting on the potty, and all the way up after.", help: "Pull garments all the way down to knees before sitting, pull up to waist after." },
+            { id: "item_60", domain: "d1", icon: "💧", title: "Flushing the potty", desc: "Pushing the toilet handle down every time after I use the bathroom.", help: "Push handle down until water swirls, then close toilet lid." },
+            { id: "item_61", domain: "d1", icon: "🚿", title: "Rinsing all the soap off", desc: "Using clean water to wash away all soap bubbles from skin and hair so skin does not itch.", help: "Rinse body with water until skin feels clean and smooth, no slippery soap left." },
+            { id: "item_62", domain: "d1", icon: "🪞", title: "Washing and drying my face", desc: "Washing food or dirt off my face with water and drying softly with a towel.", help: "Splash cool water on face, wipe gently with soft washcloth, pat dry." },
+            { id: "item_63", domain: "d1", icon: "🪥", title: "Spitting out toothpaste", desc: "Spitting all the toothpaste into the sink when I am done brushing, not swallowing it.", help: "Lean over sink, spit out foam, rinse mouth with a tiny sip of water." },
+
+            // Domain 2: Clothing & Personal Living
+            { id: "item_23", domain: "d2", icon: "👕", title: "Picking weather clothes", desc: "Wearing warm clothes when cold and light clothes when hot.", help: "Look outside or check the weather: sweater for cold, shorts for sun!" },
+            { id: "item_24", domain: "d2", icon: "👕", title: "Matching my clothes", desc: "Picking tops and bottoms that look nice together.", help: "Pick favorite colors that match or ask a helper to help pick an outfit." },
+            { id: "item_25", domain: "d2", icon: "🩲", title: "Changing clean underwear every day", desc: "Putting on fresh, clean underwear every single morning.", help: "Put clean underwear on right after morning wash or getting dressed." },
+            { id: "item_26", domain: "d2", icon: "👙", title: "Wearing clothes that fit", desc: "Putting on comfortable clothes so the body feels supported.", help: "Choose soft fabrics that feel good and don't pinch or feel too tight." },
+            { id: "item_27", domain: "d2", icon: "👟", title: "Left and right shoes", desc: "Putting shoes on the correct feet every time.", help: "Put shoes together so the inside curves look like they are hugging." },
+            { id: "item_28", domain: "d2", icon: "👟", title: "Tying shoe laces", desc: "Tying laces into a double knot so shoes stay on.", help: "Make bunny ears with the laces, cross them over, pull loop through!" },
+            { id: "item_29", domain: "d2", icon: "🔘", title: "Buttons and zippers", desc: "Buttoning shirts and pulling up zippers on pants on my own.", help: "Push button half through hole first, then pull from the other side." },
+            { id: "item_30", domain: "d2", icon: "🧺", title: "Clean vs dirty clothes", desc: "Knowing when clothes are dirty and putting them in the laundry box.", help: "If it has food, smells, or was worn all day, toss it into the hamper." },
+            { id: "item_31", domain: "d2", icon: "🧺", title: "Folding clean clothes", desc: "Folding shirts and pants gently to put away in drawers.", help: "Lay shirt flat, fold sleeves in, fold in half, put neatly in drawer." },
+            { id: "item_53", domain: "d2", icon: "⏰", title: "Morning & Bedtime routines", desc: "Following a simple morning routine and bedtime step list.", help: "Check a picture chart for what steps come next in morning and night." },
+            { id: "item_54", domain: "d2", icon: "🧹", title: "Cleaning up my mess", desc: "Putting trash in the bin and picking up items off the floor.", help: "Pick up 5 items at a time and put them in their home spots." },
+            { id: "item_55", domain: "d2", icon: "🧽", title: "Wiping tables after eating", desc: "Using a damp cloth to wipe crumbs off the table.", help: "Wipe from back of table to front into your hand or a napkin." },
+            { id: "item_56", domain: "d2", icon: "🛌", title: "Making my bed", desc: "Pulling sheets and blankets up neatly on my bed.", help: "Pull pillow to head of bed, pull blanket all the way up to pillow." },
+            { id: "item_57", domain: "d2", icon: "🚪", title: "Checking locked doors at night", desc: "Making sure house doors are closed and locked safely.", help: "Walk to front and back doors with a helper to check locks before sleep." },
+
+            // Domain 3: Nutrition, Hydration & Kitchen Safety
+            { id: "item_32", domain: "d3", icon: "🚰", title: "Drinking enough water", desc: "Drinking cups of fresh water throughout the day.", help: "Keep a water bottle nearby and take 3 big gulps every hour." },
+            { id: "item_33", domain: "d3", icon: "🍽️", title: "Knowing when I am hungry or full", desc: "Listening to my stomach when it needs food and stopping when full.", help: "Check in with your tummy before, during, and after eating meals." },
+            { id: "item_34", domain: "d3", icon: "🍴", title: "Using forks and spoons", desc: "Holding utensils properly to eat food safely.", help: "Hold spoon or fork handle like a pencil to scoop up bites easily." },
+            { id: "item_35", domain: "d3", icon: "🔪", title: "Using a butter knife", desc: "Cutting soft food slowly without hurting my fingers.", help: "Keep fingers away from blade, press down gently on soft food." },
+            { id: "item_36", domain: "d3", icon: "🔥", title: "Hot stove safety", desc: "Knowing the stove, oven, and hot water can burn skin.", help: "Stay 3 big steps back from hot stoves, ovens, and hot pans." },
+            { id: "item_37", domain: "d3", icon: "🍎", title: "Making a simple snack", desc: "Getting a clean snack like fruit, bread, or cheese by myself.", help: "Pick an easy snack like an apple, banana, or cheese stick from fridge." },
+            { id: "item_38", domain: "d3", icon: "🍞", title: "Making toast or a sandwich", desc: "Using the toaster or spreading butter/peanut butter safely.", help: "Spread butter softly across bread, ask an adult to help push toaster." },
+            { id: "item_39", domain: "d3", icon: "🧊", title: "Keeping food in the fridge", desc: "Putting cold items like milk or yogurt back in the fridge right away.", help: "Put milk and yogurt back in fridge as soon as you finish pouring." },
+            { id: "item_64", domain: "d3", icon: "🚯", title: "Knowing what is safe to eat", desc: "Knowing to only put food in my mouth and never eating toys, trash, or things off the floor.", help: "Only put real food from kitchen or plate into mouth. Ask if unsure." },
+            { id: "item_65", domain: "d3", icon: "🥪", title: "Chewing with mouth closed", desc: "Taking small bites and chewing food with my lips together so food stays inside.", help: "Take small bites, close lips together, chew 10 times before swallowing." },
+            { id: "item_66", domain: "d3", icon: "🥤", title: "Drinking without spilling", desc: "Holding a cup with two hands and drinking slowly so liquids do not spill on clothes.", help: "Hold cup with both hands, tilt slowly, swallow before taking another sip." },
+            { id: "item_67", domain: "d3", icon: "🤢", title: "Knowing if food smells bad or spoiled", desc: "Asking an adult before eating food that smells weird, looks bad, or has mold.", help: "If food smells sour, looks funny, or has spots, show an adult first." },
+            { id: "item_68", domain: "d3", icon: "🧼", title: "Wiping mouth after eating", desc: "Using a napkin to wipe food off my mouth and hands after I finish eating.", help: "Use napkin to wipe corners of mouth and fingers clean right after eating." },
+
+            // Domain 4: Physical Safety, Privacy & Boundaries
+            { id: "item_40", domain: "d4", icon: "🔒", title: "Private parts privacy", desc: "Knowing my private parts belong only to me and keeping them covered.", help: "Keep private areas covered with clothes and keep bathroom doors closed." },
+            { id: "item_41", domain: "d4", icon: "🚪", title: "Closing the bathroom door", desc: "Shutting the door when using the toilet or showering for privacy.", help: "Close the door all the way before taking off clothes or sitting on potty." },
+            { id: "item_42", domain: "d4", icon: "🛑", title: "Safe touch and boundaries", desc: "Saying 'No' or asking for help if anyone makes me uncomfortable.", help: "Say loudly 'Stop, I don't like that!' and go tell a safe helper right away." },
+            { id: "item_43", domain: "d4", icon: "🤝", title: "Personal space", desc: "Not standing too close to people unless I ask first.", help: "Keep one arm length of distance between you and other people." },
+            { id: "item_44", domain: "d4", icon: "📞", title: "Knowing who to call in emergency", desc: "Knowing when to get a trusted person or call for help if hurt or scared.", help: "Know how to dial 911 or call your safe helper's phone number." },
+            { id: "item_45", domain: "d4", icon: "🚶‍♀️", title: "Looking both ways on streets", desc: "Looking left, right, and left again before walking across roads.", help: "Hold an adult's hand, stop at the curb, look left, right, and left again." },
+            { id: "item_69", domain: "d4", icon: "🚫", title: "Leaving cuts and scabs alone", desc: "Not picking at cuts or scabs so skin can heal safely.", help: "If scab itches, put a band-aid over it or pat gently instead of scratching." },
+            { id: "item_70", domain: "d4", icon: "💊", title: "Taking medicine only with adult help", desc: "Never touching or taking pills or medicine unless given directly by an adult.", help: "Never touch bottles or pills. Only take medicine given by a safe helper." },
+            { id: "item_71", domain: "d4", icon: "🗣️", title: "Telling where my body hurts", desc: "Using words to point and say when my tummy, head, or skin hurts.", help: "Point to where it hurts and say: 'My [head/tummy/arm] hurts right here'." },
+            { id: "item_72", domain: "d4", icon: "💫", title: "Telling when I feel sick or dizzy", desc: "Telling an adult right away when I feel weak, hot, dizzy, or thrown up.", help: "Sit down on floor right away and call out to helper: 'I feel sick/dizzy!'" },
+            { id: "item_73", domain: "d4", icon: "🔒", title: "Never opening doors to strangers", desc: "Asking an adult before opening the front door when someone knocks.", help: "When door knocks, freeze! Call an adult to open the door." },
+            { id: "item_74", domain: "d4", icon: "🧴", title: "Staying away from cleaning liquids", desc: "Never touching spray bottles, bleach, or cleaning liquids.", help: "Leave spray bottles, soap pods, and cleaning liquids alone." },
+            { id: "item_75", domain: "d4", icon: "🧘‍♀️", title: "Not hitting or biting when mad", desc: "Keeping hands and body safe when angry instead of throwing things or hitting.", help: "Squeeze a pillow, stomp feet twice, or hug yourself tightly instead of hitting." },
+            { id: "item_80", domain: "d4", icon: "🐾", title: "Being gentle with pets and animals", desc: "Petting dogs and cats softly, never squeezing, hitting, or pulling tails.", help: "Use soft hand flat against fur, pet softly from head to back." },
+            { id: "item_81", domain: "d4", icon: "🤝", title: "Hurting people or pets is wrong", desc: "Knowing it is bad to hit, kick, push, or hurt anyone or any animal.", help: "Keep hands gentle, use words when mad instead of physical actions." },
+            { id: "item_82", domain: "d4", icon: "🎁", title: "Asking before taking things", desc: "Not taking things that belong to others without asking first.", help: "Ask clearly: 'May I play with this please?' before touching someone's things." },
+
+            // Domain 5: Emotional Self-Regulation, Mental Health & Trauma Care
+            { id: "item_46", domain: "d5", icon: "🗣️", title: "Naming my feelings", desc: "Using words when I feel mad, sad, scared, tired, or happy.", help: "Use emotion cards or say out loud: 'I feel [mad / sad / scared] right now'." },
+            { id: "item_47", domain: "d5", icon: "🌬️", title: "Breathing to calm down", desc: "Taking big deep breaths when my body feels tight or upset.", help: "Smell the flower (breathe in through nose), blow out the candle (out through mouth)." },
+            { id: "item_48", domain: "d5", icon: "⏸️", title: "Asking for a quiet break", desc: "Telling someone I need quiet time before I get too mad or scared.", help: "Say: 'I need a 5 minute quiet break please' and step into a calm room." },
+            { id: "item_49", domain: "d5", icon: "🤗", title: "Feeling safe with trusted people", desc: "Telling trusted helpers the truth when I am scared, hurt, or made a mistake.", help: "Remember safe helpers love you and want to help you solve problems." },
+            { id: "item_50", domain: "d5", icon: "🥺", title: "Knowing mistakes are okay", desc: "Knowing nobody is perfect and it is okay to try again.", help: "Say: 'Mistakes help me learn. I can fix it or try again next time.'" },
+            { id: "item_51", domain: "d5", icon: "🛌", title: "Knowing when my body is tired", desc: "Recognizing when I need to rest or go to sleep.", help: "When eyes feel heavy or yawning happens, put screens away and lay down." },
+            { id: "item_85", domain: "d5", icon: "🌀", title: "Worried thoughts in my mind (Anxiety)", desc: "Feeling like thoughts are spinning or bad things might happen.", help: "Name 3 blue things you see in the room, take 3 slow belly breaths, or squeeze a fidget." },
+            { id: "item_86", domain: "d5", icon: "💓", title: "Scared or shaky body feelings (Anxiety)", desc: "Fast heart beat, shaky hands, or butterfly feelings in tummy.", help: "Put one hand on heart and one on tummy, blow out candle breaths, or wrap in a weighted blanket." },
+            { id: "item_87", domain: "d5", icon: "🌧️", title: "Feeling extra sad or heavy (Depression)", desc: "Feeling empty, super sad, or like nothing feels fun today.", help: "Wrap up in a warm blanket, hug a stuffed animal, tell a helper 'I feel heavy today'." },
+            { id: "item_88", domain: "d5", icon: "🛌", title: "Getting stuck in bed or chair (Depression)", desc: "Hard to move body or start doing things when feeling low.", help: "Try a tiny step: wiggle your toes, sit up, or drink 1 sip of water." },
+            { id: "item_89", domain: "d5", icon: "⚡", title: "Triggers and scary memories (PTSD)", desc: "A sound, smell, or sight suddenly makes me feel scared or remembered bad times.", help: "Remind yourself: 'I am safe right now in this room.' Touch 3 solid things around you." },
+            { id: "item_90", domain: "d5", icon: "📽️", title: "Flashbacks (PTSD)", desc: "Feeling like a scary past event is happening right now.", help: "Look at your feet on the floor. Rub your sensory cube. Say out loud: 'Today is [day], I am safe'." },
+            { id: "item_91", domain: "d5", icon: "🛡️", title: "Feeling jumpy or watching for danger (PTSD)", desc: "Feeling constantly on guard or easily startled by small sounds.", help: "Sit with your back against a sturdy wall, hold a pillow tightly, take deep breaths." },
+            { id: "item_92", domain: "d5", icon: "🧘", title: "Feeling safe inside my body (PTSD)", desc: "Feeling disconnected from my body or like I floated away.", help: "Press feet hard into the floor, squeeze your hands into fists and release, sip cold water." },
+            { id: "item_76", domain: "d5", icon: "👾", title: "Monsters and scary movie things are pretend", desc: "Knowing monsters, ghosts, and scary movie creatures are pretend and cannot touch or hurt me.", help: "Remind yourself: 'That is just costume, makeup, or cartoon drawings'." },
+            { id: "item_77", domain: "d5", icon: "👥", title: "Shadows and night noises cannot hurt me", desc: "Knowing shadows on the wall and house noises at night are just shadows and house sounds.", help: "Turn on nightlight, look at shadow shape, remember house makes creak sounds when settling." },
+            { id: "item_78", domain: "d5", icon: "📺", title: "TV and cartoons are make-believe", desc: "Knowing things on screens or TV are pretend stories made by people.", help: "Remember actors are playing pretend just like playing with toys." },
+            { id: "item_79", domain: "d5", icon: "💭", title: "Bad dreams are just thoughts in my head", desc: "Knowing nightmares are not real life and I am safe when I wake up.", help: "Wake up, look around bedroom, hug blanket, say: 'Dream is gone, I am safe'." },
+            { id: "item_83", domain: "d5", icon: "💬", title: "True words vs. pretend words", desc: "Knowing the difference between telling true words (what really happened) and making up stories.", help: "Tell what really happened first, then say if you want to make up a fun game." },
+            { id: "item_84", domain: "d5", icon: "🙏", title: "Saying 'sorry' when I make a mistake", desc: "Saying 'I am sorry' if I bump someone, break something, or make someone sad.", help: "Look at person, say softly: 'I am sorry I bumped you. Are you okay?'" },
+
+            // Domain 6: Social Mechanics, Vocal Control & Impulse Dynamics
+            { id: "item_52", domain: "d6", icon: "🙋‍♀️", title: "Asking for help", desc: "Saying 'Can you help me please?' when a job feels too hard.", help: "Take a deep breath and ask: 'Can you help me with this please?'" },
+            { id: "item_93", domain: "d6", icon: "🗣️", title: "Taking turns in conversation", desc: "Talking and then stopping so the other person can have a turn.", help: "Say your thought, then pause and ask: 'What do you think?'" },
+            { id: "item_94", domain: "d6", icon: "🔍", title: "Knowing when someone needs space", desc: "Noticing if someone wants quiet time or step-back distance.", help: "If someone looks away or steps back, give them two big steps of space." },
+            { id: "item_95", domain: "d6", icon: "🔊", title: "Using inside voice volume", desc: "Matching how loud I talk to where I am (quiet inside, louder outside).", help: "Use whispering or quiet voice inside rooms, save big yelling voices for outdoors." },
+            { id: "item_96", domain: "d6", icon: "🎶", title: "Using a gentle voice tone", desc: "Noticing if my voice sounds angry, sharp, or flat when talking.", help: "Take a breath before speaking, use soft words, and add a friendly smile." },
+            { id: "item_97", domain: "d6", icon: "🛑", title: "Knowing when to pause a habit", desc: "Stopping picking, watching screens, or doing things too much.", help: "Set a timer on a phone or clock, move to another room when timer rings." },
+            { id: "item_98", domain: "d6", icon: "🙋‍♂️", title: "Asking for help with strong urges", desc: "Telling a trusted person when I feel a strong push to do a bad habit.", help: "Tell a safe helper: 'My body has a strong urge, can you help me find something else to do?'" }
+        ];
+
+        let listData = [];
+        let choices = {};
+        let notes = {};
+
+        window.onload = function() {
+            // Theme setup
+            const savedTheme = localStorage.getItem('univ_safety_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                updateThemeUI(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeUI(false);
+            }
+
+            // Data setup
+            const savedList = localStorage.getItem('univ_safety_checklist_data_v5');
+            const savedChoices = localStorage.getItem('univ_safety_checklist_choices_v5');
+            const savedNotes = localStorage.getItem('univ_safety_checklist_notes_v5');
+            const savedMsg = localStorage.getItem('univ_safety_checklist_msg_v5');
+
+            listData = savedList ? JSON.parse(savedList) : defaultItems;
+            choices = savedChoices ? JSON.parse(savedChoices) : {};
+            notes = savedNotes ? JSON.parse(savedNotes) : {};
+
+            if (savedMsg) {
+                document.getElementById('helperMessage').value = savedMsg;
+            }
+
+            renderFramework();
+        };
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('univ_safety_theme', isDark ? 'dark' : 'light');
+            updateThemeUI(isDark);
+        }
+
+        function updateThemeUI(isDark) {
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+            if (isDark) {
+                icon.textContent = '☀️';
+                label.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙';
+                label.textContent = 'Dark Mode';
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('univ_safety_checklist_data_v5', JSON.stringify(listData));
+            localStorage.setItem('univ_safety_checklist_choices_v5', JSON.stringify(choices));
+            localStorage.setItem('univ_safety_checklist_notes_v5', JSON.stringify(notes));
+            localStorage.setItem('univ_safety_checklist_msg_v5', document.getElementById('helperMessage').value);
+        }
+
+        function setChoice(id, val) {
+            choices[id] = val;
+            saveState();
+            renderFramework();
+        }
+
+        function updateNote(id, text) {
+            notes[id] = text;
+            saveState();
+        }
+
+        function addCustomThing(e) {
+            e.preventDefault();
+            const input = document.getElementById('customInput');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            const newItem = {
+                id: 'custom_' + Date.now(),
+                domain: 'd5',
+                icon: '⭐',
+                title: text,
+                desc: 'Added by me',
+                help: 'Take slow belly breaths, ask a trusted helper, and break the job into tiny easy steps!'
+            };
+
+            listData.push(newItem);
+            choices[newItem.id] = 'teach';
+            saveState();
+            renderFramework();
+            input.value = '';
+        }
+
+        function renderFramework() {
+            const container = document.getElementById('domainsContainer');
+            container.innerHTML = '';
+
+            domains.forEach(domain => {
+                const domainItems = listData.filter(item => item.domain === domain.id);
+                if (domainItems.length === 0) return;
+
+                const domainSection = document.createElement('div');
+                domainSection.className = 'space-y-4';
+
+                domainSection.innerHTML = `
+                    <div class="bg-white dark:bg-slate-800 border-3 border-emerald-300 dark:border-emerald-700 rounded-3xl p-6 shadow-sm space-y-2">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">${domain.icon}</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white">${escapeHtml(domain.title)}</h2>
+                        </div>
+                        <p class="text-base font-bold text-slate-600 dark:text-slate-300 leading-relaxed">${escapeHtml(domain.desc)}</p>
+                    </div>
+                    <div class="space-y-6" id="container_${domain.id}"></div>
+                `;
+
+                container.appendChild(domainSection);
+                const itemsContainer = document.getElementById(`container_${domain.id}`);
+
+                domainItems.forEach(item => {
+                    const currentChoice = choices[item.id] || null;
+                    const currentNote = notes[item.id] || '';
+
+                    const card = document.createElement('div');
+                    card.className = 'bg-white dark:bg-slate-800 border-3 border-slate-200 dark:border-slate-700 rounded-3xl p-5 sm:p-6 big-card space-y-4';
+
+                    card.innerHTML = `
+                        <div class="flex items-start gap-4">
+                            <div class="w-14 h-14 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
+                                ${item.icon}
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white">${escapeHtml(item.title)}</h3>
+                                <p class="text-base font-bold text-slate-500 dark:text-slate-400 mt-1">${escapeHtml(item.desc)}</p>
+                            </div>
+                        </div>
+
+                        <!-- 3 Big Buttons -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                            <button type="button" onclick="setChoice('${item.id}', 'ok')" class="option-btn py-4 px-3 rounded-2xl border-3 border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-extrabold text-lg flex items-center justify-center gap-2 ${currentChoice === 'ok' ? 'selected-ok' : ''}">
+                                <span>🟢</span>
+                                <span>I can do this!</span>
+                            </button>
+
+                            <button type="button" onclick="setChoice('${item.id}', 'help')" class="option-btn py-4 px-3 rounded-2xl border-3 border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-extrabold text-lg flex items-center justify-center gap-2 ${currentChoice === 'help' ? 'selected-help' : ''}">
+                                <span>🟡</span>
+                                <span>I need help</span>
+                            </button>
+
+                            <button type="button" onclick="setChoice('${item.id}', 'teach')" class="option-btn py-4 px-3 rounded-2xl border-3 border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 font-extrabold text-lg flex items-center justify-center gap-2 ${currentChoice === 'teach' ? 'selected-teach' : ''}">
+                                <span>🔴</span>
+                                <span>Teach me this</span>
+                            </button>
+                        </div>
+
+                        <!-- Optional Item Note -->
+                        <div class="pt-1">
+                            <input type="text" value="${escapeHtml(currentNote)}" oninput="updateNote('${item.id}', this.value)" placeholder="Write a note about this... (optional)" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-2 text-sm font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:border-purple-400 placeholder-slate-400 dark:placeholder-slate-400">
+                        </div>
+                    `;
+
+                    itemsContainer.appendChild(card);
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function saveAndExportList() {
+            saveState();
+
+            const timestamp = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            
+            let textOutput = `===================================================\n`;
+            textOutput += `UNIVERSAL SAFETY AND CARE CHECKLIST REPORT\n`;
+            textOutput += `Date: ${timestamp}\n`;
+            textOutput += `===================================================\n\n`;
+
+            domains.forEach(domain => {
+                const domainItems = listData.filter(item => item.domain === domain.id);
+                if (domainItems.length === 0) return;
+
+                textOutput += `\n===================================================\n`;
+                textOutput += `${domain.title.toUpperCase()}\n`;
+                textOutput += `${domain.desc}\n`;
+                textOutput += `===================================================\n\n`;
+
+                const canDoList = [];
+                const needHelpList = [];
+                const teachMeList = [];
+                const notAnsweredList = [];
+
+                domainItems.forEach(item => {
+                    const c = choices[item.id];
+                    const note = notes[item.id] ? ` (Note: ${notes[item.id]})` : '';
+                    const helpInfo = item.help ? `\n    💡 Things that can help: ${item.help}` : '';
+                    const entry = `${item.title}${note}${helpInfo}`;
+
+                    if (c === 'ok') canDoList.push(entry);
+                    else if (c === 'help') needHelpList.push(entry);
+                    else if (c === 'teach') teachMeList.push(entry);
+                    else notAnsweredList.push(entry);
+                });
+
+                textOutput += `🔴 THINGS TO TEACH ME [PRIORITY] (${teachMeList.length}):\n`;
+                textOutput += `---------------------------------------------------\n`;
+                if (teachMeList.length === 0) textOutput += `  (None marked in this section)\n`;
+                else teachMeList.forEach(t => textOutput += `  • ${t}\n\n`);
+
+                textOutput += `🟡 THINGS I NEED HELP WITH (${needHelpList.length}):\n`;
+                textOutput += `---------------------------------------------------\n`;
+                if (needHelpList.length === 0) textOutput += `  (None marked in this section)\n`;
+                else needHelpList.forEach(t => textOutput += `  • ${t}\n\n`);
+
+                textOutput += `🟢 THINGS I CAN DO ALREADY (${canDoList.length}):\n`;
+                textOutput += `---------------------------------------------------\n`;
+                if (canDoList.length === 0) textOutput += `  (None marked in this section)\n`;
+                else canDoList.forEach(t => textOutput += `  • ${t}\n\n`);
+
+                if (notAnsweredList.length > 0) {
+                    textOutput += `⚪ NOT ANSWERED YET (${notAnsweredList.length}):\n`;
+                    textOutput += `---------------------------------------------------\n`;
+                    notAnsweredList.forEach(t => textOutput += `  • ${t}\n\n`);
+                }
+            });
+
+            const extraMsg = document.getElementById('helperMessage').value.trim();
+            if (extraMsg) {
+                textOutput += `\n===================================================\n`;
+                textOutput += `💬 EXTRA NOTES & THOUGHTS:\n`;
+                textOutput += `---------------------------------------------------\n`;
+                textOutput += `${extraMsg}\n`;
+                textOutput += `===================================================\n`;
+            }
+
+            const blob = new Blob([textOutput], { type: 'text/plain;charset=utf-8' });
+            const fileName = `Universal_Safety_and_Care_Checklist_${new Date().toISOString().slice(0, 10)}.txt`;
+
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = fileName;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(downloadLink.href);
+        }
+    </script>
+</body>
+</html>
