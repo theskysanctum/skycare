@@ -237,7 +237,7 @@ function viewSkills() {
     '<div class="row" style="margin-top:10px;flex-wrap:wrap"><span class="chip D">' + c.D + ' I know it</span><span class="chip H">' + c.H + ' I need help</span><span class="chip P">' + c.P + ' I want to learn it</span></div>' +
     '<div class="mute" style="margin-top:10px">' + esc(sourceLabel()) + '</div>' +
     '<button class="btn full" style="margin-top:10px" data-a="import">Import my inventory file</button>' +
-    '<a class="btn alt full" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="https://care.theskysanctum.com/inventory/" target="_blank" rel="noopener">Open the inventory page</a>' +
+    '<a class="btn alt full" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="https://theskysanctum.com/skycare/inventory/" target="_blank" rel="noopener">Open the inventory page</a>' +
     '<button class="btn alt full" style="margin-top:10px" data-a="pdf">Open or share the PDF book</button></div>' +
     '<div class="legend"><span><i class="dot D"></i>I know it</span><span><i class="dot H"></i>I need help</span><span><i class="dot P"></i>I want to learn it</span></div>' +
     '<input type="text" id="srch" placeholder="Search skills" value="' + esc(search) + '" style="margin-bottom:12px">';
@@ -373,7 +373,7 @@ function parseChecklist(text) {
 let pendingImport = null;
 function importSheet(msg) {
   showSheet('<div class="row"><h3 class="sp" style="font-size:21px">Import my inventory</h3><button class="x" data-a="closesheet">&times;</button></div>' +
-    '<p class="mute">Save the report (the .txt file) from care.theskysanctum.com, then pick it here. The app turns it into your curriculum.</p>' +
+    '<p class="mute">Save the report (the .txt file) from the SkyCare website, then pick it here. The app turns it into your curriculum.</p>' +
     (msg ? '<p style="color:var(--red);font-weight:700">' + esc(msg) + '</p>' : '') +
     '<label>Pick the file</label><input type="file" id="ifile" accept="text/plain,.txt,text/*">' +
     '<label>Or paste the text here</label><textarea id="ipaste" placeholder="Paste the report text"></textarea>' +
@@ -1008,7 +1008,7 @@ function viewMore() {
     '<label>My safe helper\'s name</label><input type="text" id="shname" value="' + esc(S.helperName) + '">' +
     '<label>My safe helper\'s phone</label><input type="tel" id="shphone" value="' + esc(S.helperPhone) + '">' +
     '<button class="btn full" style="margin-top:14px" data-a="savesettings">Save</button></div>' +
-    '<div class="card"><h3>My curriculum</h3><div class="mute">' + esc(sourceLabel()) + '</div><button class="btn full" style="margin-top:10px" data-a="import">Import an inventory file</button>' + '<a class="btn alt full" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="https://care.theskysanctum.com/inventory/" target="_blank" rel="noopener">Open the inventory page</a>' + (S.curriculum ? '<button class="btn alt full" style="margin-top:10px" data-a="builtin">Go back to the built-in book</button>' : '') + '</div>' +
+    '<div class="card"><h3>My curriculum</h3><div class="mute">' + esc(sourceLabel()) + '</div><button class="btn full" style="margin-top:10px" data-a="import">Import an inventory file</button>' + '<a class="btn alt full" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="https://theskysanctum.com/skycare/inventory/" target="_blank" rel="noopener">Open the inventory page</a>' + (S.curriculum ? '<button class="btn alt full" style="margin-top:10px" data-a="builtin">Go back to the built-in book</button>' : '') + '</div>' +
     '<div class="card"><h3>The PDF book</h3><div class="mute">The whole book is inside this app on the Skills tab. You can also open the PDF.</div><button class="btn alt full" style="margin-top:10px" data-a="pdf">Open or share the PDF</button></div>' +
     '<div class="card"><h3>Move to a new phone</h3><div class="mute">Saves everything you added to one file: your plan, moods, routines, notes, skill colors, practice counts, imported curriculum, and settings. Send it to yourself, then restore it on the new phone. You can lock the file with a password so only you can open it.</div><button class="btn alt full" style="margin-top:10px" data-a="backup">Export all my data</button><button class="btn alt full" style="margin-top:10px" data-a="restoresheet">Restore from a file</button></div>' +
     '<div class="card"><h3>Start over</h3><div class="mute">Erases everything saved in this app on this phone.</div><button class="btn red full" style="margin-top:10px" data-a="reset">Erase my data</button></div>' +
