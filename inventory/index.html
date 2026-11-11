@@ -20,12 +20,25 @@
                 extend: {
                     fontFamily: {
                         sans: ['Lexend', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {50:'#FCFAFF',100:'#F4F0FC',200:'#E2DBF3',300:'#CFC5EA',400:'#B2ABD0',500:'#6F6A8C',600:'#5B5675',700:'#2B2557',800:'#1F1A3A',900:'#17142B',950:'#100D22'},
+                        teal: {50:'#F4F0FC',100:'#EAE4F8',200:'#E2DBF3',300:'#CFC5EA',400:'#B7A8FF',500:'#4A3AA8',600:'#3A3372',700:'#4A3AA8',800:'#2B2557',900:'#2B2557',950:'#1F1A3A'},
+                        emerald: {50:'#F4F0FC',100:'#EAE4F8',200:'#D8D0F5',300:'#CFC5EA',400:'#B7A8FF',500:'#3A3372',600:'#2B2557',700:'#4A3AA8',800:'#1E1A33',900:'#2B2557',950:'#1F1A3A'},
+                        purple: {50:'#F4F0FC',200:'#E2DBF3',300:'#CFC5EA',400:'#B7A8FF',500:'#4A3AA8',600:'#3A3372',700:'#2B2557',800:'#2B2557',900:'#1E1A33'},
+                        blue: {50:'#EAF3F4',200:'#C5DDE0',300:'#9CC5CA',400:'#8FC5CA',500:'#2F6A71',600:'#2F6A71',800:'#1F4A50',900:'#1F4A50'}
                     }
                 }
             }
         }
     </script>
     <style>
+        :root { --moon:#FFE8A3; --dusk:#2B2557; }
+        h1, h2, h3 { letter-spacing: -0.02em; }
+        :focus-visible { outline: 3px solid #FFE8A3; outline-offset: 3px; box-shadow: 0 0 0 6px #2B2557; }
+        .dark #progFill { background-color: #FFE8A3; }
+        .dark .text-white.bg-emerald-500, .dark .bg-emerald-500.text-white { background-color: #FFE8A3; color: #2B2557; border-color: #B7A8FF; }
+        .dark .hover\:bg-emerald-600:hover { background-color: #FFF3C9; }
         body {
             font-family: 'Lexend', sans-serif;
             -webkit-tap-highlight-color: transparent;
@@ -47,30 +60,30 @@
 
         /* Active Choice Highlighting */
         .selected-ok {
-            background-color: #4CAF50 !important;
+            background-color: #2E8A56 !important;
             color: #FFFFFF !important;
-            border-color: #2E7D32 !important;
-            box-shadow: 0 4px 14px rgba(76, 175, 80, 0.35);
+            border-color: #1F6A40 !important;
+            box-shadow: 0 4px 14px rgba(46, 138, 86, 0.35);
         }
         .selected-help {
-            background-color: #FFB74D !important;
+            background-color: #B87A14 !important;
             color: #FFFFFF !important;
-            border-color: #E65100 !important;
-            box-shadow: 0 4px 14px rgba(255, 183, 77, 0.35);
+            border-color: #8A5A0C !important;
+            box-shadow: 0 4px 14px rgba(184, 122, 20, 0.35);
         }
         .selected-teach {
-            background-color: #E57373 !important;
+            background-color: #C62F4B !important;
             color: #FFFFFF !important;
-            border-color: #C62828 !important;
-            box-shadow: 0 4px 14px rgba(229, 115, 115, 0.35);
+            border-color: #94213A !important;
+            box-shadow: 0 4px 14px rgba(198, 47, 75, 0.35);
         }
 
         /* Mode Select Button Highlighting */
         .sex-selected {
-            background-color: #0D9488 !important;
+            background-color: #2B2557 !important;
             color: #FFFFFF !important;
-            border-color: #0F766E !important;
-            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+            border-color: #1E1A33 !important;
+            box-shadow: 0 4px 12px rgba(43, 37, 87, 0.3);
         }
 
         @keyframes gentle-pop {
@@ -91,22 +104,14 @@
     <header class="bg-white dark:bg-slate-800 border-b-4 border-emerald-300 dark:border-emerald-600 shadow-sm transition-colors duration-300">
         <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3 sm:gap-4">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-100 dark:bg-emerald-950 rounded-2xl sm:rounded-3xl flex items-center justify-center text-3xl sm:text-4xl shadow-inner flex-shrink-0">
-                    🧸
-                </div>
+                <img src="../favicon.png" alt="" class="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex-shrink-0 bg-white">
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white tracking-wide">
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white">
                         Universal Safety and Care Inventory
                     </h1>
                     <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">Tap how each thing feels for you today!</p>
                 </div>
             </div>
-            
-            <!-- Dark / Light Mode Toggle -->
-            <button onclick="toggleDarkMode()" class="option-btn p-3 rounded-2xl bg-slate-100 dark:bg-slate-700 border-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-amber-300 font-extrabold flex items-center gap-2 shadow-sm">
-                <span id="themeIcon" class="text-2xl">🌙</span>
-                <span id="themeLabel" class="hidden md:inline text-sm font-bold">Dark Mode</span>
-            </button>
         </div>
     </header>
 
@@ -371,15 +376,10 @@
         let currentSexFilter = 'universal';
 
         window.onload = function() {
-            // Theme setup
-            const savedTheme = localStorage.getItem('univ_safety_theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                updateThemeUI(true);
-            } else {
-                document.documentElement.classList.remove('dark');
-                updateThemeUI(false);
-            }
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
+            const applyTheme = () => document.documentElement.classList.toggle('dark', mq.matches);
+            applyTheme();
+            if (mq.addEventListener) mq.addEventListener('change', applyTheme);
 
             // Sex filter setup
             currentSexFilter = localStorage.getItem('univ_safety_sex_filter') || 'universal';
@@ -402,24 +402,6 @@
             try { pageIndex = parseInt(localStorage.getItem('univ_safety_page_v1') || '0', 10) || 0; } catch (e) { pageIndex = 0; }
             renderFramework();
         };
-
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('univ_safety_theme', isDark ? 'dark' : 'light');
-            updateThemeUI(isDark);
-        }
-
-        function updateThemeUI(isDark) {
-            const icon = document.getElementById('themeIcon');
-            const label = document.getElementById('themeLabel');
-            if (isDark) {
-                icon.textContent = '☀️';
-                label.textContent = 'Light Mode';
-            } else {
-                icon.textContent = '🌙';
-                label.textContent = 'Dark Mode';
-            }
-        }
 
         function setSexFilter(mode) {
             currentSexFilter = mode;
@@ -748,7 +730,7 @@
             return new Promise((resolve) => {
                 const can = window.TCLockCore && TCLockCore.canLock();
                 const dark = document.documentElement.classList.contains('dark');
-                const c = dark ? { bg: '#1e293b', fg: '#f1f5f9', mute: '#cbd5e1', line: '#475569', field: '#0f172a' } : { bg: '#ffffff', fg: '#1e293b', mute: '#475569', line: '#cbd5e1', field: '#ffffff' };
+                const c = dark ? { bg: '#1F1A3A', fg: '#EEEAFB', mute: '#B2ABD0', line: '#34305A', field: '#17142B' } : { bg: '#FCFAFF', fg: '#1E1A33', mute: '#5B5675', line: '#E2DBF3', field: '#ffffff' };
                 const ov = document.createElement('div');
                 ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Lock this file');
                 ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,12,38,.62);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;font-family:Lexend,sans-serif';
@@ -765,13 +747,13 @@
                     <input id="tcpw2" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false" style="${fld}">
                     <p id="tcerr" role="alert" style="color:#d93025;font-weight:700;margin:0 0 .6rem" hidden></p>
                     <p style="margin:0;color:${c.mute};font-size:.9rem;line-height:1.5">Tip: three or four random words are easy to remember and hard to guess. Write it down somewhere safe. If you forget it, no one can open the file.</p>
-                    <button id="tcok" style="${btn('#7B4FC4', '#fff')}">Lock and save</button>
+                    <button id="tcok" style="${btn('#3A3372', '#fff')}">Lock and save</button>
                     <button id="tcshow" style="${btn('transparent', c.fg, '1.5px solid ' + c.line)}">Show what I typed</button>
                     <button id="tcskip" style="${btn('transparent', c.fg, '1.5px solid ' + c.line)}">Save without a password</button>
                     <button id="tccancel" style="${btn('transparent', c.mute)}">Cancel</button>` : `
                     <h2 style="font-size:1.35rem;font-weight:700;margin:0 0 .5rem">Save without a password?</h2>
                     <p style="margin:0 0 1rem;color:${c.mute};line-height:1.5">This browser cannot lock files, so the list would be saved as plain text that anyone with the file can read.</p>
-                    <button id="tcskip" style="${btn('#7B4FC4', '#fff')}">Save it anyway</button>
+                    <button id="tcskip" style="${btn('#3A3372', '#fff')}">Save it anyway</button>
                     <button id="tccancel" style="${btn('transparent', c.mute)}">Cancel</button>`;
                 ov.appendChild(box); document.body.appendChild(ov);
                 const q = (id) => box.querySelector('#' + id);

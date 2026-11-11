@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7B4FC4">
+<title>SkyCare</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style>html{background:#FAF7FF}@media (prefers-color-scheme:dark){html{background:#14101D}}</style>
+<script>try{var s=JSON.parse(localStorage.getItem('skycare_v1')||localStorage.getItem('taking_care_v1')||'{}'),t=s.theme||'auto',r=document.documentElement,d=t==='dark'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);r.setAttribute('data-theme',d?'dark':'light');r.setAttribute('data-pal',s.palette||'purple');r.setAttribute('data-font',s.font||'default');r.style.setProperty('--ts',String((s.textScale||100)/100))}catch(e){}</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="top"><div id="hl"><div id="sub"></div></div><button id="more" data-tab="more" aria-label="More">More&hellip;</button></header>
+<main id="view"></main>
+<nav id="tabs">
+  <button data-tab="today" aria-label="Today" title="Today"><span><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+  <button data-tab="skills" aria-label="Skills" title="Skills"><span><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></span></button>
+  <button data-tab="calm" aria-label="Calm" title="Calm"><span><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h10a3 3 0 1 0-3-3M3 15h14a3 3 0 1 1-3 3M3 12h6"/></svg></span></button>
+  <button data-tab="mood" aria-label="Me" title="Me"><span><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-8-4.9-8-10.6A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 2.9c0 5.7-8 10.6-8 10.6z"/></svg></span></button>
+</nav>
+<div id="sheet" hidden><div id="sheetbox"></div></div>
+<script src="app.js"></script>
+</body>
+</html>
