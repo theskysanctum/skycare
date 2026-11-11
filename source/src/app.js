@@ -1240,7 +1240,6 @@ async function restoreData(text) {
   S = migrate(Object.assign(defaults(), o));
   save(); openSec = null; closeSheet(); applyTheme(); render(); toast('Your data is back'); syncReminders();
 }
-if (NATIVE) enableApps();
 window.__lock = (t, p) => lockText(t, p); window.__unlock = (t, p) => unlockText(t, p); window.__ask = askPw; window.__enableApps = (list) => { AppsImpl = { list: () => Promise.resolve({ apps: list.map((a) => ({ pkg: a.pkg, label: a.label })), seen: list.length }), icons: (o) => Promise.resolve({ icons: Object.fromEntries(o.pkgs.map((p) => [p, (list.find((a) => a.pkg === p) || {}).icon || ''])) }), homeStatus: () => Promise.resolve({ isHome: !!window.__home }), launch: (o) => { window.__launched = o.pkg; return Promise.resolve(); }, openHomeSettings: () => Promise.resolve() }; enableApps(); };
 if(!NATIVE)document.documentElement.setAttribute("data-web","1");
 const MIMES = { pdf: 'application/pdf', txt: 'text/plain', json: 'application/json' };
@@ -1541,7 +1540,7 @@ function loadIcons() {
   step();
 }
 function loadApps(force) {
-  if (appBusy || (appList && !force)) return;
+  if (appBusy || (appList && !force) || (appErr && !force)) return;
   appBusy = true;
   appErr = '';
   const timer = setTimeout(() => { if (appBusy) { appBusy = false; appErr = 'The app list is taking too long. Try again.'; if (tab === 'apps') render(); } }, 15000);
@@ -1681,6 +1680,7 @@ document.addEventListener('change', (e) => {
   }
 });
 applyTheme();
+if (NATIVE) enableApps();
 render();
 window.__makePdf = makePdf; window.__parse = parseChecklist; window.__restore = restoreData; window.__moon = moonAt; window.__sync = syncReminders; window.__webcheck = webCheckReminders; window.__ens = ensureMoon; window.__MC = () => MC; window.__next = nextPhase; window.__setSub = (x) => { meSub = x; }; window.__S = () => S;
 setTimeout(() => ensureMoon(), 1500);
