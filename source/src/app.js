@@ -45,7 +45,7 @@ function migrate(st) {
 }
 
 function defaults() {
-  return { name: '', helperName: '', helperPhone: '', skills: {}, plan: {}, mood: [], water: {}, routines: { morning: ROUTINES.morning.slice(), bedtime: ROUTINES.bedtime.slice() }, done: {}, theme: 'auto', custom: [], notes: '', curriculum: null, practice: {}, focusDone: {}, diary: [], food: [], profile: {}, reminders: [], clock24: false, remindInfo: '', paths: [], pathOther: '', shadows: [], pages: [], bibleTr: 'kjv', palette: 'purple', textScale: 100, font: 'default', spacing: false, cb: 'none', xclues: false, wide: false, apps: [] };
+  return { name: '', helperName: '', helperPhone: '', skills: {}, plan: {}, mood: [], water: {}, routines: { morning: ROUTINES.morning.slice(), bedtime: ROUTINES.bedtime.slice() }, done: {}, theme: 'auto', custom: [], notes: '', curriculum: null, practice: {}, focusDone: {}, diary: [], food: [], profile: {}, reminders: [], meds: [], medLog: {}, clock24: false, remindInfo: '', paths: [], pathOther: '', shadows: [], pages: [], bibleTr: 'kjv', palette: 'purple', textScale: 100, font: 'default', spacing: false, cb: 'none', xclues: false, wide: false, apps: [] };
 }
 function load() {
   try { return migrate(Object.assign(defaults(), JSON.parse(localStorage.getItem(KEY) || '{}'))); } catch (e) { return defaults(); }
@@ -738,6 +738,77 @@ function remindersCard() {
     (S.remindInfo ? '<div class="mute" style="margin-top:8px"><b>' + esc(S.remindInfo) + '</b></div>' : '') + '</div>';
   return h;
 }
+const MED_MAX_TIMES = 8;
+function medDoses(dt) {
+  const out = [], k = dkey(dt), day = dt.getDay(), log = S.medLog[k] || {};
+  S.meds.forEach((m) => {
+    if (m.prn || !m.days.includes(day)) return;
+    m.times.forEach((t, i) => out.push({ m, t, i, key: m.id + '|' + t, ts: log[m.id + '|' + t] || 0 }));
+  });
+  return out.sort((a, b) => a.t.localeCompare(b.t) || a.m.name.localeCompare(b.m.name));
+}
+function medLastTaken(m) {
+  let best = 0;
+  Object.keys(S.medLog).forEach((k) => { Object.keys(S.medLog[k]).forEach((q) => { if (q.indexOf(m.id + '|') === 0 && S.medLog[k][q] > best) best = S.medLog[k][q]; }); });
+  return best;
+}
+function medCard() {
+  const now = new Date(), hm = pad(now.getHours()) + ':' + pad(now.getMinutes());
+  let h = '<div class="card"><h3>Med Cabinet</h3><div class="mute">Your medicines and when to take them. Tap a dose when you have taken it.</div>';
+  const doses = medDoses(now);
+  if (doses.length) {
+    h += '<div class="mute" style="margin-top:10px"><b>Today</b></div>';
+    doses.forEach((d) => {
+      const late = !d.ts && d.t < hm;
+      h += '<div class="chk ' + (d.ts ? 'done' : '') + '" data-a="meddose" data-id="' + d.m.id + '" data-t="' + d.t + '"><div class="box">' + (d.ts ? '✓' : '') + '</div><div class="lbl sp"><b>' + esc(d.m.name) + '</b>' + (d.m.dose ? ' &middot; ' + esc(d.m.dose) : '') + '<div class="mute">' + t12(d.t) + (d.ts ? ' &middot; taken at ' + fmtTime(new Date(d.ts)) : late ? ' &middot; <b>not marked yet</b>' : '') + '</div></div></div>';
+    });
+  } else if (S.meds.some((m) => !m.prn)) h += '<div class="mute" style="margin-top:10px">Nothing scheduled today.</div>';
+  const prn = S.meds.filter((m) => m.prn);
+  if (prn.length) {
+    h += '<div class="mute" style="margin-top:10px"><b>Only when needed</b></div>';
+    prn.forEach((m) => {
+      const lt = medLastTaken(m), same = lt && dkey(new Date(lt)) === dkey(now);
+      h += '<div class="chk"><div class="lbl sp" data-a="editmed" data-id="' + m.id + '"><b>' + esc(m.name) + '</b>' + (m.dose ? ' &middot; ' + esc(m.dose) : '') + '<div class="mute">' + (lt ? 'Last taken ' + (same ? 'today' : fmtDay(new Date(lt))) + ' at ' + fmtTime(new Date(lt)) : 'Not taken yet') + '</div></div><button class="btn alt" style="padding:8px 12px" data-a="medprn" data-id="' + m.id + '">Took one</button></div>';
+    });
+  }
+  const sched = S.meds.filter((m) => !m.prn);
+  if (sched.length) {
+    h += '<div class="mute" style="margin-top:10px"><b>All my medicines</b></div>';
+    sched.forEach((m) => {
+      h += '<div class="chk"><div class="lbl sp" data-a="editmed" data-id="' + m.id + '"><b>' + esc(m.name) + '</b>' + (m.dose ? ' &middot; ' + esc(m.dose) : '') + '<div class="mute">' + m.times.map(t12).join(', ') + ' &middot; ' + (m.days.length === 7 ? 'Every day' : m.days.length ? m.days.map((d) => DAYN[d]).join(' ') : 'No days') + (m.note ? ' &middot; ' + esc(m.note) : '') + '</div></div>' +
+        '<div class="tog' + (m.on ? ' on' : '') + '" data-a="togmed" data-id="' + m.id + '"><i></i></div></div>';
+    });
+  }
+  if (!S.meds.length) h += '<div class="mute" style="margin-top:10px">No medicines yet.</div>';
+  h += '<button class="btn full" style="margin-top:10px" data-a="newmed">Add a medicine</button>' +
+    '<div class="mute" style="margin-top:8px">SkyCare only keeps your notes and reminds you. Follow what your doctor or pharmacist told you, and ask them if you are not sure.</div></div>';
+  return h;
+}
+let medDraft = null;
+function medSheet() {
+  const m = medDraft;
+  showSheet('<div class="row"><h3 class="sp" style="font-size:21px">' + (m.isNew ? 'Add a medicine' : 'Edit medicine') + '</h3><button class="x" data-a="closesheet">&times;</button></div>' +
+    '<label>Name</label><input type="text" id="mname" value="' + esc(m.name) + '" placeholder="Like: Vitamin D">' +
+    '<label>How much? (optional)</label><input type="text" id="mdose" value="' + esc(m.dose) + '" placeholder="Like: 1 tablet, 10 mg">' +
+    '<label>A note (optional)</label><input type="text" id="mnote" value="' + esc(m.note) + '" placeholder="Like: with food">' +
+    '<div class="row" style="margin-top:12px"><div class="sp"><b>Only when needed</b><div class="mute">No set times. You tap Took one when you take it.</div></div><div class="tog' + (m.prn ? ' on' : '') + '" data-a="medprntog"><i></i></div></div>' +
+    (m.prn ? '' : '<label>What times?</label>' + m.times.map((t, i) => '<div class="row" style="gap:8px;margin-bottom:6px"><input type="time" id="mt' + i + '" value="' + esc(t) + '" style="flex:1">' + (m.times.length > 1 ? '<button class="x" data-a="medtimedel" data-i="' + i + '">&times;</button>' : '') + '</div>').join('') +
+      (m.times.length < MED_MAX_TIMES ? '<button class="btn alt full" data-a="medtimeadd">Add another time</button>' : '') +
+      '<label>Which days?</label><div class="seg">' + DAYN.map((d, i) => '<button class="T' + (m.days.indexOf(i) >= 0 ? ' on' : '') + '" style="padding:10px 0;font-size:12px" data-a="medday" data-d="' + i + '">' + d + '</button>').join('') + '</div>' +
+      '<div class="mute" style="margin-top:8px">You get a reminder at each time while this medicine is switched on.</div>') +
+    '<button class="btn full" style="margin-top:12px" data-a="savemed">Save</button>' +
+    (m.isNew ? '' : '<button class="btn red full" style="margin-top:10px" data-a="delmed">Delete this medicine</button>'));
+}
+function medKeep() {
+  if (!medDraft) return;
+  const n = $('#mname'), d = $('#mdose'), o = $('#mnote');
+  if (n) medDraft.name = n.value; if (d) medDraft.dose = d.value; if (o) medDraft.note = o.value;
+  medDraft.times = medDraft.times.map((t, i) => { const e = $('#mt' + i); return e && e.value ? e.value : t; });
+}
+function medPrune() {
+  const cut = dkey(new Date(Date.now() - 90 * 86400000));
+  Object.keys(S.medLog).forEach((k) => { if (k < cut) delete S.medLog[k]; });
+}
 let remDraft = null;
 function remSheet() {
   const r = remDraft;
@@ -750,24 +821,30 @@ function remSheet() {
     (r.isNew ? '' : '<button class="btn red full" style="margin-top:10px" data-a="delrem">Delete this reminder</button>'));
 }
 function remKeep() { if (!remDraft) return; const l = $('#rlabel'), t = $('#rtime'); if (l) remDraft.label = l.value; if (t && t.value) remDraft.time = t.value; }
+function allAlarms() {
+  const out = [];
+  S.reminders.filter((r) => r.on && r.days.length).forEach((r) => out.push({ key: r.id, nid: (r.n || 1) * 10, label: r.label, body: 'SkyCare', time: r.time, days: r.days }));
+  S.meds.filter((m) => m.on && !m.prn && m.days.length).forEach((m) => m.times.forEach((t, i) => out.push({ key: m.id + '|' + i, nid: 100000 + (m.n || 1) * 100 + i * 10, label: 'Time for ' + m.name, body: m.dose || 'SkyCare', time: t, days: m.days })));
+  return out;
+}
 let webRemTimer = null, webFired = {};
 function webCheckReminders() {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
   const now = new Date(), hm = pad(now.getHours()) + ':' + pad(now.getMinutes()), k = dkey(now);
-  S.reminders.filter((r) => r.on && r.time === hm && r.days.indexOf(now.getDay()) >= 0).forEach((r) => {
-    const fk = k + '|' + r.id + '|' + hm;
+  allAlarms().filter((r) => r.time === hm && r.days.indexOf(now.getDay()) >= 0).forEach((r) => {
+    const fk = k + '|' + r.key + '|' + hm;
     if (webFired[fk]) return;
     webFired[fk] = true;
-    const opts = { body: 'SkyCare', icon: 'icon-192.png', tag: fk };
+    const opts = { body: r.body, icon: 'icon-192.png', tag: fk };
     if (navigator.serviceWorker && navigator.serviceWorker.ready) navigator.serviceWorker.ready.then((reg) => reg.showNotification(r.label, opts)).catch(() => { try { new Notification(r.label, opts); } catch (e) { } });
     else { try { new Notification(r.label, opts); } catch (e) { } }
   });
 }
 async function syncWebReminders() {
   if (!('Notification' in window)) { S.remindInfo = 'This browser cannot show notifications.'; save(); return render(); }
-  if (S.reminders.some((r) => r.on) && Notification.permission === 'default') { try { await Notification.requestPermission(); } catch (e) { } }
+  if (allAlarms().length && Notification.permission === 'default') { try { await Notification.requestPermission(); } catch (e) { } }
   if (!webRemTimer) webRemTimer = setInterval(webCheckReminders, 15000);
-  S.remindInfo = Notification.permission === 'granted' ? 'On the web, reminders only show while this app is open in a window or tab. Install the Android app for reminders that work any time.' : (S.reminders.some((r) => r.on) ? 'Notifications are blocked for this site. Allow them in the browser settings to get reminders.' : '');
+  S.remindInfo = Notification.permission === 'granted' ? 'On the web, reminders only show while this app is open in a window or tab. Install the Android app for reminders that work any time.' : (allAlarms().length ? 'Notifications are blocked for this site. Allow them in the browser settings to get reminders.' : '');
   save(); render();
 }
 async function syncReminders() {
@@ -786,10 +863,10 @@ async function syncReminders() {
     const pend = await LocalNotifications.getPending();
     if (pend.notifications.length) await LocalNotifications.cancel({ notifications: pend.notifications.map((n) => ({ id: n.id })) });
     const list = [];
-    S.reminders.filter((r) => r.on).forEach((r) => {
+    allAlarms().forEach((r) => {
       const a = r.time.split(':');
       r.days.forEach((d) => {
-        list.push({ id: (r.n || 1) * 10 + d + 1, title: r.label, body: 'SkyCare', channelId: 'reminders', schedule: { on: { weekday: d + 1, hour: Number(a[0]), minute: Number(a[1]) }, allowWhileIdle: true } });
+        list.push({ id: r.nid + d + 1, title: r.label, body: r.body, channelId: 'reminders', schedule: { on: { weekday: d + 1, hour: Number(a[0]), minute: Number(a[1]) }, allowWhileIdle: true } });
       });
     });
     if (list.length) await LocalNotifications.schedule({ notifications: list });
@@ -1004,7 +1081,7 @@ function installCard() {
 }
 function viewMore() {
   setHeader('Settings');
-  const h = installCard() + pathCard() + remindersCard() + '<div class="card"><h3>Look</h3><div class="seg">' + ['auto', 'light', 'dark'].map((t) => '<button class="' + (S.theme === t ? 'on T' : '') + '" data-a="settheme" data-t="' + t + '">' + { auto: 'Match my phone', light: 'Light', dark: 'Dark' }[t] + '</button>').join('') + '</div>' + palGrid() + '</div>' + layoutCard() + (appsOn ? '<div class="card"><h3>Apps</h3><button class="btn full" data-a="appadd">Add or remove apps</button><button class="btn alt full" style="margin-top:8px" data-a="apphome">Home app settings</button></div>' : '') + wallCard() + accessCard() +
+  const h = installCard() + pathCard() + remindersCard() + medCard() + '<div class="card"><h3>Look</h3><div class="seg">' + ['auto', 'light', 'dark'].map((t) => '<button class="' + (S.theme === t ? 'on T' : '') + '" data-a="settheme" data-t="' + t + '">' + { auto: 'Match my phone', light: 'Light', dark: 'Dark' }[t] + '</button>').join('') + '</div>' + palGrid() + '</div>' + layoutCard() + (appsOn ? '<div class="card"><h3>Apps</h3><button class="btn full" data-a="appadd">Add or remove apps</button><button class="btn alt full" style="margin-top:8px" data-a="apphome">Home app settings</button></div>' : '') + wallCard() + accessCard() +
     '<div class="card"><h3>About me</h3><label>My name</label><input type="text" id="sname" value="' + esc(S.name) + '">' +
     '<label>My safe helper\'s name</label><input type="text" id="shname" value="' + esc(S.helperName) + '">' +
     '<label>My safe helper\'s phone</label><input type="tel" id="shphone" value="' + esc(S.helperPhone) + '">' +
@@ -1527,6 +1604,31 @@ render();
     }
     case 'delrem': S.reminders = S.reminders.filter((x) => x.id !== remDraft.id); save(); closeSheet(); render(); return syncReminders();
     case 'togrem': { const r = S.reminders.find((x) => x.id === el.dataset.id); if (r) { r.on = !r.on; save(); render(); syncReminders(); } return; }
+    case 'newmed': medDraft = { isNew: true, id: uid(), n: S.meds.reduce((a, m) => Math.max(a, m.n || 0), 0) + 1, name: '', dose: '', note: '', prn: false, times: ['08:00'], days: [0, 1, 2, 3, 4, 5, 6], on: true }; return medSheet();
+    case 'editmed': { const m = S.meds.find((x) => x.id === el.dataset.id); if (!m) return; medDraft = JSON.parse(JSON.stringify(m)); medDraft.isNew = false; return medSheet(); }
+    case 'medprntog': medKeep(); medDraft.prn = !medDraft.prn; return medSheet();
+    case 'medtimeadd': medKeep(); if (medDraft.times.length < MED_MAX_TIMES) medDraft.times.push('12:00'); return medSheet();
+    case 'medtimedel': medKeep(); medDraft.times.splice(Number(el.dataset.i), 1); return medSheet();
+    case 'medday': { medKeep(); const d = Number(el.dataset.d), i = medDraft.days.indexOf(d); if (i >= 0) medDraft.days.splice(i, 1); else medDraft.days.push(d); medDraft.days.sort(); return medSheet(); }
+    case 'savemed': {
+      medKeep();
+      if (!medDraft.name.trim()) return toast('Add a name first');
+      if (!medDraft.prn && !medDraft.days.length) return toast('Pick at least one day');
+      const times = Array.from(new Set(medDraft.times)).sort();
+      const o = { id: medDraft.id, n: medDraft.n, name: medDraft.name.trim(), dose: medDraft.dose.trim(), note: medDraft.note.trim(), prn: !!medDraft.prn, times: times.length ? times : ['08:00'], days: medDraft.days.slice(), on: true };
+      const i = S.meds.findIndex((x) => x.id === o.id);
+      if (i >= 0) { o.on = S.meds[i].on; S.meds[i] = o; } else S.meds.push(o);
+      save(); closeSheet(); render(); return syncReminders();
+    }
+    case 'delmed': S.meds = S.meds.filter((x) => x.id !== medDraft.id); save(); closeSheet(); render(); return syncReminders();
+    case 'togmed': { const m = S.meds.find((x) => x.id === el.dataset.id); if (m) { m.on = !m.on; save(); render(); syncReminders(); } return; }
+    case 'meddose': {
+      const k = dkey(new Date()), q = el.dataset.id + '|' + el.dataset.t;
+      S.medLog[k] = S.medLog[k] || {};
+      if (S.medLog[k][q]) delete S.medLog[k][q]; else S.medLog[k][q] = Date.now();
+      medPrune(); save(); return render();
+    }
+    case 'medprn': { const k = dkey(new Date()); S.medLog[k] = S.medLog[k] || {}; S.medLog[k][el.dataset.id + '|prn' + Date.now()] = Date.now(); medPrune(); save(); render(); return toast('Saved'); }
     case 'mesub': meSub = el.dataset.s; render(); if (meSub === 'moon') ensureMoon(); if (meSub.indexOf('sec:') === 0) ensureLive(meSub.slice(4)); return;
     case 'savediary': {
       const v = (($('#dtext') || {}).value || '').trim();
@@ -1790,4 +1892,4 @@ window.addEventListener('appinstalled', () => { installEvt = null; if (tab === '
 if (!NATIVE && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => { }); });
 }
-if (!NATIVE) { setTimeout(() => { if (S.reminders.some((r) => r.on) && 'Notification' in window && Notification.permission === 'granted' && !webRemTimer) webRemTimer = setInterval(webCheckReminders, 15000); }, 2000); }
+if (!NATIVE) { setTimeout(() => { if (allAlarms().length && 'Notification' in window && Notification.permission === 'granted' && !webRemTimer) webRemTimer = setInterval(webCheckReminders, 15000); }, 2000); }
