@@ -195,11 +195,11 @@ button,input,textarea,select{font-family:inherit}
 :root[data-xc] .seg button.on.D::before{content:'\2713  '}
 .range{width:100%;accent-color:var(--purple);height:34px}
 @media (min-width:700px){
-  html{background:var(--soft)}
-  body{background:var(--bg);max-width:560px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.12);position:relative}
-  header,nav{max-width:560px;margin-left:auto;margin-right:auto}
-  main{max-width:560px;margin-left:auto;margin-right:auto}
-  #sheet{justify-content:center}
-  #sheetbox{max-width:560px}
-  .toast{max-width:520px}
+  :root[data-web="1"]{background:var(--soft)}
+  :root[data-web="1"] body{background:var(--bg);max-width:560px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.12);position:relative}
+  :root[data-web="1"] header,:root[data-web="1"] nav{max-width:560px;margin-left:auto;margin-right:auto}
+  :root[data-web="1"] main{max-width:560px;margin-left:auto;margin-right:auto}
+  :root[data-web="1"] #sheet{justify-content:center}
+  :root[data-web="1"] #sheetbox{max-width:560px}
+  :root[data-web="1"] .toast{max-width:520px}
 }
