@@ -1,0 +1,35 @@
+name: Release APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - download/SkyCare.apk
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(sed -n "s/.*VERSION = '\(.*\)';.*/\1/p" source/src/version.js)
+          tag="v$v"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists"
+            exit 0
+          fi
+          cp download/SkyCare.apk "SkyCare-$v.apk"
+          sum=$(sha256sum download/SkyCare.apk | cut -d' ' -f1)
+          gh release create "$tag" "SkyCare-$v.apk" \
+            --target "$GITHUB_SHA" \
+            --title "SkyCare $v" \
+            --notes "SkyCare $v for Android 7 or newer. Installs over earlier versions.
+
+          SHA-256: $sum"
