@@ -6,7 +6,7 @@ SkyCare teaches everyday self-care skills in plain words and helps you keep up w
 - Website: https://theskysanctum.com/skycare/
 - Web app: https://theskysanctum.com/skycare/app/
 - Personal inventory: https://theskysanctum.com/skycare/inventory/
-- Android download: https://theskysanctum.com/skycare/download/SkyCare.apk
+- Android download: https://github.com/theskysanctum/skycare/releases/latest/download/SkyCare.apk
 
 ## What the app does
 
@@ -22,7 +22,6 @@ SkyCare teaches everyday self-care skills in plain words and helps you keep up w
 
 - `index.html`, `privacy/`, `404.html`: the project page and privacy page.
 - `inventory/index.html`: the personal inventory. Tap green, yellow, or red for each skill, save the list, then import it into the app.
-- `download/SkyCare.apk`: the Android app (debug-signed).
 - `app/`: the web app (an installable PWA), built from `source/`.
 - `source/`: the app code for Android and web. See `source/README.md` for build steps.
 - `assets/`: styles, the Lexend font, screenshots, the demo video, `lockcore.js`.
@@ -34,15 +33,14 @@ The site is static and has no build step. It is a project page, so it is served 
 
 ## Updating the app
 
-1. Build the APK and replace `download/SkyCare.apk` (see `source/README.md`).
-2. Update the SHA-256 and the version text in the Download section of `index.html`. Get the hash with `sha256sum download/SkyCare.apk`.
-3. Rebuild the web app from `source/`: `node scripts/build-web.js ../app`. Commit `app/`.
+1. Push the change to `main`. GitHub Actions builds, signs, and publishes the APK and AAB as a release (see `.github/workflows/build-release.yml`). The download button always points at the latest release.
+2. Rebuild the web app from `source/`: `node scripts/build-web.js ../app`. Commit `app/`.
 
 The version is `1.0.N`, where N is the commit count plus one. Run `source/scripts/version.sh` before building. The repo needs its full history (not a shallow clone) for the count to be right.
 
 ## Notes
 
-- The app is signed with a debug key, so Android shows an "unknown app" warning. Signing with your own release key would remove it, and Google Play needs one.
+- Releases are signed with the project's own release key, kept in the repository secrets SKYCARE_KEYSTORE_BASE64, SKYCARE_KEYSTORE_PASSWORD, and SKYCARE_KEY_ALIAS. Keep a backup of the key: losing it means users must uninstall to update.
 - The app ID is `app.skycare.app`.
 - The inventory page still loads Tailwind and Google Fonts from their CDNs. The privacy page says so.
 - Screenshots use demo data and the name "Alex". Save new ones as WebP at 780 by 1600.
