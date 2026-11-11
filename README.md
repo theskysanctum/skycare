@@ -8,6 +8,7 @@ Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one 
 - `checklist/index.html`: your existing checklist tool, with a slim "Taking Care" bar on top. The tool itself is unchanged.
 - `privacy/index.html`: what the app and site do with data
 - `download/Taking_Care.apk`: the Android app, version 1.0
+- `app/`: the web app (an installable PWA). It is built from the same source as the Android app. See below.
 - `assets/`: styles, self-hosted Lexend font, screenshots taken from the real app, demo script
 - `CNAME`, `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml`
 
@@ -24,6 +25,10 @@ Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one 
 3. Update the version and size text next to it.
 
 Tip: if you would rather not keep big files in the repo history, attach the APK to a GitHub Release and point the Download button at the release file instead.
+
+## Updating the web app
+
+The web app is generated, not hand-edited. From the app's source project, run `node scripts/build-web.js <path to this repo>/app`. That bundles the code, copies the files, and writes a new service worker so installed copies update. Commit the `app/` folder.
 
 ## Notes
 
