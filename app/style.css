@@ -26,8 +26,8 @@ main{position:absolute;top:calc(var(--safe-t) + 68px);bottom:calc(var(--safe-b) 
   overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;touch-action:pan-y;padding:14px 14px 28px;-webkit-overflow-scrolling:touch}
 nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--navbg);border-top:1px solid var(--line);
   padding-bottom:var(--safe-b);z-index:5}
-nav button{flex:1;border:0;background:none;padding:8px 2px 7px;font-size:12px;color:var(--mute);font-weight:600}
-nav button span{display:block;font-size:22px;line-height:24px}
+nav button{flex:1;border:0;background:none;padding:0;height:58px;color:var(--mute);display:flex;align-items:center;justify-content:center}
+nav button span{display:block;line-height:0}
 nav button.on{color:var(--accent)}
 h2{font-size:21px;margin:18px 0 8px}
 h3{font-size:18px;margin:0 0 6px}
@@ -82,7 +82,7 @@ label{display:block;font-weight:600;margin:12px 0 4px}
 #sheet{position:fixed;inset:0;background:rgba(10,5,25,.6);z-index:20;display:flex;align-items:flex-end}
 #sheet[hidden]{display:none}
 #sheetbox{background:var(--surface);color:var(--ink);width:100%;max-height:88%;overflow-y:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(var(--safe-b) + 20px)}
-.feels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.feels{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:8px}
 .feel{border:2.5px solid var(--line);border-radius:14px;background:var(--surface);padding:8px 2px;text-align:center;font-size:12px;font-weight:700;color:var(--mute)}
 .feel b{display:block;font-size:30px;line-height:36px}
 .feel.on{border-color:var(--accent);background:var(--soft2);color:var(--accent)}
@@ -93,7 +93,7 @@ label{display:block;font-weight:600;margin:12px 0 4px}
 .chart div{flex:1;text-align:center;font-size:11px;color:var(--mute)}
 .chart i{display:block;border-radius:6px 6px 0 0;margin:2px auto 3px;width:100%}
 .chart em{display:block;font-style:normal;font-size:15px;height:18px}
-.breath{width:210px;height:210px;border-radius:50%;margin:22px auto;background:radial-gradient(circle at 35% 30%,#C9B1F2,#7B4FC4);
+.breath{width:min(210px,72%);aspect-ratio:1;max-width:210px;border-radius:50%;margin:22px auto;background:radial-gradient(circle at 35% 30%,#C9B1F2,#7B4FC4);
   display:grid;place-items:center;color:#fff;font-weight:800;font-size:24px;text-align:center;transition:transform 4s ease-in-out;box-shadow:0 10px 30px rgba(123,79,196,.35)}
 .big{font-size:23px;font-weight:800;text-align:center;line-height:1.3;margin:16px 0}
 .help{border:2px solid var(--red);background:var(--helpbg)}
@@ -112,7 +112,7 @@ a.tel{display:block;text-decoration:none;color:#fff;background:var(--red);paddin
 .rtmv .x{padding:2px 10px;font-size:16px;line-height:20px;color:var(--accent)}
 .rtmv .x:disabled{opacity:.25}
 .rtedit{flex:1;min-width:0;padding:9px}
-.mcal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
 .mh{text-align:center;font-weight:700;font-size:13px;color:var(--mute)}
 .md{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:3px 0;display:flex;flex-direction:column;align-items:center;font-size:12px}
 .md b{font-size:20px;font-weight:400;line-height:24px}
@@ -152,9 +152,9 @@ a.tel{display:block;text-decoration:none;color:#fff;background:var(--red);paddin
 :root[data-pal=kid] .btn{border-radius:22px;font-size:19px;min-height:56px;border-bottom:4px solid rgba(0,0,0,.2)}
 :root[data-pal=kid] .seg button,:root[data-pal=kid] .pill,:root[data-pal=kid] .feel,:root[data-pal=kid] .lvl button{border-radius:18px;border-width:2.5px}
 :root[data-pal=kid] h2,:root[data-pal=kid] h3,:root[data-pal=kid] .big{font-weight:900}
-:root[data-pal=kid] nav button{font-size:13px;font-weight:800}
+:root[data-pal=kid] nav button{font-weight:800}
 :root[data-pal=kid] .box{border-radius:50%;width:34px;height:34px}
-.palgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.palgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:10px}
 .palbtn{border:3px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:10px;text-align:left;font-size:15px;font-weight:700}
 .palbtn.on{border-color:var(--accent)}
 .palbtn .sw{display:flex;gap:4px;margin-bottom:6px}
@@ -169,7 +169,7 @@ button,input,textarea,select{font-family:inherit}
 :root[data-font=dyslexic] body{font-family:'OpenDyslexic','Atkinson Hyperlegible',system-ui,sans-serif}
 :root[data-font=dyslexic] body{font-size:16px}
 :root[data-sp] body{letter-spacing:.05em;word-spacing:.14em;line-height:1.7}
-#view,#sheetbox{zoom:var(--ts,1)}
+#view>*,#sheetbox>*{zoom:var(--ts,1)}
 :root[data-cb=rg][data-theme=light]{--red:#D55E00;--amber:#0072B2;--green:#009E73}
 :root[data-cb=rg][data-theme=dark]{--red:#F08A3C;--amber:#56B4E9;--green:#2FD0A0}
 :root[data-cb=tri][data-theme=light]{--red:#D81B60;--amber:#E67E00;--green:#00897B}
@@ -244,3 +244,7 @@ button,input,textarea,select{font-family:inherit}
 #tabs button.on span{transform:translateY(-2px) scale(1.18)}
 @media (prefers-reduced-motion:reduce){#view,#view *,#view>*,#sheet,#sheet *,#tabs *{animation:none!important;transition:none!important}}
 :root[data-pal=nd] #view,:root[data-pal=nd] #view *,:root[data-pal=nd] #sheet,:root[data-pal=nd] #sheet *,:root[data-pal=nd] #tabs *{animation:none!important;transition:none!important}
+
+#view,#sheetbox{overflow-wrap:anywhere}
+#view .btn,#sheetbox .btn,.palbtn,.feel{max-width:100%;min-width:0}
+.palbtn .sw{flex-wrap:wrap}
