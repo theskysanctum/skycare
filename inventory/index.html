@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Care inventory | SkyCare</title>
+    <title>Personal inventory | SkyCare</title>
     <meta name="description" content="Tap green, yellow, or red for each self-care skill. Save your list and import it into the SkyCare app to build your own lessons.">
     <link rel="icon" href="../favicon.png">
     <!-- Tailwind CSS CDN -->
@@ -107,9 +107,9 @@
                 <img src="../favicon.png" alt="" class="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex-shrink-0 bg-white">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 dark:text-white">
-                        Universal Safety and Care Inventory
+                        Personal inventory
                     </h1>
-                    <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">Tap how each thing feels for you today!</p>
+                    <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">Choose how each thing feels for you today.</p>
                 </div>
             </div>
         </div>
@@ -134,9 +134,9 @@
         <div id="pgWelcome" class="bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-slate-800 dark:to-emerald-950 border-3 border-teal-200 dark:border-emerald-700 rounded-3xl p-5 text-center space-y-4 pop-in">
             <div class="space-y-1">
                 <div class="text-3xl">💛</div>
-                <h2 class="text-xl font-extrabold text-teal-900 dark:text-emerald-200">It is okay to ask for help!</h2>
+                <h2 class="text-xl font-extrabold text-teal-900 dark:text-emerald-200">Everyone needs help with some things.</h2>
                 <p class="text-base font-bold text-teal-700 dark:text-emerald-300">
-                    Pick green if you know it, yellow if you need help, or red if you want to learn it!
+                    Pick green if you can do it, yellow if you need help, or red if you want to learn it.
                 </p>
             </div>
 
@@ -149,11 +149,11 @@
                         <span>Universal</span>
                     </button>
                     <button type="button" onclick="setSexFilter('female')" id="btn_sex_female" class="option-btn py-2.5 px-3 rounded-xl border-2 border-teal-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-teal-900 dark:text-teal-100 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5">
-                        <span>👧</span>
+                        <span>♀</span>
                         <span>Female</span>
                     </button>
                     <button type="button" onclick="setSexFilter('male')" id="btn_sex_male" class="option-btn py-2.5 px-3 rounded-xl border-2 border-teal-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-teal-900 dark:text-teal-100 font-extrabold text-xs sm:text-sm flex items-center justify-center gap-1.5">
-                        <span>👦</span>
+                        <span>♂</span>
                         <span>Male</span>
                     </button>
                 </div>
@@ -170,10 +170,10 @@
                 <span class="text-3xl">✏️</span>
                 <h3 class="text-xl font-extrabold text-purple-900 dark:text-purple-300">Add Something Else</h3>
             </div>
-            <p class="text-base font-bold text-slate-600 dark:text-slate-300">Is there another thing you want to ask about?</p>
+            <p class="text-base font-bold text-slate-600 dark:text-slate-300">Is there something else you want to add?</p>
             
             <form onsubmit="addCustomThing(event)" class="flex flex-col sm:flex-row gap-3">
-                <input type="text" id="customInput" placeholder="Type here... (like: washing my hair)" class="flex-1 bg-purple-50 dark:bg-slate-700 border-2 border-purple-200 dark:border-purple-600 rounded-2xl px-5 py-4 text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-purple-500 placeholder-purple-300 dark:placeholder-slate-400">
+                <input type="text" id="customInput" placeholder="Type it here, like: washing my hair" class="flex-1 bg-purple-50 dark:bg-slate-700 border-2 border-purple-200 dark:border-purple-600 rounded-2xl px-5 py-4 text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-purple-500 placeholder-purple-300 dark:placeholder-slate-400">
                 <button type="submit" class="option-btn bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-lg px-6 py-4 rounded-2xl border-b-4 border-purple-900 shadow-sm flex items-center justify-center gap-2">
                     <span>➕ Add It</span>
                 </button>
@@ -185,7 +185,7 @@
         <div class="bg-white dark:bg-slate-800 border-3 border-blue-200 dark:border-blue-800 rounded-3xl p-6 big-card space-y-3">
             <div class="flex items-center gap-3">
                 <span class="text-3xl">💬</span>
-                <h3 class="text-xl font-extrabold text-blue-900 dark:text-blue-300">Extra Notes & Thoughts</h3>
+                <h3 class="text-xl font-extrabold text-blue-900 dark:text-blue-300">Extra notes</h3>
             </div>
             <p class="text-base font-bold text-slate-600 dark:text-slate-300">Want to add anything else to your list?</p>
             <textarea id="helperMessage" rows="3" placeholder="Write anything you want to share..." class="w-full bg-blue-50 dark:bg-slate-700 border-2 border-blue-200 dark:border-blue-600 rounded-2xl p-4 text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-blue-500 placeholder-blue-300 dark:placeholder-slate-400 resize-y"></textarea>
@@ -198,7 +198,7 @@
             <div id="saveSummary"></div>
             <button onclick="saveAndExportList()" class="option-btn w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xl sm:text-2xl py-6 px-8 rounded-3xl border-b-8 border-emerald-800 shadow-lg flex items-center justify-center gap-4">
                 <span class="text-4xl">📄</span>
-                <span>Done! Save my list</span>
+                <span>Save my list</span>
             </button>
         </div>
 
@@ -216,158 +216,158 @@
             {
                 id: "d1",
                 icon: "🛁",
-                title: "1. Body Care & Hygiene",
-                desc: "This part is all about taking good care of your physical body! Taking care of your skin, teeth, hair, and private areas keeps your body feeling fresh, clean, and happy every single day."
+                title: "1. Body care and hygiene",
+                desc: "Taking care of my body. Washing my skin, teeth, and hair keeps me clean and feeling good."
             },
             {
                 id: "d2",
                 icon: "👕",
-                title: "2. Clothing & Personal Living",
-                desc: "This part is about picking out comfortable clothes and taking care of your living space! Learning how to dress for the weather and keep your room tidy helps you feel cozy and organized."
+                title: "2. Clothes and my space",
+                desc: "Picking clothes that feel good and keeping my space tidy. This helps me feel ready for the day."
             },
             {
                 id: "d3",
                 icon: "🍎",
-                title: "3. Nutrition, Hydration & Kitchen Safety",
-                desc: "This part helps you listen to your tummy! Drinking plenty of fresh water, eating healthy foods when you are hungry, and staying safe around hot kitchen items gives your body energy to play and grow."
+                title: "3. Food, water, and kitchen safety",
+                desc: "Listening to my body, drinking water, eating food, and staying safe around hot things in the kitchen."
             },
             {
                 id: "d4",
                 icon: "🛡️",
-                title: "4. Physical Safety, Privacy & Boundaries",
-                desc: "This part is all about keeping your body safe and respecting others! Knowing how to protect your personal space, closing bathroom doors for privacy, and staying safe around hazards protects you inside and outside."
+                title: "4. Staying safe, privacy, and boundaries",
+                desc: "Keeping my body safe and respecting other people. This means privacy, personal space, and knowing what is not safe."
             },
             {
                 id: "d5",
                 icon: "🧠",
-                title: "5. Emotional Self-Regulation, Mental Health & Trauma Care",
-                desc: "This part helps you handle big feelings inside your heart and mind! Whether you feel scared, anxious, sad, heavy, or triggered by past memories, these skills help bring your body back to feeling calm and safe."
+                title: "5. Big feelings and feeling safe",
+                desc: "Handling big feelings like scared, sad, worried, or upset. These skills help my body feel calm and safe again."
             },
             {
                 id: "d6",
                 icon: "💬",
-                title: "6. Social Mechanics, Vocal Control & Impulse Dynamics",
-                desc: "This part is about how we talk with others and manage our habits! Learning to take turns speaking, using a gentle voice tone, and knowing when to pause repetitive urges helps us get along wonderfully with people around us."
+                title: "6. Talking and getting along with people",
+                desc: "How I talk with other people and how I stop habits. Taking turns, using a kind voice, and asking for help."
             }
         ];
 
         const defaultItems = [
             // Domain 1: Body Care & Hygiene (Universal)
-            { id: "item_1", domain: "d1", sex: "universal", icon: "🧻", title: "Wiping after using the bathroom", desc: "Wiping front to back until the paper comes back clean.", help: "Take your time, use moist wipes if needed, and check paper until clean." },
-            { id: "item_2", domain: "d1", sex: "universal", icon: "🧼", title: "Washing private areas", desc: "Using gentle soap and warm water to wash private parts in the shower or bath.", help: "Use warm water, mild soap, and gently wash private parts cleanly." },
-            { id: "item_3", domain: "d1", sex: "universal", icon: "🪥", title: "Brushing my teeth", desc: "Brushing all teeth with toothpaste twice every day.", help: "Brush in tiny circles for 2 minutes—top, bottom, front, and back!" },
-            { id: "item_4", domain: "d1", sex: "universal", icon: "🧵", title: "Flossing my teeth", desc: "Using string or a floss stick to clean between my teeth.", help: "Use a colorful floss pick and gently slide between teeth once a day." },
-            { id: "item_5", domain: "d1", sex: "universal", icon: "👅", title: "Brushing my tongue", desc: "Gently brushing my tongue so my mouth feels fresh.", help: "Stick out your tongue and sweep softly from back to front 3 times." },
-            { id: "item_6", domain: "d1", sex: "universal", icon: "👂", title: "Cleaning out my ears", desc: "Washing inside and behind both ears softly with water.", help: "Use a warm wet washcloth over your finger to wipe around the ear." },
-            { id: "item_7", domain: "d1", sex: "universal", icon: "🌸", title: "Cleaning skin folds", desc: "Washing and drying under skin folds every day.", help: "Wash gently with soap and pat completely dry with a soft towel." },
-            { id: "item_8", domain: "d1", sex: "universal", icon: "🔘", title: "Cleaning my belly button", desc: "Washing inside belly button with water and soap.", help: "Gently wipe inside with soap on your finger during bath time." },
-            { id: "item_9", domain: "d1", sex: "universal", icon: "🦶", title: "Cleaning between my toes", desc: "Getting soap and water between every toe when washing.", help: "Wiggle your toes in soapy water and dry between them after." },
-            { id: "item_10", domain: "d1", sex: "universal", icon: "🧼", title: "Cleaning my neck & chin", desc: "Washing around the front, back of my neck, and under my chin.", help: "Tilt chin up and wipe in gentle circles with warm soapy water." },
-            { id: "item_11", domain: "d1", sex: "universal", icon: "🧴", title: "How much deodorant to use", desc: "Putting the right amount of deodorant stick under my arms every morning.", help: "Swipe up and down 2 or 3 times under each arm after dressing." },
-            { id: "item_12", domain: "d1", sex: "universal", icon: "✂️", title: "Cutting my fingernails", desc: "Trimming fingernails safely so they do not hurt or get dirty.", help: "Ask a helper to clip fingernails after bath time when nails are soft." },
-            { id: "item_13", domain: "d1", sex: "universal", icon: "✂️", title: "Cutting my toenails", desc: "Trimming toenails straight across so they grow nicely.", help: "Cut straight across so the corners don't poke your skin." },
-            { id: "item_14", domain: "d1", sex: "universal", icon: "🚿", title: "Washing my hair with shampoo", desc: "Putting shampoo in wet hair, rubbing my head, and rinsing it all out.", help: "Close eyes tightly, massage shampoo like making bubbles, then rinse well." },
-            { id: "item_15", domain: "d1", sex: "universal", icon: "🧴", title: "Using hair conditioner", desc: "Putting conditioner on hair ends so it brushes smoothly.", help: "Put a penny-size drop on hair ends, count to 10, then rinse with water." },
-            { id: "item_16", domain: "d1", sex: "universal", icon: "🪮", title: "Brushing my hair", desc: "Gently combing hair so it does not have tangles.", help: "Start brushing at the bottom ends of hair first, then work up to the top." },
-            { id: "item_17", domain: "d1", sex: "universal", icon: "🧼", title: "Washing my hands after bathroom", desc: "Using soap and warm water for 20 seconds after using the toilet.", help: "Sing 'Happy Birthday' twice while scrubbing hands with soap and water." },
-            { id: "item_18", domain: "d1", sex: "universal", icon: "🧼", title: "Washing hands before eating", desc: "Washing hands with soap before touching food.", help: "Scrub palms, backs of hands, and fingers before sitting down to eat." },
-            { id: "item_19", domain: "d1", sex: "universal", icon: "🤧", title: "Blowing my nose into a tissue", desc: "Blowing nose softly, throwing tissue away, and washing hands.", help: "Press one side shut, blow out softly, throw away tissue, and wash hands." },
-            { id: "item_22", domain: "d1", sex: "universal", icon: "🩹", title: "Taking care of cuts and scrapes", desc: "Washing a small cut, drying it, and putting a band-aid on.", help: "Rinse cut under cool water, pat dry, and cover with a cute bandage." },
-            { id: "item_58", domain: "d1", sex: "universal", icon: "🚽", title: "Knowing when I have to pee or poop", desc: "Going to the bathroom right away before it becomes an emergency or an accident.", help: "Stop playing right away when tummy feels full pressure and walk to bathroom." },
-            { id: "item_59", domain: "d1", sex: "universal", icon: "🩳", title: "Pulling pants up and down", desc: "Pulling my pants and underwear all the way down before sitting on the potty, and all the way up after.", help: "Pull garments all the way down to knees before sitting, pull up to waist after." },
-            { id: "item_60", domain: "d1", sex: "universal", icon: "💧", title: "Flushing the potty", desc: "Pushing the toilet handle down every time after I use the bathroom.", help: "Push handle down until water swirls, then close toilet lid." },
-            { id: "item_61", domain: "d1", sex: "universal", icon: "🚿", title: "Rinsing all the soap off", desc: "Using clean water to wash away all soap bubbles from skin and hair so skin does not itch.", help: "Rinse body with water until skin feels clean and smooth, no slippery soap left." },
-            { id: "item_62", domain: "d1", sex: "universal", icon: "🪞", title: "Washing and drying my face", desc: "Washing food or dirt off my face with water and drying softly with a towel.", help: "Splash cool water on face, wipe gently with soft washcloth, pat dry." },
-            { id: "item_63", domain: "d1", sex: "universal", icon: "🪥", title: "Spitting out toothpaste", desc: "Spitting all the toothpaste into the sink when I am done brushing, not swallowing it.", help: "Lean over sink, spit out foam, rinse mouth with a tiny sip of water." },
+            { id: "item_1", domain: "d1", sex: "universal", icon: "🧻", title: "Wiping after using the toilet", desc: "Wiping from front to back until the paper is clean.", help: "Take your time. Use a wet wipe if you need one. Check the paper until it is clean." },
+            { id: "item_2", domain: "d1", sex: "universal", icon: "🧼", title: "Washing private parts", desc: "Washing private parts with mild soap and warm water in the shower or bath.", help: "Use warm water and mild soap. Wash gently, then rinse." },
+            { id: "item_3", domain: "d1", sex: "universal", icon: "🪥", title: "Brushing my teeth", desc: "Brushing all my teeth with toothpaste two times a day.", help: "Brush in small circles for 2 minutes. Do the top, bottom, front, and back." },
+            { id: "item_4", domain: "d1", sex: "universal", icon: "🧵", title: "Flossing my teeth", desc: "Using floss to clean between my teeth.", help: "Use a floss pick. Slide it gently between your teeth once a day." },
+            { id: "item_5", domain: "d1", sex: "universal", icon: "👅", title: "Brushing my tongue", desc: "Gently brushing my tongue so my mouth feels fresh.", help: "Stick out your tongue. Brush softly from back to front 3 times." },
+            { id: "item_6", domain: "d1", sex: "universal", icon: "👂", title: "Cleaning my ears", desc: "Washing the outside of my ears and behind them.", help: "Wrap a warm, wet cloth around your finger. Wipe around the ear. Do not poke inside." },
+            { id: "item_7", domain: "d1", sex: "universal", icon: "🌸", title: "Cleaning skin folds", desc: "Washing and drying the folds of my skin every day.", help: "Wash gently with soap. Pat dry with a soft towel." },
+            { id: "item_8", domain: "d1", sex: "universal", icon: "🔘", title: "Cleaning my belly button", desc: "Washing inside my belly button with soap and water.", help: "Gently wipe inside with a soapy finger at bath time. Rinse and dry." },
+            { id: "item_9", domain: "d1", sex: "universal", icon: "🦶", title: "Cleaning between my toes", desc: "Getting soap and water between every toe.", help: "Wiggle your toes in soapy water. Dry between them after." },
+            { id: "item_10", domain: "d1", sex: "universal", icon: "🧼", title: "Cleaning my neck and chin", desc: "Washing the front and back of my neck and under my chin.", help: "Lift your chin. Wipe in small circles with warm, soapy water." },
+            { id: "item_11", domain: "d1", sex: "universal", icon: "🧴", title: "Using deodorant", desc: "Putting the right amount of deodorant under my arms.", help: "Swipe up and down 2 or 3 times under each arm after you get dressed." },
+            { id: "item_12", domain: "d1", sex: "universal", icon: "✂️", title: "Cutting my fingernails", desc: "Trimming my fingernails so they do not hurt or get dirty.", help: "Cut after a bath, when nails are soft. Ask for help if you need it." },
+            { id: "item_13", domain: "d1", sex: "universal", icon: "✂️", title: "Cutting my toenails", desc: "Cutting my toenails straight across.", help: "Cut straight across so the corners do not poke your skin." },
+            { id: "item_14", domain: "d1", sex: "universal", icon: "🚿", title: "Washing my hair with shampoo", desc: "Putting shampoo in wet hair, rubbing my head, and rinsing it all out.", help: "Close your eyes. Rub the shampoo into bubbles. Rinse until the water runs clear." },
+            { id: "item_15", domain: "d1", sex: "universal", icon: "🧴", title: "Using hair conditioner", desc: "Putting conditioner on the ends of my hair so it brushes smoothly.", help: "Use a small drop. Rub it on the ends. Count to 10, then rinse." },
+            { id: "item_16", domain: "d1", sex: "universal", icon: "🪮", title: "Brushing my hair", desc: "Gently brushing my hair to get the tangles out.", help: "Start at the ends. Work up toward the top little by little." },
+            { id: "item_17", domain: "d1", sex: "universal", icon: "🧼", title: "Washing my hands after the bathroom", desc: "Washing with soap and warm water for 20 seconds after using the toilet.", help: "Sing a short song twice while you scrub with soap and water." },
+            { id: "item_18", domain: "d1", sex: "universal", icon: "🧼", title: "Washing my hands before eating", desc: "Washing my hands with soap before I touch food.", help: "Scrub your palms, the backs of your hands, and your fingers." },
+            { id: "item_19", domain: "d1", sex: "universal", icon: "🤧", title: "Blowing my nose", desc: "Blowing my nose softly, throwing the tissue away, and washing my hands.", help: "Close one side of your nose. Blow out softly. Throw the tissue away. Wash your hands." },
+            { id: "item_22", domain: "d1", sex: "universal", icon: "🩹", title: "Taking care of cuts and scrapes", desc: "Washing a small cut, drying it, and covering it with a bandage.", help: "Rinse the cut with cool water. Pat it dry. Put a bandage on." },
+            { id: "item_58", domain: "d1", sex: "universal", icon: "🚽", title: "Knowing when I need the toilet", desc: "Going to the toilet right away when my body tells me, before there is an accident.", help: "When your body feels full, stop what you are doing and go." },
+            { id: "item_59", domain: "d1", sex: "universal", icon: "🩳", title: "Pulling pants down and up", desc: "Pulling my pants and underwear all the way down before I sit, and all the way up after.", help: "Pull them down to your knees before you sit. Pull them up to your waist after." },
+            { id: "item_60", domain: "d1", sex: "universal", icon: "💧", title: "Flushing the toilet", desc: "Pushing the handle down every time I use the toilet.", help: "Push the handle down until the water swirls. Then close the lid." },
+            { id: "item_61", domain: "d1", sex: "universal", icon: "🚿", title: "Rinsing off all the soap", desc: "Using clean water to rinse all the soap off my skin and hair so my skin does not itch.", help: "Rinse until your skin feels clean and not slippery." },
+            { id: "item_62", domain: "d1", sex: "universal", icon: "🪞", title: "Washing and drying my face", desc: "Washing food or dirt off my face and drying it with a towel.", help: "Splash cool water on your face. Wipe gently with a soft cloth. Pat dry." },
+            { id: "item_63", domain: "d1", sex: "universal", icon: "🪥", title: "Spitting out toothpaste", desc: "Spitting the toothpaste into the sink when I am done. I do not swallow it.", help: "Lean over the sink. Spit out the foam. Rinse with a small sip of water." },
 
             // Female-specific Hygiene Items
-            { id: "item_20", domain: "d1", sex: "female", icon: "🩸", title: "Changing hygiene pads", desc: "Taking off dirty pads, putting clean ones on underwear, and wrapping dirty ones up.", help: "Peel off old pad, wrap in toilet paper, throw in trash, stick new pad on." },
-            { id: "item_21", domain: "d1", sex: "female", icon: "🧼", title: "Washing up during periods", desc: "Keeping private parts clean and dry when bleeding happens.", help: "Use warm water and soft wipes to stay fresh and dry throughout the day." },
-            { id: "item_26", domain: "d2", sex: "female", icon: "👙", title: "Wearing a supportive bra", desc: "Putting on a comfortable bra so the chest feels supported.", help: "Choose soft fabrics that feel good and don't pinch or feel too tight." },
+            { id: "item_20", domain: "d1", sex: "female", icon: "🩸", title: "Changing pads", desc: "Taking off a used pad, putting on a clean one, and wrapping the used one up.", help: "Peel off the old pad. Wrap it in toilet paper. Put it in the trash. Stick a new pad in your underwear." },
+            { id: "item_21", domain: "d1", sex: "female", icon: "🧼", title: "Washing up during a period", desc: "Keeping my private parts clean and dry when I am bleeding.", help: "Use warm water and soft wipes. Change your pad often to stay dry." },
+            { id: "item_26", domain: "d2", sex: "female", icon: "👙", title: "Wearing a supportive bra", desc: "Putting on a comfortable bra so my chest feels supported.", help: "Choose soft cloth that feels good. It should not pinch or feel too tight." },
 
             // Male-specific Hygiene Items
-            { id: "item_m1", domain: "d1", sex: "male", icon: "🚿", title: "Washing male private parts", desc: "Washing gently around the penis and testicles with warm water.", help: "Use warm water and mild soap to wash gently around private parts every bath." },
-            { id: "item_m2", domain: "d1", sex: "male", icon: "🩲", title: "Changing athletic or supportive underwear", desc: "Wearing clean, supportive underwear every day so body feels comfortable.", help: "Put on fresh, comfortable boxers or briefs every morning after washing." },
-            { id: "item_m3", domain: "d1", sex: "male", icon: "🪒", title: "Facial hair shaving safety", desc: "Knowing how to trim or shave facial hair safely with an adult.", help: "Ask an adult to guide you with shaving cream and safety razor tools." },
+            { id: "item_m1", domain: "d1", sex: "male", icon: "🚿", title: "Washing male private parts", desc: "Washing gently around the penis and testicles with warm water.", help: "Use warm water and mild soap. Wash gently every time you bathe." },
+            { id: "item_m2", domain: "d1", sex: "male", icon: "🩲", title: "Wearing clean, supportive underwear", desc: "Wearing clean underwear that fits well every day.", help: "Put on fresh underwear every morning after you wash." },
+            { id: "item_m3", domain: "d1", sex: "male", icon: "🪒", title: "Shaving safely", desc: "Knowing how to trim or shave facial hair safely.", help: "Use shaving cream and a safe razor. Ask someone you trust to show you how." },
 
             // Domain 2: Clothing & Personal Living
-            { id: "item_23", domain: "d2", sex: "universal", icon: "👕", title: "Picking weather clothes", desc: "Wearing warm clothes when cold and light clothes when hot.", help: "Look outside or check the weather: sweater for cold, shorts for sun!" },
-            { id: "item_24", domain: "d2", sex: "universal", icon: "👕", title: "Matching my clothes", desc: "Picking tops and bottoms that look nice together.", help: "Pick favorite colors that match or ask a helper to help pick an outfit." },
-            { id: "item_25", domain: "d2", sex: "universal", icon: "🩲", title: "Changing clean underwear every day", desc: "Putting on fresh, clean underwear every single morning.", help: "Put clean underwear on right after morning wash or getting dressed." },
-            { id: "item_27", domain: "d2", sex: "universal", icon: "👟", title: "Left and right shoes", desc: "Putting shoes on the correct feet every time.", help: "Put shoes together so the inside curves look like they are hugging." },
-            { id: "item_28", domain: "d2", sex: "universal", icon: "👟", title: "Tying shoe laces", desc: "Tying laces into a double knot so shoes stay on.", help: "Make bunny ears with the laces, cross them over, pull loop through!" },
-            { id: "item_29", domain: "d2", sex: "universal", icon: "🔘", title: "Buttons and zippers", desc: "Buttoning shirts and pulling up zippers on pants on my own.", help: "Push button half through hole first, then pull from the other side." },
-            { id: "item_30", domain: "d2", sex: "universal", icon: "🧺", title: "Clean vs dirty clothes", desc: "Knowing when clothes are dirty and putting them in the laundry box.", help: "If it has food, smells, or was worn all day, toss it into the hamper." },
-            { id: "item_31", domain: "d2", sex: "universal", icon: "🧺", title: "Folding clean clothes", desc: "Folding shirts and pants gently to put away in drawers.", help: "Lay shirt flat, fold sleeves in, fold in half, put neatly in drawer." },
-            { id: "item_53", domain: "d2", sex: "universal", icon: "⏰", title: "Morning & Bedtime routines", desc: "Following a simple morning routine and bedtime step list.", help: "Check a picture chart for what steps come next in morning and night." },
-            { id: "item_54", domain: "d2", sex: "universal", icon: "🧹", title: "Cleaning up my mess", desc: "Putting trash in the bin and picking up items off the floor.", help: "Pick up 5 items at a time and put them in their home spots." },
-            { id: "item_55", domain: "d2", sex: "universal", icon: "🧽", title: "Wiping tables after eating", desc: "Using a damp cloth to wipe crumbs off the table.", help: "Wipe from back of table to front into your hand or a napkin." },
-            { id: "item_56", domain: "d2", sex: "universal", icon: "🛌", title: "Making my bed", desc: "Pulling sheets and blankets up neatly on my bed.", help: "Pull pillow to head of bed, pull blanket all the way up to pillow." },
-            { id: "item_57", domain: "d2", sex: "universal", icon: "🚪", title: "Checking locked doors at night", desc: "Making sure house doors are closed and locked safely.", help: "Walk to front and back doors with a helper to check locks before sleep." },
+            { id: "item_23", domain: "d2", sex: "universal", icon: "👕", title: "Picking clothes for the weather", desc: "Wearing warm clothes when it is cold and light clothes when it is hot.", help: "Look outside or check the weather. Wear a sweater if it is cold and shorts if it is hot." },
+            { id: "item_24", domain: "d2", sex: "universal", icon: "👕", title: "Matching my clothes", desc: "Picking a top and bottom that look good together.", help: "Pick colors you like that go together. Ask for help if you want." },
+            { id: "item_25", domain: "d2", sex: "universal", icon: "🩲", title: "Changing into clean underwear every day", desc: "Putting on fresh, clean underwear every morning.", help: "Put on clean underwear after you wash or when you get dressed." },
+            { id: "item_27", domain: "d2", sex: "universal", icon: "👟", title: "Left and right shoes", desc: "Putting my shoes on the right feet.", help: "Set the shoes side by side. The insides should curve toward each other." },
+            { id: "item_28", domain: "d2", sex: "universal", icon: "👟", title: "Tying my shoelaces", desc: "Tying my laces in a double knot so my shoes stay on.", help: "Make two loops, cross them, and pull one through. Then tie it again." },
+            { id: "item_29", domain: "d2", sex: "universal", icon: "🔘", title: "Buttons and zippers", desc: "Buttoning my shirt and zipping my pants by myself.", help: "Push the button halfway through the hole. Then pull it through from the other side." },
+            { id: "item_30", domain: "d2", sex: "universal", icon: "🧺", title: "Clean and dirty clothes", desc: "Knowing when clothes are dirty and putting them in the laundry basket.", help: "If clothes have food on them, smell bad, or were worn all day, put them in the basket." },
+            { id: "item_31", domain: "d2", sex: "universal", icon: "🧺", title: "Folding clean clothes", desc: "Folding shirts and pants to put in a drawer.", help: "Lay the shirt flat. Fold in the sleeves. Fold it in half. Put it in the drawer." },
+            { id: "item_53", domain: "d2", sex: "universal", icon: "⏰", title: "Morning and bedtime routines", desc: "Doing the same steps each morning and each night.", help: "Use a picture list to see what comes next." },
+            { id: "item_54", domain: "d2", sex: "universal", icon: "🧹", title: "Cleaning up my mess", desc: "Putting trash in the bin and picking things up off the floor.", help: "Pick up 5 things at a time. Put each one where it goes." },
+            { id: "item_55", domain: "d2", sex: "universal", icon: "🧽", title: "Wiping the table after eating", desc: "Using a damp cloth to wipe crumbs off the table.", help: "Wipe from the back of the table to the front. Catch the crumbs in your hand." },
+            { id: "item_56", domain: "d2", sex: "universal", icon: "🛌", title: "Making my bed", desc: "Pulling the sheets and blankets up on my bed.", help: "Put the pillow at the top. Pull the blanket up to the pillow." },
+            { id: "item_57", domain: "d2", sex: "universal", icon: "🚪", title: "Checking the doors at night", desc: "Making sure the doors are closed and locked.", help: "Check the front and back doors before you go to sleep." },
 
             // Domain 3: Nutrition, Hydration & Kitchen Safety
-            { id: "item_32", domain: "d3", sex: "universal", icon: "🚰", title: "Drinking enough water", desc: "Drinking cups of fresh water throughout the day.", help: "Keep a water bottle nearby and take 3 big gulps every hour." },
-            { id: "item_33", domain: "d3", sex: "universal", icon: "🍽️", title: "Knowing when I am hungry or full", desc: "Listening to my stomach when it needs food and stopping when full.", help: "Check in with your tummy before, during, and after eating meals." },
-            { id: "item_34", domain: "d3", sex: "universal", icon: "🍴", title: "Using forks and spoons", desc: "Holding utensils properly to eat food safely.", help: "Hold spoon or fork handle like a pencil to scoop up bites easily." },
-            { id: "item_35", domain: "d3", sex: "universal", icon: "🔪", title: "Using a butter knife", desc: "Cutting soft food slowly without hurting my fingers.", help: "Keep fingers away from blade, press down gently on soft food." },
-            { id: "item_36", domain: "d3", sex: "universal", icon: "🔥", title: "Hot stove safety", desc: "Knowing the stove, oven, and hot water can burn skin.", help: "Stay 3 big steps back from hot stoves, ovens, and hot pans." },
-            { id: "item_37", domain: "d3", sex: "universal", icon: "🍎", title: "Making a simple snack", desc: "Getting a clean snack like fruit, bread, or cheese by myself.", help: "Pick an easy snack like an apple, banana, or cheese stick from fridge." },
-            { id: "item_38", domain: "d3", sex: "universal", icon: "🍞", title: "Making toast or a sandwich", desc: "Using the toaster or spreading butter/peanut butter safely.", help: "Spread butter softly across bread, ask an adult to help push toaster." },
-            { id: "item_39", domain: "d3", sex: "universal", icon: "🧊", title: "Keeping food in the fridge", desc: "Putting cold items like milk or yogurt back in the fridge right away.", help: "Put milk and yogurt back in fridge as soon as you finish pouring." },
-            { id: "item_64", domain: "d3", sex: "universal", icon: "🚯", title: "Knowing what is safe to eat", desc: "Knowing to only put food in my mouth and never eating toys, trash, or things off the floor.", help: "Only put real food from kitchen or plate into mouth. Ask if unsure." },
-            { id: "item_65", domain: "d3", sex: "universal", icon: "🥪", title: "Chewing with mouth closed", desc: "Taking small bites and chewing food with my lips together so food stays inside.", help: "Take small bites, close lips together, chew 10 times before swallowing." },
-            { id: "item_66", domain: "d3", sex: "universal", icon: "🥤", title: "Drinking without spilling", desc: "Holding a cup with two hands and drinking slowly so liquids do not spill on clothes.", help: "Hold cup with both hands, tilt slowly, swallow before taking another sip." },
-            { id: "item_67", domain: "d3", sex: "universal", icon: "🤢", title: "Knowing if food smells bad or spoiled", desc: "Asking an adult before eating food that smells weird, looks bad, or has mold.", help: "If food smells sour, looks funny, or has spots, show an adult first." },
-            { id: "item_68", domain: "d3", sex: "universal", icon: "🧼", title: "Wiping mouth after eating", desc: "Using a napkin to wipe food off my mouth and hands after I finish eating.", help: "Use napkin to wipe corners of mouth and fingers clean right after eating." },
+            { id: "item_32", domain: "d3", sex: "universal", icon: "🚰", title: "Drinking enough water", desc: "Drinking water through the day.", help: "Keep a water bottle close. Take 3 big sips every hour." },
+            { id: "item_33", domain: "d3", sex: "universal", icon: "🍽️", title: "Knowing when I am hungry or full", desc: "Listening to my body when it needs food, and stopping when I am full.", help: "Check in with your belly before, during, and after you eat." },
+            { id: "item_34", domain: "d3", sex: "universal", icon: "🍴", title: "Using forks and spoons", desc: "Holding forks and spoons the right way to eat.", help: "Hold the handle like a pencil. Scoop up small bites." },
+            { id: "item_35", domain: "d3", sex: "universal", icon: "🔪", title: "Using a butter knife", desc: "Cutting soft food slowly without hurting my fingers.", help: "Keep your fingers away from the blade. Press down gently on soft food." },
+            { id: "item_36", domain: "d3", sex: "universal", icon: "🔥", title: "Staying safe around hot things", desc: "Knowing the stove, oven, and hot water can burn me.", help: "Stay 3 big steps back from hot stoves, ovens, and pans." },
+            { id: "item_37", domain: "d3", sex: "universal", icon: "🍎", title: "Making a simple snack", desc: "Getting a clean snack like fruit, bread, or cheese.", help: "Pick an easy snack like an apple, a banana, or a cheese stick." },
+            { id: "item_38", domain: "d3", sex: "universal", icon: "🍞", title: "Making toast or a sandwich", desc: "Using the toaster or spreading butter or peanut butter safely.", help: "Spread the butter softly. Ask for help with the toaster if you need it." },
+            { id: "item_39", domain: "d3", sex: "universal", icon: "🧊", title: "Keeping food in the fridge", desc: "Putting cold food like milk or yogurt back in the fridge right away.", help: "Put cold food away as soon as you are done with it." },
+            { id: "item_64", domain: "d3", sex: "universal", icon: "🚯", title: "Knowing what is safe to eat", desc: "Only putting real food in my mouth. I never eat toys, trash, or things off the floor.", help: "Only eat real food from the kitchen or your plate. Ask if you are not sure." },
+            { id: "item_65", domain: "d3", sex: "universal", icon: "🥪", title: "Chewing with my mouth closed", desc: "Taking small bites and chewing with my lips together.", help: "Take small bites. Close your lips. Chew well before you swallow." },
+            { id: "item_66", domain: "d3", sex: "universal", icon: "🥤", title: "Drinking without spilling", desc: "Holding my cup with two hands and drinking slowly so I do not spill.", help: "Hold the cup with both hands. Tip it slowly. Swallow before the next sip." },
+            { id: "item_67", domain: "d3", sex: "universal", icon: "🤢", title: "Knowing if food has gone bad", desc: "Asking for help before I eat food that smells strange, looks bad, or has mold.", help: "If food smells sour, looks strange, or has spots, ask someone before you eat it." },
+            { id: "item_68", domain: "d3", sex: "universal", icon: "🧼", title: "Wiping my mouth after eating", desc: "Using a napkin to wipe my mouth and hands when I am done eating.", help: "Wipe the corners of your mouth and your fingers right after you eat." },
 
             // Domain 4: Physical Safety, Privacy & Boundaries
-            { id: "item_40", domain: "d4", sex: "universal", icon: "🔒", title: "Private parts privacy", desc: "Knowing my private parts belong only to me and keeping them covered.", help: "Keep private areas covered with clothes and keep bathroom doors closed." },
-            { id: "item_41", domain: "d4", sex: "universal", icon: "🚪", title: "Closing the bathroom door", desc: "Shutting the door when using the toilet or showering for privacy.", help: "Close the door all the way before taking off clothes or sitting on potty." },
-            { id: "item_42", domain: "d4", sex: "universal", icon: "🛑", title: "Safe touch and boundaries", desc: "Saying 'No' or asking for help if anyone makes me uncomfortable.", help: "Say loudly 'Stop, I don't like that!' and go tell a safe helper right away." },
-            { id: "item_43", domain: "d4", sex: "universal", icon: "🤝", title: "Personal space", desc: "Not standing too close to people unless I ask first.", help: "Keep one arm length of distance between you and other people." },
-            { id: "item_44", domain: "d4", sex: "universal", icon: "📞", title: "Knowing who to call in emergency", desc: "Knowing when to get a trusted person or call for help if hurt or scared.", help: "Know how to dial 911 or call your safe helper's phone number." },
-            { id: "item_45", domain: "d4", sex: "universal", icon: "🚶‍♀️", title: "Looking both ways on streets", desc: "Looking left, right, and left again before walking across roads.", help: "Hold an adult's hand, stop at the curb, look left, right, and left again." },
-            { id: "item_69", domain: "d4", sex: "universal", icon: "🚫", title: "Leaving cuts and scabs alone", desc: "Not picking at cuts or scabs so skin can heal safely.", help: "If scab itches, put a band-aid over it or pat gently instead of scratching." },
-            { id: "item_70", domain: "d4", sex: "universal", icon: "💊", title: "Taking medicine only with adult help", desc: "Never touching or taking pills or medicine unless given directly by an adult.", help: "Never touch bottles or pills. Only take medicine given by a safe helper." },
-            { id: "item_71", domain: "d4", sex: "universal", icon: "🗣️", title: "Telling where my body hurts", desc: "Using words to point and say when my tummy, head, or skin hurts.", help: "Point to where it hurts and say: 'My [head/tummy/arm] hurts right here'." },
-            { id: "item_72", domain: "d4", sex: "universal", icon: "💫", title: "Telling when I feel sick or dizzy", desc: "Telling an adult right away when I feel weak, hot, dizzy, or thrown up.", help: "Sit down on floor right away and call out to helper: 'I feel sick/dizzy!'" },
-            { id: "item_73", domain: "d4", sex: "universal", icon: "🔒", title: "Never opening doors to strangers", desc: "Asking an adult before opening the front door when someone knocks.", help: "When door knocks, freeze! Call an adult to open the door." },
-            { id: "item_74", domain: "d4", sex: "universal", icon: "🧴", title: "Staying away from cleaning liquids", desc: "Never touching spray bottles, bleach, or cleaning liquids.", help: "Leave spray bottles, soap pods, and cleaning liquids alone." },
-            { id: "item_75", domain: "d4", sex: "universal", icon: "🧘‍♀️", title: "Not hitting or biting when mad", desc: "Keeping hands and body safe when angry instead of throwing things or hitting.", help: "Squeeze a pillow, stomp feet twice, or hug yourself tightly instead of hitting." },
-            { id: "item_80", domain: "d4", sex: "universal", icon: "🐾", title: "Being gentle with pets and animals", desc: "Petting dogs and cats softly, never squeezing, hitting, or pulling tails.", help: "Use soft hand flat against fur, pet softly from head to back." },
-            { id: "item_81", domain: "d4", sex: "universal", icon: "🤝", title: "Hurting people or pets is wrong", desc: "Knowing it is bad to hit, kick, push, or hurt anyone or any animal.", help: "Keep hands gentle, use words when mad instead of physical actions." },
-            { id: "item_82", domain: "d4", sex: "universal", icon: "🎁", title: "Asking before taking things", desc: "Not taking things that belong to others without asking first.", help: "Ask clearly: 'May I play with this please?' before touching someone's things." },
+            { id: "item_40", domain: "d4", sex: "universal", icon: "🔒", title: "Keeping private parts private", desc: "Knowing my private parts belong only to me and keeping them covered.", help: "Keep private parts covered by clothes. Close the bathroom door." },
+            { id: "item_41", domain: "d4", sex: "universal", icon: "🚪", title: "Closing the bathroom door", desc: "Closing the door when I use the toilet or shower.", help: "Close the door all the way before you take off your clothes." },
+            { id: "item_42", domain: "d4", sex: "universal", icon: "🛑", title: "Saying no to touch I do not like", desc: "Saying no or asking for help if anyone makes me feel uncomfortable.", help: "Say loudly, 'Stop. I do not like that.' Then tell a person you trust right away." },
+            { id: "item_43", domain: "d4", sex: "universal", icon: "🤝", title: "Personal space", desc: "Not standing too close to people unless I ask first.", help: "Stay one arm's length away from other people." },
+            { id: "item_44", domain: "d4", sex: "universal", icon: "📞", title: "Knowing who to call in an emergency", desc: "Knowing who to get or call if I am hurt or scared.", help: "Know how to call 911. Know the phone number of a person you trust." },
+            { id: "item_45", domain: "d4", sex: "universal", icon: "🚶‍♀️", title: "Looking both ways before crossing", desc: "Looking left, right, and left again before I cross the road.", help: "Stop at the curb. Look left, right, and left again. Cross when it is clear." },
+            { id: "item_69", domain: "d4", sex: "universal", icon: "🚫", title: "Leaving scabs alone", desc: "Not picking at cuts or scabs so my skin can heal.", help: "If a scab itches, cover it with a bandage or pat it gently." },
+            { id: "item_70", domain: "d4", sex: "universal", icon: "💊", title: "Taking medicine safely", desc: "Never taking pills or medicine unless the right person gives it to me.", help: "Do not touch pills or bottles on your own. Only take medicine from someone you trust." },
+            { id: "item_71", domain: "d4", sex: "universal", icon: "🗣️", title: "Telling where it hurts", desc: "Using words to say when my belly, head, or skin hurts.", help: "Point to where it hurts. Say, 'My head hurts right here.'" },
+            { id: "item_72", domain: "d4", sex: "universal", icon: "💫", title: "Telling someone when I feel sick or dizzy", desc: "Telling someone right away when I feel weak, hot, dizzy, or like I might throw up.", help: "Sit down right away. Say, 'I feel sick,' or 'I feel dizzy.'" },
+            { id: "item_73", domain: "d4", sex: "universal", icon: "🔒", title: "Not opening the door to strangers", desc: "Asking someone before I open the door when there is a knock.", help: "When someone knocks, stop. Get a person you trust to open the door." },
+            { id: "item_74", domain: "d4", sex: "universal", icon: "🧴", title: "Staying away from cleaning liquids", desc: "Never touching spray bottles, bleach, or other cleaning liquids.", help: "Leave spray bottles, soap pods, and cleaning liquids alone." },
+            { id: "item_75", domain: "d4", sex: "universal", icon: "🧘‍♀️", title: "Not hitting or biting when angry", desc: "Keeping my hands and body safe when I am angry. I do not hit or throw things.", help: "Squeeze a pillow, stomp your feet twice, or hug yourself instead." },
+            { id: "item_80", domain: "d4", sex: "universal", icon: "🐾", title: "Being gentle with animals", desc: "Petting dogs and cats softly. I never squeeze them, hit them, or pull their tails.", help: "Use a flat hand. Pet softly from the head to the back." },
+            { id: "item_81", domain: "d4", sex: "universal", icon: "🤝", title: "Not hurting people or animals", desc: "Knowing it is wrong to hit, kick, push, or hurt any person or animal.", help: "Keep your hands gentle. Use words when you are mad." },
+            { id: "item_82", domain: "d4", sex: "universal", icon: "🎁", title: "Asking before taking things", desc: "Not taking things that belong to other people without asking first.", help: "Ask, 'May I use this, please?' before you touch someone's things." },
 
             // Domain 5: Emotional Self-Regulation, Mental Health & Trauma Care
-            { id: "item_46", domain: "d5", sex: "universal", icon: "🗣️", title: "Naming my feelings", desc: "Using words when I feel mad, sad, scared, tired, or happy.", help: "Use emotion cards or say out loud: 'I feel [mad / sad / scared] right now'." },
-            { id: "item_47", domain: "d5", sex: "universal", icon: "🌬️", title: "Breathing to calm down", desc: "Taking big deep breaths when my body feels tight or upset.", help: "Smell the flower (breathe in through nose), blow out the candle (out through mouth)." },
-            { id: "item_48", domain: "d5", sex: "universal", icon: "⏸️", title: "Asking for a quiet break", desc: "Telling someone I need quiet time before I get too mad or scared.", help: "Say: 'I need a 5 minute quiet break please' and step into a calm room." },
-            { id: "item_49", domain: "d5", sex: "universal", icon: "🤗", title: "Feeling safe with trusted people", desc: "Telling trusted helpers the truth when I am scared, hurt, or made a mistake.", help: "Remember safe helpers love you and want to help you solve problems." },
-            { id: "item_50", domain: "d5", sex: "universal", icon: "🥺", title: "Knowing mistakes are okay", desc: "Knowing nobody is perfect and it is okay to try again.", help: "Say: 'Mistakes help me learn. I can fix it or try again next time.'" },
-            { id: "item_51", domain: "d5", sex: "universal", icon: "🛌", title: "Knowing when my body is tired", desc: "Recognizing when I need to rest or go to sleep.", help: "When eyes feel heavy or yawning happens, put screens away and lay down." },
-            { id: "item_85", domain: "d5", sex: "universal", icon: "🌀", title: "Worried thoughts in my mind (Anxiety)", desc: "Feeling like thoughts are spinning or bad things might happen.", help: "Name 3 blue things you see in the room, take 3 slow belly breaths, or squeeze a fidget." },
-            { id: "item_86", domain: "d5", sex: "universal", icon: "💓", title: "Scared or shaky body feelings (Anxiety)", desc: "Fast heart beat, shaky hands, or butterfly feelings in tummy.", help: "Put one hand on heart and one on tummy, blow out candle breaths, or wrap in a weighted blanket." },
-            { id: "item_87", domain: "d5", sex: "universal", icon: "🌧️", title: "Feeling extra sad or heavy (Depression)", desc: "Feeling empty, super sad, or like nothing feels fun today.", help: "Wrap up in a warm blanket, hug a stuffed animal, tell a helper 'I feel heavy today'." },
-            { id: "item_88", domain: "d5", sex: "universal", icon: "🛌", title: "Getting stuck in bed or chair (Depression)", desc: "Hard to move body or start doing things when feeling low.", help: "Try a tiny step: wiggle your toes, sit up, or drink 1 sip of water." },
-            { id: "item_89", domain: "d5", sex: "universal", icon: "⚡", title: "Triggers and scary memories (PTSD)", desc: "A sound, smell, or sight suddenly makes me feel scared or remembered bad times.", help: "Remind yourself: 'I am safe right now in this room.' Touch 3 solid things around you." },
-            { id: "item_90", domain: "d5", sex: "universal", icon: "📽️", title: "Flashbacks (PTSD)", desc: "Feeling like a scary past event is happening right now.", help: "Look at your feet on the floor. Rub your sensory cube. Say out loud: 'Today is [day], I am safe'." },
-            { id: "item_91", domain: "d5", sex: "universal", icon: "🛡️", title: "Feeling jumpy or watching for danger (PTSD)", desc: "Feeling constantly on guard or easily startled by small sounds.", help: "Sit with your back against a sturdy wall, hold a pillow tightly, take deep breaths." },
-            { id: "item_92", domain: "d5", sex: "universal", icon: "🧘", title: "Feeling safe inside my body (PTSD)", desc: "Feeling disconnected from my body or like I floated away.", help: "Press feet hard into the floor, squeeze your hands into fists and release, sip cold water." },
-            { id: "item_76", domain: "d5", sex: "universal", icon: "👾", title: "Monsters and scary movie things are pretend", desc: "Knowing monsters, ghosts, and scary movie creatures are pretend and cannot touch or hurt me.", help: "Remind yourself: 'That is just costume, makeup, or cartoon drawings'." },
-            { id: "item_77", domain: "d5", sex: "universal", icon: "👥", title: "Shadows and night noises cannot hurt me", desc: "Knowing shadows on the wall and house noises at night are just shadows and house sounds.", help: "Turn on nightlight, look at shadow shape, remember house makes creak sounds when settling." },
-            { id: "item_78", domain: "d5", sex: "universal", icon: "📺", title: "TV and cartoons are make-believe", desc: "Knowing things on screens or TV are pretend stories made by people.", help: "Remember actors are playing pretend just like playing with toys." },
-            { id: "item_79", domain: "d5", sex: "universal", icon: "💭", title: "Bad dreams are just thoughts in my head", desc: "Knowing nightmares are not real life and I am safe when I wake up.", help: "Wake up, look around bedroom, hug blanket, say: 'Dream is gone, I am safe'." },
-            { id: "item_83", domain: "d5", sex: "universal", icon: "💬", title: "True words vs. pretend words", desc: "Knowing the difference between telling true words (what really happened) and making up stories.", help: "Tell what really happened first, then say if you want to make up a fun game." },
-            { id: "item_84", domain: "d5", sex: "universal", icon: "🙏", title: "Saying 'sorry' when I make a mistake", desc: "Saying 'I am sorry' if I bump someone, break something, or make someone sad.", help: "Look at person, say softly: 'I am sorry I bumped you. Are you okay?'" },
+            { id: "item_46", domain: "d5", sex: "universal", icon: "🗣️", title: "Naming my feelings", desc: "Using words when I feel mad, sad, scared, tired, or happy.", help: "Use feeling cards or say, 'I feel mad right now.'" },
+            { id: "item_47", domain: "d5", sex: "universal", icon: "🌬️", title: "Breathing to calm down", desc: "Taking slow, deep breaths when my body feels tight or upset.", help: "Breathe in through your nose like you smell a flower. Breathe out through your mouth like you blow out a candle." },
+            { id: "item_48", domain: "d5", sex: "universal", icon: "⏸️", title: "Asking for a quiet break", desc: "Telling someone I need quiet time before I get too upset.", help: "Say, 'I need a quiet break, please.' Go to a calm place for 5 minutes." },
+            { id: "item_49", domain: "d5", sex: "universal", icon: "🤗", title: "Feeling safe with people I trust", desc: "Telling people I trust the truth when I am scared, hurt, or made a mistake.", help: "Remember that people who care about you want to help." },
+            { id: "item_50", domain: "d5", sex: "universal", icon: "🥺", title: "Knowing mistakes are okay", desc: "Knowing that nobody is perfect and it is okay to try again.", help: "Say, 'Mistakes help me learn. I can fix it or try again.'" },
+            { id: "item_51", domain: "d5", sex: "universal", icon: "🛌", title: "Knowing when I am tired", desc: "Noticing when I need to rest or sleep.", help: "When your eyes feel heavy or you yawn, put screens away and lie down." },
+            { id: "item_85", domain: "d5", sex: "universal", icon: "🌀", title: "Worried thoughts (anxiety)", desc: "Feeling like my thoughts are spinning or that something bad might happen.", help: "Name 3 blue things you see. Take 3 slow breaths. Squeeze something soft." },
+            { id: "item_86", domain: "d5", sex: "universal", icon: "💓", title: "Scared or shaky body feelings (anxiety)", desc: "A fast heartbeat, shaky hands, or fluttery feelings in my belly.", help: "Put one hand on your heart and one on your belly. Breathe out slowly. Wrap up in a heavy blanket." },
+            { id: "item_87", domain: "d5", sex: "universal", icon: "🌧️", title: "Feeling very sad or heavy (depression)", desc: "Feeling empty, very sad, or like nothing is fun today.", help: "Wrap up in a warm blanket. Hold something soft. Tell someone, 'I feel heavy today.'" },
+            { id: "item_88", domain: "d5", sex: "universal", icon: "🛌", title: "Feeling stuck in bed or a chair (depression)", desc: "It is hard to move or start things when I feel low.", help: "Try one tiny step. Wiggle your toes, sit up, or take a sip of water." },
+            { id: "item_89", domain: "d5", sex: "universal", icon: "⚡", title: "Triggers and scary memories (PTSD)", desc: "A sound, smell, or sight suddenly makes me feel scared or remember bad times.", help: "Tell yourself, 'I am safe right now.' Touch 3 solid things near you." },
+            { id: "item_90", domain: "d5", sex: "universal", icon: "📽️", title: "Flashbacks (PTSD)", desc: "Feeling like a scary thing from the past is happening right now.", help: "Look at your feet on the floor. Hold something with a texture. Say, 'Today is [day]. I am safe.'" },
+            { id: "item_91", domain: "d5", sex: "universal", icon: "🛡️", title: "Feeling jumpy or on guard (PTSD)", desc: "Feeling like I always have to watch for danger, or jumping at small sounds.", help: "Sit with your back against a wall. Hold a pillow tight. Breathe slowly." },
+            { id: "item_92", domain: "d5", sex: "universal", icon: "🧘", title: "Feeling safe inside my body (PTSD)", desc: "Feeling far away from my body, or like I floated away.", help: "Press your feet into the floor. Squeeze your hands into fists, then let go. Sip cold water." },
+            { id: "item_76", domain: "d5", sex: "universal", icon: "👾", title: "Knowing monsters in movies are pretend", desc: "Knowing monsters, ghosts, and scary movie creatures are pretend and cannot hurt me.", help: "Remind yourself, 'That is a costume, makeup, or a drawing.'" },
+            { id: "item_77", domain: "d5", sex: "universal", icon: "👥", title: "Knowing shadows and night noises cannot hurt me", desc: "Knowing shadows on the wall and house noises at night are just shadows and house sounds.", help: "Turn on a night light. Look at the shape of the shadow. Remember that houses creak." },
+            { id: "item_78", domain: "d5", sex: "universal", icon: "📺", title: "Knowing shows are make-believe", desc: "Knowing what I see on a screen is a story made by people.", help: "Remember that actors are pretending, like in a game." },
+            { id: "item_79", domain: "d5", sex: "universal", icon: "💭", title: "Knowing bad dreams are not real", desc: "Knowing nightmares are not real life, and I am safe when I wake up.", help: "Wake up. Look around the room. Say, 'The dream is gone. I am safe.'" },
+            { id: "item_83", domain: "d5", sex: "universal", icon: "💬", title: "Telling the truth and telling stories", desc: "Knowing the difference between telling what really happened and making up a story.", help: "Say what really happened first. Then you can say if you are playing a make-believe game." },
+            { id: "item_84", domain: "d5", sex: "universal", icon: "🙏", title: "Saying sorry", desc: "Saying 'I am sorry' if I bump someone, break something, or make someone sad.", help: "Look at the person. Say, 'I am sorry I bumped you. Are you okay?'" },
 
             // Domain 6: Social Mechanics, Vocal Control & Impulse Dynamics
-            { id: "item_52", domain: "d6", sex: "universal", icon: "🙋‍♀️", title: "Asking for help", desc: "Saying 'Can you help me please?' when a job feels too hard.", help: "Take a deep breath and ask: 'Can you help me with this please?'" },
-            { id: "item_93", domain: "d6", sex: "universal", icon: "🗣️", title: "Taking turns in conversation", desc: "Talking and then stopping so the other person can have a turn.", help: "Say your thought, then pause and ask: 'What do you think?'" },
-            { id: "item_94", domain: "d6", sex: "universal", icon: "🔍", title: "Knowing when someone needs space", desc: "Noticing if someone wants quiet time or step-back distance.", help: "If someone looks away or steps back, give them two big steps of space." },
-            { id: "item_95", domain: "d6", sex: "universal", icon: "🔊", title: "Using inside voice volume", desc: "Matching how loud I talk to where I am (quiet inside, louder outside).", help: "Use whispering or quiet voice inside rooms, save big yelling voices for outdoors." },
-            { id: "item_96", domain: "d6", sex: "universal", icon: "🎶", title: "Using a gentle voice tone", desc: "Noticing if my voice sounds angry, sharp, or flat when talking.", help: "Take a breath before speaking, use soft words, and add a friendly smile." },
-            { id: "item_97", domain: "d6", sex: "universal", icon: "🛑", title: "Knowing when to pause a habit", desc: "Stopping picking, watching screens, or doing things too much.", help: "Set a timer on a phone or clock, move to another room when timer rings." },
-            { id: "item_98", domain: "d6", sex: "universal", icon: "🙋‍♂️", title: "Asking for help with strong urges", desc: "Telling a trusted person when I feel a strong push to do a bad habit.", help: "Tell a safe helper: 'My body has a strong urge, can you help me find something else to do?'" }
+            { id: "item_52", domain: "d6", sex: "universal", icon: "🙋‍♀️", title: "Asking for help", desc: "Saying 'Can you help me, please?' when a job feels too hard.", help: "Take a deep breath and ask, 'Can you help me with this, please?'" },
+            { id: "item_93", domain: "d6", sex: "universal", icon: "🗣️", title: "Taking turns talking", desc: "Talking, then stopping so the other person can talk.", help: "Say your thought. Then stop and ask, 'What do you think?'" },
+            { id: "item_94", domain: "d6", sex: "universal", icon: "🔍", title: "Knowing when someone needs space", desc: "Noticing when someone wants quiet or wants me to step back.", help: "If someone looks away or steps back, give them two big steps of space." },
+            { id: "item_95", domain: "d6", sex: "universal", icon: "🔊", title: "Using the right voice volume", desc: "Matching how loud I talk to where I am. Quiet inside, louder outside.", help: "Use a quiet voice inside. Save your loud voice for outside." },
+            { id: "item_96", domain: "d6", sex: "universal", icon: "🎶", title: "Using a kind voice", desc: "Noticing if my voice sounds angry, sharp, or flat when I talk.", help: "Take a breath before you speak. Use soft words and a friendly face." },
+            { id: "item_97", domain: "d6", sex: "universal", icon: "🛑", title: "Knowing when to stop a habit", desc: "Stopping things I do too much, like picking at my skin or watching screens.", help: "Set a timer. When it rings, go to another room." },
+            { id: "item_98", domain: "d6", sex: "universal", icon: "🙋‍♂️", title: "Asking for help with strong urges", desc: "Telling someone I trust when I feel a strong push to do a habit I want to stop.", help: "Tell someone you trust, 'I have a strong urge. Can you help me find something else to do?'" }
         ];
 
         let listData = [];
@@ -391,6 +391,12 @@
             const savedMsg = localStorage.getItem('univ_safety_checklist_msg_v6');
 
             listData = savedList ? JSON.parse(savedList) : defaultItems;
+            listData = listData.map(it => {
+                const d = defaultItems.find(x => x.id === it.id);
+                if (d) return Object.assign({}, it, { title: d.title, desc: d.desc, help: d.help });
+                if (it.help === 'Take slow belly breaths, ask a trusted helper, and break the job into tiny easy steps!') return Object.assign({}, it, { help: 'Take slow breaths, ask someone you trust, and break the job into small steps.' });
+                return it;
+            });
             choices = savedChoices ? JSON.parse(savedChoices) : {};
             notes = savedNotes ? JSON.parse(savedNotes) : {};
 
@@ -453,7 +459,7 @@
                 icon: '⭐',
                 title: text,
                 desc: 'Added by me',
-                help: 'Take slow belly breaths, ask a trusted helper, and break the job into tiny easy steps!'
+                help: 'Take slow breaths, ask someone you trust, and break the job into small steps.'
             };
 
             listData.push(newItem);
@@ -566,7 +572,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                             <button type="button" onclick="setChoice('${item.id}', 'ok')" class="option-btn py-4 px-3 rounded-2xl border-3 border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-extrabold text-lg flex items-center justify-center gap-2 ${currentChoice === 'ok' ? 'selected-ok' : ''}">
                                 <span>🟢</span>
-                                <span>I can do this!</span>
+                                <span>I can do this</span>
                             </button>
 
                             <button type="button" onclick="setChoice('${item.id}', 'help')" class="option-btn py-4 px-3 rounded-2xl border-3 border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-extrabold text-lg flex items-center justify-center gap-2 ${currentChoice === 'help' ? 'selected-help' : ''}">
@@ -603,7 +609,7 @@
                 const left = all.length - answered;
                 document.getElementById('saveSummary').innerHTML = `
                     <div class="bg-white dark:bg-slate-800 border-3 border-emerald-300 dark:border-emerald-700 rounded-3xl p-6 space-y-3 text-left">
-                        <h2 class="text-2xl font-extrabold">You made it to the end 💛</h2>
+                        <h2 class="text-2xl font-extrabold">You reached the end</h2>
                         <p class="text-base font-bold text-slate-600 dark:text-slate-300">${answered} of ${all.length} answered.</p>
                         <div class="grid grid-cols-3 gap-2 text-center font-extrabold">
                             <div class="rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-200 dark:border-emerald-800 py-3">🟢<div class="text-2xl">${g}</div><div class="text-xs">I can do this</div></div>
