@@ -1,0 +1,85 @@
+name: Build and release APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - source/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SKYCARE_KEYSTORE_BASE64: ${{ secrets.SKYCARE_KEYSTORE_BASE64 }}
+      SKYCARE_KEYSTORE_PASSWORD: ${{ secrets.SKYCARE_KEYSTORE_PASSWORD }}
+      SKYCARE_KEY_ALIAS: ${{ secrets.SKYCARE_KEY_ALIAS }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check signing secrets
+        run: |
+          for v in SKYCARE_KEYSTORE_BASE64 SKYCARE_KEYSTORE_PASSWORD SKYCARE_KEY_ALIAS; do
+            if [ -z "${!v}" ]; then
+              echo "::error::Missing repository secret $v (Settings > Secrets and variables > Actions)"
+              exit 1
+            fi
+          done
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Android SDK parts
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Build
+        working-directory: source
+        run: |
+          npm ci
+          V=$(sh scripts/version.sh)
+          echo "VERSION=$V" >> "$GITHUB_ENV"
+          npm run bundle
+          npx cap copy android
+          echo "$SKYCARE_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/skycare.jks"
+          cd android
+          SKYCARE_KEYSTORE="$RUNNER_TEMP/skycare.jks" ./gradlew assembleRelease bundleRelease
+
+      - name: Verify signature
+        run: |
+          APK=source/android/app/build/outputs/apk/release/app-release.apk
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$APK"
+
+      - name: Publish release
+        run: |
+          tag="v$VERSION"
+          if gh release view "$tag" > /dev/null 2>&1; then
+            echo "Release $tag already exists"
+            exit 0
+          fi
+          cp source/android/app/build/outputs/apk/release/app-release.apk SkyCare.apk
+          cp source/android/app/build/outputs/bundle/release/app-release.aab SkyCare.aab
+          sum=$(sha256sum SkyCare.apk | cut -d' ' -f1)
+          gh release create "$tag" SkyCare.apk SkyCare.aab \
+            --target "$GITHUB_SHA" \
+            --title "SkyCare $VERSION" \
+            --notes "SkyCare $VERSION for Android 7 or newer. Installs over earlier versions signed with the same key.
+
+          SHA-256 of SkyCare.apk: $sum"
