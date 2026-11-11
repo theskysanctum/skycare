@@ -203,3 +203,16 @@ button,input,textarea,select{font-family:inherit}
   :root[data-web="1"] #sheetbox{max-width:560px}
   :root[data-web="1"] .toast{max-width:520px}
 }
+
+@media (min-width:700px){
+  :root[data-wide]{background:var(--soft)}
+  :root[data-wide] body{background:var(--bg);max-width:1000px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.12);position:relative}
+  :root[data-wide] header,:root[data-wide] nav,:root[data-wide] main{max-width:1000px;margin-left:auto;margin-right:auto}
+  :root[data-wide] #sheetbox{max-width:760px}
+  :root[data-wide] .toast{max-width:640px}
+}
+@media (min-width:900px){
+  :root[data-wide] main{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-content:start;align-items:start;padding-left:18px;padding-right:18px}
+  :root[data-wide] main>*{grid-column:1/-1;min-width:0}
+  :root[data-wide] main>.card{grid-column:auto}
+}
