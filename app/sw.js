@@ -1,4 +1,4 @@
-const CACHE = 'taking-care-1523a45f6424';
+const CACHE = 'taking-care-821f21812f34';
 const FILES = ["./","app.js","fonts/LICENSE-Atkinson.txt","fonts/LICENSE-OpenDyslexic.txt","fonts/atkinson-hyperlegible-latin-400-normal.woff2","fonts/atkinson-hyperlegible-latin-700-normal.woff2","fonts/opendyslexic-latin-400-normal.woff2","fonts/opendyslexic-latin-700-normal.woff2","icon-192.png","icon-512.png","icon-maskable-512.png","img/bear.jpg","img/cover.jpg","img/end.jpg","img/s1.jpg","img/s2.jpg","img/s3.jpg","img/s4.jpg","img/s5.jpg","img/s6.jpg","index.html","manifest.webmanifest","style.css"];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });

@@ -223,7 +223,7 @@ button,input,textarea,select{font-family:inherit}
 .achk{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-weight:800;flex:none}
 .achk.on{background:var(--green);border-color:var(--green)}
 
-.wallprev{height:110px;border-radius:12px;margin-top:10px;background-size:cover;background-position:center;border:1px solid var(--line)}
+.wallprev{height:110px;border-radius:12px;margin-top:10px;background-size:cover;background-position:center 24%;border:1px solid var(--line)}
 :root[data-wall] body{background:linear-gradient(rgba(0,0,0,var(--dim)),rgba(0,0,0,var(--dim))),var(--wall) center/cover fixed no-repeat}
 :root[data-wall]{background:#000}
 :root[data-wall] .card,:root[data-wall] .apptile{background:color-mix(in srgb,var(--card) 90%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}

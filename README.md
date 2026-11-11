@@ -4,7 +4,7 @@ Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one 
 
 ## What is in here
 
-- `index.html`: the project page (hero, try-it demo, how it works, features, download)
+- `index.html`: the project page (hero, try-it demo, how it works, features including the Apps tab, wallpaper, reading options and the web app, download)
 - `checklist/index.html`: your existing checklist tool, with a slim "Taking Care" bar on top. The tool itself is unchanged.
 - `privacy/index.html`: what the app and site do with data
 - `download/Taking_Care.apk`: the Android app, version 1.0
@@ -35,3 +35,7 @@ The web app is generated, not hand-edited. From the app's source project, run `n
 - The app is signed with a debug key, so Android shows an "unknown app" warning. Signing with your own release key is the next step if you want to remove that. Publishing on Google Play would also need a release key.
 - The checklist page still loads Tailwind and Google Fonts from their CDNs. The privacy page says so. Self-hosting them would let you drop that line.
 - Screenshots use demo data and the name "Alex".
+
+## Retaking screenshots
+
+The screenshots in `assets/shots/` are taken from the real app running in a headless browser with sample data (the Apps tab uses made-up sample apps, not real ones). The wallpaper shown is an original picture made for this page. Save new ones as WebP at 780 by 1600 for phone screens.
