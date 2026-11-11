@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import com.getcapacitor.BridgeActivity;
 
 import java.util.List;
@@ -60,6 +61,23 @@ public class MainActivity extends BridgeActivity {
         } catch (Throwable t) {
         }
         noteDbx(getIntent());
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                try {
+                    getBridge().getWebView().evaluateJavascript("window.__back ? window.__back() : false", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String v) {
+                            if ("true".equals(v)) return;
+                            if (HomeCheck.isHome(MainActivity.this)) return;
+                            finish();
+                        }
+                    });
+                } catch (Throwable t) {
+                    if (!HomeCheck.isHome(MainActivity.this)) finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -74,6 +92,12 @@ public class MainActivity extends BridgeActivity {
         HomeCheck.note(intent);
         setIntent(intent);
         noteDbx(intent);
+        if (intent != null && intent.hasCategory(Intent.CATEGORY_HOME)) {
+            try {
+                getBridge().getWebView().evaluateJavascript("window.__home && window.__home()", null);
+            } catch (Throwable t) {
+            }
+        }
         applyRecentsRule();
     }
 
