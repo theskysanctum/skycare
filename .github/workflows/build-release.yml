@@ -57,7 +57,7 @@ jobs:
           V=$(sh scripts/version.sh)
           echo "VERSION=$V" >> "$GITHUB_ENV"
           npm run bundle
-          npx cap copy android
+          npx cap sync android
           echo "$SKYCARE_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/skycare.jks"
           cd android
           SKYCARE_KEYSTORE="$RUNNER_TEMP/skycare.jks" ./gradlew assembleRelease bundleRelease
