@@ -11,8 +11,44 @@ import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
 
 import java.util.List;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.webkit.ValueCallback;
+import org.json.JSONObject;
 
 public class MainActivity extends BridgeActivity {
+    private String pendingDbx = null;
+    private int dbxTries = 0;
+
+    private void noteDbx(Intent intent) {
+        try {
+            Uri u = intent == null ? null : intent.getData();
+            if (u != null && "skycare".equals(u.getScheme()) && "dropbox".equals(u.getHost())) {
+                pendingDbx = u.toString();
+                dbxTries = 0;
+                deliverDbx();
+            }
+        } catch (Throwable t) {
+        }
+    }
+
+    private void deliverDbx() {
+        if (pendingDbx == null || dbxTries++ > 12) return;
+        try {
+            final String js = "window.__dbxCb ? window.__dbxCb(" + JSONObject.quote(pendingDbx) + ") : false";
+            getBridge().getWebView().evaluateJavascript(js, new ValueCallback<String>() {
+                @Override
+                public void onReceiveValue(String v) {
+                    if ("true".equals(v)) pendingDbx = null;
+                    else new Handler(Looper.getMainLooper()).postDelayed(new Runnable() { public void run() { deliverDbx(); } }, 700);
+                }
+            });
+        } catch (Throwable t) {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() { public void run() { deliverDbx(); } }, 700);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(AppsPlugin.class);
@@ -23,6 +59,7 @@ public class MainActivity extends BridgeActivity {
             getBridge().getWebView().setBackgroundColor(night ? Color.parseColor("#14101D") : Color.parseColor("#FAF7FF"));
         } catch (Throwable t) {
         }
+        noteDbx(getIntent());
     }
 
     @Override
@@ -35,6 +72,8 @@ public class MainActivity extends BridgeActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         HomeCheck.note(intent);
+        setIntent(intent);
+        noteDbx(intent);
         applyRecentsRule();
     }
 
