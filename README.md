@@ -1,13 +1,14 @@
-# Taking Care project page
+# SkyCare project page
 
 Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one small script.
 
 ## What is in here
 
-- `index.html`: the project page (hero, try-it demo, how it works, features, download)
-- `checklist/index.html`: your existing checklist tool, with a slim "Taking Care" bar on top. The tool itself is unchanged.
+- `index.html`: the project page (hero, try-it demo, how it works, features including the Apps tab, wallpaper, reading options and the web app, download)
+- `inventory/index.html`: your existing inventory tool, with a slim "SkyCare" bar on top. The tool itself is unchanged.
 - `privacy/index.html`: what the app and site do with data
-- `download/Taking_Care.apk`: the Android app, version 1.0
+- `download/SkyCare.apk`: the Android app, version 1.0
+- `app/`: the web app (an installable PWA). It is built from the same source as the Android app. See below.
 - `assets/`: styles, self-hosted Lexend font, screenshots taken from the real app, demo script
 - `CNAME`, `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml`
 
@@ -19,14 +20,26 @@ Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one 
 
 ## Updating the app
 
-1. Replace `download/Taking_Care.apk`.
-2. Update the SHA-256 shown in the Download section of `index.html`. Get it with `sha256sum download/Taking_Care.apk`.
+1. Replace `download/SkyCare.apk`.
+2. Update the SHA-256 shown in the Download section of `index.html`. Get it with `sha256sum download/SkyCare.apk`.
 3. Update the version and size text next to it.
 
 Tip: if you would rather not keep big files in the repo history, attach the APK to a GitHub Release and point the Download button at the release file instead.
 
+## Updating the web app
+
+The web app is generated, not hand-edited. From the app's source project, run `node scripts/build-web.js <path to this repo>/app`. That bundles the code, copies the files, and writes a new service worker so installed copies update. Commit the `app/` folder.
+
 ## Notes
 
 - The app is signed with a debug key, so Android shows an "unknown app" warning. Signing with your own release key is the next step if you want to remove that. Publishing on Google Play would also need a release key.
-- The checklist page still loads Tailwind and Google Fonts from their CDNs. The privacy page says so. Self-hosting them would let you drop that line.
+- The inventory page still loads Tailwind and Google Fonts from their CDNs. The privacy page says so. Self-hosting them would let you drop that line.
 - Screenshots use demo data and the name "Alex".
+
+## Retaking screenshots
+
+The screenshots in `assets/shots/` are taken from the real app running in a headless browser with sample data (the Apps tab uses made-up sample apps, not real ones). The wallpaper shown is an original picture made for this page. All artwork in the app and on the site, including the mascot and the section pictures, is original. Save new ones as WebP at 780 by 1600 for phone screens.
+
+## Locked files
+
+Inventory reports, backups, and profile files can be locked with a password. The code is in the app's `src/lockcore.js` (Web Crypto: PBKDF2-SHA256 with 600,000 rounds, then AES-256-GCM). The inventory page uses a build of the same file at `assets/lockcore.js`; rebuild it with `npx esbuild src/lockcore.js --bundle --format=iife --global-name=TCLockCore --minify --outfile=assets/lockcore.js`. A locked file is plain text with a short note and a block between `-----BEGIN TAKING CARE-----` and `-----END TAKING CARE-----`.

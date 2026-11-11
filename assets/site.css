@@ -94,7 +94,10 @@ section{padding:4.5rem 0}
 .shot img{border-radius:1.6rem;border:1px solid var(--line);box-shadow:0 18px 40px -18px rgba(43,37,87,.45)}
 .shot figcaption{font-size:.88rem;color:var(--mute);margin-top:.7rem;text-align:center}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-@media (max-width:52rem){.feat,.feat.flip{grid-template-columns:1fr;padding:2rem 0}.feat.flip .shot{order:0}}
+/* wide screenshot rows */
+.feat.wide{grid-template-columns:1fr 1.5fr}.feat.wide.flip{grid-template-columns:1fr 1.5fr}.feat.wide.flip .shot{order:0}
+.shot.wide{max-width:none}
+@media (max-width:52rem){.feat,.feat.flip,.feat.wide,.feat.wide.flip{grid-template-columns:1fr;padding:2rem 0}.feat.flip .shot{order:0}}
 .band{background:var(--mist)}
 
 /* download */

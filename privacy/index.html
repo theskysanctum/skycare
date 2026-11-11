@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy | Taking Care</title>
-<meta name="description" content="What the Taking Care app and website do with your information. Short version: almost nothing leaves your phone.">
+<title>Privacy | SkyCare</title>
+<meta name="description" content="What the SkyCare app and website do with your information. Short version: almost nothing leaves your phone.">
 <link rel="canonical" href="https://care.theskysanctum.com/privacy/">
 <meta name="theme-color" content="#2B2557">
 <link rel="icon" href="../favicon.png">
@@ -13,8 +13,8 @@
 <body>
 <a class="skip" href="#main">Skip to the content</a>
 <div class="bar-head"><div class="wrap top">
-  <a class="brand" href="../"><img src="../assets/icon-192.png" alt="" width="40" height="40">Taking Care</a>
-  <nav aria-label="Main"><a href="../#download">Download</a><a href="../checklist/">Checklist</a><a href="./" aria-current="page">Privacy</a></nav>
+  <a class="brand" href="../"><img src="../assets/icon-192.png" alt="" width="40" height="40">SkyCare</a>
+  <nav aria-label="Main"><a href="../#download">Download</a><a href="../app/">Web app</a><a href="../inventory/">Inventory</a><a href="./" aria-current="page">Privacy</a></nav>
 </div></div>
 <main id="main" class="page"><div class="wrap">
 <h1>Privacy</h1>
@@ -26,6 +26,9 @@
 <li><b>No accounts, ads, or analytics.</b> The app does not ask who you are and does not report back to us.</li>
 <li><b>Everything you add is saved on your phone only.</b> That includes your name, skill answers, plans, moods, diary, food log, profile, notes, reminders, and any journal pages. It leaves your phone only when you tap Export, Share, or save a PDF, and then it goes where you send it.</li>
 <li><b>Reminders</b> are scheduled by your phone. Nothing is sent to a server.</li>
+<li><b>Locked files.</b> When you save your inventory, backup, or profile, you can lock the file with a password. Locking happens on your device, using AES-256-GCM, with the key made from your password by PBKDF2 (600,000 rounds). The password is never saved or sent anywhere, so a forgotten password cannot be recovered by anyone. A file saved without a password is plain text, and anyone who has the file can read it.</li>
+<li><b>Apps tab (Android).</b> To show the list of apps you can choose from, the app reads the names and icons of the apps installed on your phone. That list is used on your phone only. The app saves just which ones you checked, and nothing about your apps is sent anywhere.</li>
+<li><b>Wallpaper.</b> A wallpaper picture you choose is copied into the app's own storage on your device. It is not included in Export and is never uploaded.</li>
 <li><b>Your path.</b> If you pick a religion or spiritual path, that choice is stored on your phone like everything else. It is only used to show the matching journal page.</li>
 </ul>
 
@@ -39,11 +42,14 @@
 </ul>
 <p>Everything fetched is saved on your phone so it works offline afterward. If you never open these pages, the app never connects.</p>
 
+<h2>The web app</h2>
+<p>The web app at <a href="../app/">/app/</a> works like the Android app. Everything you add is saved in your browser's own storage on your device. We never receive it. Your browser also keeps a copy of the app's files so it can work offline. It makes the same few requests listed above, only on the pages that need them. If you clear your browser's site data, your saved things are cleared too, so use Export now and then.</p>
+
 <h2>The website</h2>
 <ul>
 <li>This site has no cookies, no analytics, and no ads. Its fonts are served from this site.</li>
 <li>It is hosted on GitHub Pages. GitHub may keep standard server logs, as described in <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</li>
-<li>The <a href="../checklist/">checklist page</a> keeps your answers in your browser's own storage on your device, and nothing is sent to us. It loads its styles from cdn.tailwindcss.com and its font from Google Fonts, so those services can see your network address when the page opens.</li>
+<li>The <a href="../inventory/">inventory page</a> keeps your answers in your browser's own storage on your device, and nothing is sent to us. It loads its styles from cdn.tailwindcss.com and its font from Google Fonts, so those services can see your network address when the page opens.</li>
 </ul>
 
 <h2>Moving or deleting your data</h2>
@@ -52,6 +58,6 @@
 <h2>Questions</h2>
 <p>Ask through <a href="https://theskysanctum.com">The Sky Sanctum</a>. If this page changes in a way that matters, the date at the top will change.</p>
 </div></main>
-<footer><div class="wrap"><div><a href="../">Back to Taking Care</a></div><div><a href="https://theskysanctum.com">The Sky Sanctum</a></div></div></footer>
+<footer><div class="wrap"><div><a href="../">Back to SkyCare</a></div><div><a href="https://theskysanctum.com">The Sky Sanctum</a></div></div></footer>
 </body>
 </html>
