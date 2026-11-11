@@ -245,6 +245,9 @@ button,input,textarea,select{font-family:inherit}
 @media (prefers-reduced-motion:reduce){#view,#view *,#view>*,#sheet,#sheet *,#tabs *{animation:none!important;transition:none!important}}
 :root[data-pal=nd] #view,:root[data-pal=nd] #view *,:root[data-pal=nd] #sheet,:root[data-pal=nd] #sheet *,:root[data-pal=nd] #tabs *{animation:none!important;transition:none!important}
 
-#view,#sheetbox{overflow-wrap:anywhere}
-#view .btn,#sheetbox .btn,.palbtn,.feel{max-width:100%;min-width:0}
+#view,#sheetbox{overflow-wrap:break-word}
+#view .btn,#sheetbox .btn{max-width:100%}
+.palbtn,.feel{max-width:100%;min-width:0}
+.row>.btn{flex:none;white-space:nowrap}
+.row>input,.row>select{min-width:0}
 .palbtn .sw{flex-wrap:wrap}
