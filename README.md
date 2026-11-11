@@ -1,13 +1,13 @@
-# Taking Care project page
+# SkyCare project page
 
 Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one small script.
 
 ## What is in here
 
 - `index.html`: the project page (hero, try-it demo, how it works, features including the Apps tab, wallpaper, reading options and the web app, download)
-- `checklist/index.html`: your existing checklist tool, with a slim "Taking Care" bar on top. The tool itself is unchanged.
+- `checklist/index.html`: your existing checklist tool, with a slim "SkyCare" bar on top. The tool itself is unchanged.
 - `privacy/index.html`: what the app and site do with data
-- `download/Taking_Care.apk`: the Android app, version 1.0
+- `download/SkyCare.apk`: the Android app, version 1.0
 - `app/`: the web app (an installable PWA). It is built from the same source as the Android app. See below.
 - `assets/`: styles, self-hosted Lexend font, screenshots taken from the real app, demo script
 - `CNAME`, `.nojekyll`, `404.html`, `robots.txt`, `sitemap.xml`
@@ -20,8 +20,8 @@ Static site for care.theskysanctum.com. No build step. Plain HTML, CSS, and one 
 
 ## Updating the app
 
-1. Replace `download/Taking_Care.apk`.
-2. Update the SHA-256 shown in the Download section of `index.html`. Get it with `sha256sum download/Taking_Care.apk`.
+1. Replace `download/SkyCare.apk`.
+2. Update the SHA-256 shown in the Download section of `index.html`. Get it with `sha256sum download/SkyCare.apk`.
 3. Update the version and size text next to it.
 
 Tip: if you would rather not keep big files in the repo history, attach the APK to a GitHub Release and point the Download button at the release file instead.
