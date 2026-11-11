@@ -1650,6 +1650,21 @@ function showAppPicker(keepFocus) {
     '<button class="btn full" data-a="appdone" style="margin-top:12px">Done</button>');
   const n = $('#appsearch'); if (n && appQ && keepFocus !== true) { n.focus(); try { n.setSelectionRange(appQ.length, appQ.length); } catch (x) { } }
 }
+const HOME_TAB = NATIVE ? 'apps' : 'mood';
+function dismissSheet() { if (dbxPick) dbxAnswer(null); else closeSheet(); }
+window.__back = () => {
+  if (!$('#sheet').hidden) { dismissSheet(); return true; }
+  if (openSec !== null) { openSec = null; render(); return true; }
+  if (tab !== HOME_TAB) { goTab(HOME_TAB); return true; }
+  const v = $('#view'); if (v && v.scrollTop > 0) { v.scrollTop = 0; return true; }
+  return false;
+};
+window.__home = () => {
+  if (!$('#sheet').hidden) dismissSheet();
+  openSec = null;
+  if (tab !== HOME_TAB) goTab(HOME_TAB); else { const v = $('#view'); if (v) v.scrollTop = 0; render(); }
+  return true;
+};
 function goTab(next) {
   const ids = Array.from(document.querySelectorAll('#tabs [data-tab]')).map((b) => b.dataset.tab);
   const ix = (t) => (t === 'more' ? 999 : ids.indexOf(t));
