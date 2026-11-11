@@ -7,6 +7,7 @@ import SITE from './site.json';
 import { jsPDF } from 'jspdf';
 import { VERSION } from './version.js';
 import { canLock, isLocked, lockText, unlockText } from './lockcore.js';
+import { DBX_KEY, meta as dbxMeta, connected as dbxConnected, hasAuth as dbxHasAuth, setPassword as dbxSetPassword, disconnect as dbxDisconnect, authUrl as dbxAuthUrl, finishAuth as dbxFinishAuth, syncNow as dbxSyncNow, hashOf as dbxHash } from './dropbox.js';
 
 const KEY = 'skycare_v1';
 const KIND = { P: 'I want to learn it', H: 'I need help', D: 'I know it' };
@@ -50,7 +51,8 @@ function load() {
   try { return migrate(Object.assign(defaults(), JSON.parse(localStorage.getItem(KEY) || '{}'))); } catch (e) { return defaults(); }
 }
 let S = load();
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
+let dbxTimer = null, dbxMsg = '', dbxBusy = false, dbxPick = null;
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } dbxSchedule(); }
 
 const $ = (s) => document.querySelector(s);
 const mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
@@ -1010,8 +1012,9 @@ function viewMore() {
     '<div class="card"><h3>My curriculum</h3><div class="mute">' + esc(sourceLabel()) + '</div><button class="btn full" style="margin-top:10px" data-a="import">Import an inventory file</button>' + '<a class="btn alt full" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="https://theskysanctum.com/skycare/inventory/" target="_blank" rel="noopener">Open the inventory page</a>' + (S.curriculum ? '<button class="btn alt full" style="margin-top:10px" data-a="builtin">Go back to the built-in book</button>' : '') + '</div>' +
     '<div class="card"><h3>The PDF book</h3><div class="mute">The whole book is inside this app on the Skills tab. You can also open the PDF.</div><button class="btn alt full" style="margin-top:10px" data-a="pdf">Open or share the PDF</button></div>' +
     '<div class="card"><h3>Move to a new phone</h3><div class="mute">Saves everything you added to one file: your plan, moods, routines, notes, skill colors, practice counts, imported curriculum, and settings. Send it to yourself, then restore it on the new phone. You can lock the file with a password so only you can open it.</div><button class="btn alt full" style="margin-top:10px" data-a="backup">Export all my data</button><button class="btn alt full" style="margin-top:10px" data-a="restoresheet">Restore from a file</button></div>' +
+    dbxCard() +
     '<div class="card"><h3>Start over</h3><div class="mute">Erases everything saved in this app on this phone.</div><button class="btn red full" style="margin-top:10px" data-a="reset">Erase my data</button></div>' +
-    '<div class="mute" style="text-align:center;padding:10px">Your information stays on this phone. Nothing is sent anywhere.</div>' +
+    '<div class="mute" style="text-align:center;padding:10px">' + (dbxConnected() ? 'Your information stays on this phone and in your own Dropbox, locked with your sync password.' : 'Your information stays on this phone. Nothing is sent anywhere.') + '</div>' +
     '<div class="mute" style="text-align:center;font-size:12px">Illustrations in SkyCare were drawn for the app.<br>Version ' + VERSION + '</div>';
   $('#view').innerHTML = h;
 }
@@ -1279,6 +1282,76 @@ async function shareBackup() {
   } catch (e) { if (!(e && /cancel/i.test(String(e.message || e)))) toast('Could not make the backup'); }
 }
 
+
+const DBX_REDIRECT = () => NATIVE ? 'skycare://dropbox' : location.origin + location.pathname;
+function dbxSchedule() { if (!DBX_KEY || !dbxConnected()) return; clearTimeout(dbxTimer); dbxTimer = setTimeout(() => dbxRun(true), 15000); }
+function dbxWhen(ts) { if (!ts) return 'not yet'; const d = new Date(ts); return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); }
+const dbxHead = (t) => '<div class="row"><h3 class="sp" style="font-size:21px">' + t + '</h3><button class="x" data-a="closesheet" aria-label="Close">&times;</button></div>';
+function dbxChoose() {
+  return new Promise((res) => {
+    dbxPick = res;
+    showSheet(dbxHead('Two different copies') + '<p class="mute">This phone and Dropbox both have changes the other one does not have. Pick the copy to keep. The other copy is replaced.</p>' +
+      '<button class="btn full" data-a="dbxr">Keep the Dropbox copy</button>' +
+      '<button class="btn alt full" style="margin-top:10px" data-a="dbxl">Keep this phone\'s copy</button>' +
+      '<button class="btn alt full" style="margin-top:10px" data-a="dbxlater">Decide later</button>');
+  });
+}
+function dbxAnswer(v) { const r = dbxPick; dbxPick = null; closeSheet(); if (r) r(v); }
+async function dbxApply(plain) {
+  const o = JSON.parse(plain);
+  if (!o || typeof o !== 'object' || Array.isArray(o)) throw new Error('net');
+  S = migrate(Object.assign(defaults(), o));
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { }
+  openSec = null; applyTheme(); render(); syncReminders();
+}
+async function dbxRun(quiet) {
+  if (!DBX_KEY || !dbxConnected() || dbxBusy) return;
+  dbxBusy = true;
+  if (!quiet) { dbxMsg = 'Syncing...'; if (tab === 'more') render(); }
+  const r = await dbxSyncNow({ state: () => JSON.stringify(S), apply: dbxApply, choose: dbxChoose, blankHash: await dbxHash(JSON.stringify(defaults())) });
+  dbxBusy = false;
+  dbxMsg = { uploaded: 'Saved to Dropbox.', downloaded: 'Got the newest copy from Dropbox.', same: 'Everything matches Dropbox.', later: 'The two copies are still different.', busy: '', off: '' }[r.s] || '';
+  if (r.s === 'error') dbxMsg = { badpw: 'The sync password does not match the one used for the Dropbox copy.', auth: 'Dropbox needs you to connect again.', net: 'Could not reach Dropbox. It will try again.' }[r.e] || 'Could not sync.';
+  if (!quiet && r.s !== 'busy') toast(dbxMsg || 'Done');
+  if (tab === 'more') render();
+}
+async function dbxBack(url) {
+  try {
+    if (!(await dbxFinishAuth(url))) return false;
+  } catch (e) { toast('Dropbox did not connect'); return true; }
+  toast('Dropbox is connected');
+  tab = 'more'; render();
+  dbxRun(false);
+  return true;
+}
+window.__dbxCb = (url) => { dbxBack(String(url)); return true; };
+function dbxCard() {
+  if (!DBX_KEY) return '';
+  const m = dbxMeta();
+  if (!dbxConnected()) {
+    return '<div class="card"><h3>Dropbox sync</h3><div class="mute">Keeps one locked copy of your data in your own Dropbox, so your phones and this page can share it. Only you can open it, using a sync password you choose. SkyCare can only see its own folder.</div><button class="btn full" style="margin-top:10px" data-a="dbxsetup">Connect Dropbox</button></div>';
+  }
+  return '<div class="card"><h3>Dropbox sync</h3><div class="mute">Connected. Last synced: ' + esc(dbxWhen(m.last)) + '.' + (dbxMsg ? '<br><b>' + esc(dbxMsg) + '</b>' : '') + '</div>' +
+    '<button class="btn full" style="margin-top:10px" data-a="dbxnow">Sync now</button>' +
+    '<button class="btn alt full" style="margin-top:10px" data-a="dbxpwsheet">Change sync password</button>' +
+    '<button class="btn alt full" style="margin-top:10px" data-a="dbxoff">Disconnect</button></div>';
+}
+function dbxSetup(mode, msg) {
+  const first = mode === 'setup';
+  showSheet(dbxHead(first ? 'Connect Dropbox' : 'Sync password') +
+    '<p class="mute">' + (first ? 'Pick a sync password. It locks your data before it goes to Dropbox. Use the same password on every phone. Nobody can recover it for you.' : 'Type the sync password that was used for the Dropbox copy.') + '</p>' +
+    (msg ? '<p style="color:var(--red);font-weight:700">' + esc(msg) + '</p>' : '') +
+    '<label>Sync password</label><input id="dpw1" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false">' +
+    '<label>Type it again</label><input id="dpw2" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false">' +
+    '<button class="btn full" style="margin-top:14px" data-a="' + (first ? 'dbxgo' : 'dbxpwgo') + '">' + (first ? 'Connect' : 'Save') + '</button>');
+}
+function dbxPw(mode) {
+  const a = ($('#dpw1') || {}).value || '', b = ($('#dpw2') || {}).value || '';
+  if (a.length < 8) { dbxSetup(mode, 'Use at least 8 characters.'); return null; }
+  if (a !== b) { dbxSetup(mode, 'The two passwords are not the same.'); return null; }
+  return a;
+}
+
 function onAction(el) {
   const a = el.dataset.a;
   const k = dkey(day);
@@ -1487,6 +1560,15 @@ render();
     case 'savesettings':
       S.name = $('#sname').value.trim(); S.helperName = $('#shname').value.trim(); S.helperPhone = $('#shphone').value.trim();
       save(); toast('Saved'); return;
+    case 'dbxsetup': return dbxSetup('setup');
+    case 'dbxgo': { const pw = dbxPw('setup'); if (!pw) return; closeSheet(); dbxAuthUrl(DBX_REDIRECT(), pw).then((u) => { window.location.href = u; }); return; }
+    case 'dbxnow': return dbxRun(false);
+    case 'dbxpwsheet': return dbxSetup('pw');
+    case 'dbxpwgo': { const pw = dbxPw('pw'); if (!pw) return; dbxSetPassword(pw); closeSheet(); return dbxRun(false); }
+    case 'dbxoff': if (confirm('Disconnect Dropbox? Your data stays on this phone and the copy stays in Dropbox.')) { dbxDisconnect(); dbxMsg = ''; render(); toast('Disconnected'); } return;
+    case 'dbxr': return dbxAnswer('remote');
+    case 'dbxl': return dbxAnswer('local');
+    case 'dbxlater': return dbxAnswer(null);
     case 'backup': return shareBackup();
     case 'restoresheet': return restoreSheet();
     case 'restorepaste': return restoreData(($('#bpaste') || {}).value || '');
@@ -1681,6 +1763,9 @@ document.addEventListener('change', (e) => {
 applyTheme();
 if (NATIVE) enableApps();
 render();
+if (!NATIVE && DBX_KEY && /[?&]code=/.test(location.search)) { dbxBack(location.href).then(() => { try { history.replaceState(null, '', location.pathname); } catch (e) { } }); }
+else if (DBX_KEY && dbxConnected()) setTimeout(() => dbxRun(true), 2500);
+document.addEventListener('visibilitychange', () => { if (document.hidden) { if (dbxConnected() && DBX_KEY) { clearTimeout(dbxTimer); dbxRun(true); } } else if (dbxConnected() && DBX_KEY) dbxRun(true); });
 window.__makePdf = makePdf; window.__parse = parseChecklist; window.__restore = restoreData; window.__moon = moonAt; window.__sync = syncReminders; window.__webcheck = webCheckReminders; window.__ens = ensureMoon; window.__MC = () => MC; window.__next = nextPhase; window.__setSub = (x) => { meSub = x; }; window.__S = () => S;
 setTimeout(() => ensureMoon(), 1500);
 startClock();
