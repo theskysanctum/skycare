@@ -39,3 +39,7 @@ The web app is generated, not hand-edited. From the app's source project, run `n
 ## Retaking screenshots
 
 The screenshots in `assets/shots/` are taken from the real app running in a headless browser with sample data (the Apps tab uses made-up sample apps, not real ones). The wallpaper shown is an original picture made for this page. All artwork in the app and on the site, including the mascot and the section pictures, is original. Save new ones as WebP at 780 by 1600 for phone screens.
+
+## Locked files
+
+Checklist reports, backups, and profile files can be locked with a password. The code is in the app's `src/lockcore.js` (Web Crypto: PBKDF2-SHA256 with 600,000 rounds, then AES-256-GCM). The checklist page uses a build of the same file at `assets/lockcore.js`; rebuild it with `npx esbuild src/lockcore.js --bundle --format=iife --global-name=TCLockCore --minify --outfile=assets/lockcore.js`. A locked file is plain text with a short note and a block between `-----BEGIN TAKING CARE-----` and `-----END TAKING CARE-----`.

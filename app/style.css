@@ -48,7 +48,7 @@ h3{font-size:18px;margin:0 0 6px}
 .chk.done .box{background:var(--purple);border-color:var(--purple)}
 .chk.done .lbl{text-decoration:line-through;color:var(--mute)}
 .x{border:0;background:none;color:var(--mute);font-size:22px;padding:6px 10px}
-input[type=text],input[type=search],input[type=time],input[type=tel],textarea,select{width:100%;font-size:17px;padding:12px;border:1.5px solid var(--line);
+input[type=text],input[type=search],input[type=password],input[type=time],input[type=tel],textarea,select{width:100%;font-size:17px;padding:12px;border:1.5px solid var(--line);
   border-radius:12px;background:var(--surface);color:var(--ink);font-family:inherit}
 ::placeholder{color:var(--mute);opacity:.8}
 textarea{min-height:84px}
