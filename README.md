@@ -38,4 +38,4 @@ The web app is generated, not hand-edited. From the app's source project, run `n
 
 ## Retaking screenshots
 
-The screenshots in `assets/shots/` are taken from the real app running in a headless browser with sample data (the Apps tab uses made-up sample apps, not real ones). The wallpaper shown is an original picture made for this page. Save new ones as WebP at 780 by 1600 for phone screens.
+The screenshots in `assets/shots/` are taken from the real app running in a headless browser with sample data (the Apps tab uses made-up sample apps, not real ones). The wallpaper shown is an original picture made for this page. All artwork in the app and on the site, including the mascot and the section pictures, is original. Save new ones as WebP at 780 by 1600 for phone screens.
