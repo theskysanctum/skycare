@@ -18,11 +18,10 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:18px;line-height:1.4}
 header{position:fixed;top:0;left:0;right:0;padding:calc(var(--safe-t) + 10px) 12px 10px 14px;
   background:var(--head);color:#fff;z-index:5;display:flex;align-items:center;gap:10px}
-#logo{width:40px;height:40px;border-radius:12px;background:#fff;object-fit:contain;flex:none}
 #hl{flex:1;min-width:0}
-#title{font-weight:700;font-size:21px;line-height:1.15}
-#sub{font-size:14px;opacity:.92;min-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#theme{border:0;background:rgba(255,255,255,.18);color:#fff;width:44px;height:44px;border-radius:14px;font-size:22px;flex:none}
+#sub{font-weight:700;font-size:21px;line-height:44px;min-height:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#more{border:0;background:rgba(255,255,255,.18);color:#fff;height:44px;padding:0 16px;border-radius:14px;font-size:17px;font-weight:600;flex:none}
+#more.on{background:rgba(255,255,255,.34)}
 main{position:absolute;top:calc(var(--safe-t) + 68px);bottom:calc(var(--safe-b) + 66px);left:0;right:0;
   overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;touch-action:pan-y;padding:14px 14px 28px;-webkit-overflow-scrolling:touch}
 nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--navbg);border-top:1px solid var(--line);
@@ -238,8 +237,8 @@ button,input,textarea,select{font-family:inherit}
 #sheet:not([hidden]) #sheetbox{animation:tc-up .3s cubic-bezier(.2,.8,.2,1)}
 @keyframes tc-fade{from{opacity:0}to{opacity:1}}
 @keyframes tc-up{from{opacity:0;transform:translateY(36px) scale(.98)}to{opacity:1;transform:none}}
-.btn,.apptile,.seg button,.dayrow,#tabs button,#theme{transition:transform .14s ease,background-color .2s ease,color .2s ease,opacity .2s ease}
-.btn:active,.apptile:active,.seg button:active,#theme:active{transform:scale(.95)}
+.btn,.apptile,.seg button,.dayrow,#tabs button,#more{transition:transform .14s ease,background-color .2s ease,color .2s ease,opacity .2s ease}
+.btn:active,.apptile:active,.seg button:active,#more:active{transform:scale(.95)}
 #tabs button:active{transform:scale(.9)}
 #tabs button span{display:inline-block;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
 #tabs button.on span{transform:translateY(-2px) scale(1.18)}
