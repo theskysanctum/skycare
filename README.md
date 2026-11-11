@@ -1,11 +1,11 @@
 # SkyCare
 
-A self-care teaching app and planner. Android app and installable web app, plus the website at https://care.theskysanctum.com.
+A self-care teaching app and planner. Android app and installable web app, plus the website at https://theskysanctum.com/skycare.
 
-- Website: https://care.theskysanctum.com
-- Web app: https://care.theskysanctum.com/app/
-- Personal inventory: https://care.theskysanctum.com/inventory/
-- Android download: https://care.theskysanctum.com/download/SkyCare.apk
+- Website: https://theskysanctum.com/skycare/
+- Web app: https://theskysanctum.com/skycare/app/
+- Personal inventory: https://theskysanctum.com/skycare/inventory/
+- Android download: https://theskysanctum.com/skycare/download/SkyCare.apk
 
 ## What is in here
 
@@ -15,11 +15,11 @@ A self-care teaching app and planner. Android app and installable web app, plus 
 - `app/`: the web app (an installable PWA), built from `source/`.
 - `source/`: the app code for Android and web. See `source/README.md` for build steps.
 - `assets/`: styles, the Lexend font, screenshots, the demo video, `lockcore.js`.
-- `CNAME`, `.nojekyll`, `robots.txt`, `sitemap.xml`.
+- `.nojekyll`, `robots.txt`, `sitemap.xml`.
 
 ## Put it online (GitHub Pages)
 
-The site is static and has no build step. In Settings, then Pages, pick the branch and the root folder. The custom domain is `care.theskysanctum.com` (the `CNAME` file sets it). DNS: `care` is a CNAME record pointing at `theskysanctum.github.io`.
+The site is static and has no build step. It is a project page, so it is served at `https://theskysanctum.com/skycare/` once `theskysanctum.com` is set up on the `theskysanctum.github.io` repo. There is no `CNAME` file here, and the repo has no custom domain of its own. All links inside the site and the web app are relative, so it also works under any other path.
 
 ## Updating the app
 
