@@ -43,7 +43,7 @@ The version is `1.0.N`, where N is the commit count plus one. Run `source/script
 ## Notes
 
 - The app is signed with a debug key, so Android shows an "unknown app" warning. Signing with your own release key would remove it, and Google Play needs one.
-- The app ID is `app.skycare.app`. It installs beside the older Taking Care app, so use Export all my data in the old app, then Restore in SkyCare.
+- The app ID is `app.skycare.app`.
 - The inventory page still loads Tailwind and Google Fonts from their CDNs. The privacy page says so.
 - Screenshots use demo data and the name "Alex". Save new ones as WebP at 780 by 1600.
 - `assets/video/` has a short silent screen recording of the app. Re-record it when the screens change a lot.
@@ -56,4 +56,4 @@ Reports, backups, and profile files can be locked with a password (Web Crypto: P
 npx esbuild source/src/lockcore.js --bundle --format=iife --global-name=TCLockCore --minify --outfile=assets/lockcore.js
 ```
 
-A locked file is plain text with a short note and a block between `-----BEGIN SKYCARE-----` and `-----END SKYCARE-----`. Older `TAKING CARE` blocks can still be read.
+A locked file is plain text with a short note and a block between `-----BEGIN SKYCARE-----` and `-----END SKYCARE-----`.

@@ -1,10 +1,8 @@
 const BEGIN = '-----BEGIN SKYCARE-----';
 const END = '-----END SKYCARE-----';
-const OLD_BEGIN = '-----BEGIN TAKING CARE-----';
-const OLD_END = '-----END TAKING CARE-----';
-function marks(t) { return t.indexOf(BEGIN) >= 0 ? [BEGIN, END] : [OLD_BEGIN, OLD_END]; }
+function marks() { return [BEGIN, END]; }
 const ITER = 600000;
-const AAD = new TextEncoder().encode('taking-care-v1');
+const AAD = new TextEncoder().encode('skycare-v1');
 
 function b64e(u8) { let s = ''; for (let i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]); return btoa(s); }
 function b64d(t) { const s = atob(t), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }

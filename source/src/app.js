@@ -8,7 +8,6 @@ import { jsPDF } from 'jspdf';
 import { VERSION } from './version.js';
 import { canLock, isLocked, lockText, unlockText } from './lockcore.js';
 
-try { Object.keys(localStorage).filter((k) => k.indexOf('taking_care_') === 0).forEach((k) => { const n = 'skycare_' + k.slice(12); if (localStorage.getItem(n) === null) localStorage.setItem(n, localStorage.getItem(k)); }); } catch (e) { }
 const KEY = 'skycare_v1';
 const KIND = { P: 'I want to learn it', H: 'I need help', D: 'I know it' };
 const FEELS = [
