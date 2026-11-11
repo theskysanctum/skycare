@@ -36,6 +36,10 @@ The web app is generated, not hand-edited. From the app's source project, run `n
 - The inventory page still loads Tailwind and Google Fonts from their CDNs. The privacy page says so. Self-hosting them would let you drop that line.
 - Screenshots use demo data and the name "Alex".
 
+## Video
+
+`assets/video/` holds a short silent screen recording of the app (mp4 and webm, plus a poster image). It was recorded from the web build with sample data and a small circle that shows taps and swipes. Re-record it whenever the screens change a lot.
+
 ## Retaking screenshots
 
 The screenshots in `assets/shots/` are taken from the real app running in a headless browser with sample data (the Apps tab uses made-up sample apps, not real ones). The wallpaper shown is an original picture made for this page. All artwork in the app and on the site, including the mascot and the section pictures, is original. Save new ones as WebP at 780 by 1600 for phone screens.
