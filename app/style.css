@@ -24,7 +24,7 @@ header{position:fixed;top:0;left:0;right:0;padding:calc(var(--safe-t) + 10px) 12
 #sub{font-size:14px;opacity:.92;min-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #theme{border:0;background:rgba(255,255,255,.18);color:#fff;width:44px;height:44px;border-radius:14px;font-size:22px;flex:none}
 main{position:absolute;top:calc(var(--safe-t) + 68px);bottom:calc(var(--safe-b) + 66px);left:0;right:0;
-  overflow-y:auto;padding:14px 14px 28px;-webkit-overflow-scrolling:touch}
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior-x:none;touch-action:pan-y;padding:14px 14px 28px;-webkit-overflow-scrolling:touch}
 nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--navbg);border-top:1px solid var(--line);
   padding-bottom:var(--safe-b);z-index:5}
 nav button{flex:1;border:0;background:none;padding:8px 2px 7px;font-size:12px;color:var(--mute);font-weight:600}
@@ -230,8 +230,8 @@ button,input,textarea,select{font-family:inherit}
 :root[data-wall] main>.dayrow,:root[data-wall] main>.legend,:root[data-wall] main>h2,:root[data-wall] main>.mute{background:color-mix(in srgb,var(--card) 90%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-radius:12px;padding:8px 12px}
 :root[data-wall] main>h2{width:fit-content}
 
-#view.in-r{animation:tc-in-r .26s cubic-bezier(.2,.7,.2,1)}
-#view.in-l{animation:tc-in-l .26s cubic-bezier(.2,.7,.2,1)}
+#view.in-r>*{animation:tc-in-r .26s cubic-bezier(.2,.7,.2,1)}
+#view.in-l>*{animation:tc-in-l .26s cubic-bezier(.2,.7,.2,1)}
 @keyframes tc-in-r{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
 @keyframes tc-in-l{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:none}}
 #sheet:not([hidden]){animation:tc-fade .2s ease-out}
@@ -243,5 +243,5 @@ button,input,textarea,select{font-family:inherit}
 #tabs button:active{transform:scale(.9)}
 #tabs button span{display:inline-block;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
 #tabs button.on span{transform:translateY(-2px) scale(1.18)}
-@media (prefers-reduced-motion:reduce){#view,#view *,#sheet,#sheet *,#tabs *{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){#view,#view *,#view>*,#sheet,#sheet *,#tabs *{animation:none!important;transition:none!important}}
 :root[data-pal=nd] #view,:root[data-pal=nd] #view *,:root[data-pal=nd] #sheet,:root[data-pal=nd] #sheet *,:root[data-pal=nd] #tabs *{animation:none!important;transition:none!important}
