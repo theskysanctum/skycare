@@ -1,6 +1,5 @@
 #!/bin/sh
-HERE=$(cd "$(dirname "$0")" && pwd)
-REPO=${1:-$(git -C "$HERE" rev-parse --show-toplevel)}
+REPO=${1:-/home/claude/universal-safety-care-inventory}
 N=$(( $(git -C "$REPO" rev-list --count HEAD) + 1 ))
 V="1.0.$N"
 APP=$(cd "$(dirname "$0")/.." && pwd)

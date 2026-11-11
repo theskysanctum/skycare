@@ -37,5 +37,6 @@ node scripts/build-web.js ../app
 
 ## Notes
 
-- The app ID is `app.takingcare.guide`. It is the original ID, kept so new versions install over old ones and keep saved data. The visible name is SkyCare.
-- Saved-data keys in the browser start with `taking_care_` for the same reason.
+- The app ID is `app.skycare.app`. Builds before 1.0.38 used `app.takingcare.guide` (the old name), so they install as a separate app. Use Export all my data and Restore from a file to move across.
+- Saved-data keys in the browser start with `skycare_`. On first load the app copies any old `taking_care_` keys across, so web users keep their data.
+- The password-lock format still uses the old name internally (`taking-care-v1`), so files locked by older versions still open.

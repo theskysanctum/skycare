@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.takingcare.guide',
+  appId: 'app.skycare.app',
   appName: 'SkyCare',
   webDir: 'www',
   plugins: {

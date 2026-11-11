@@ -8,7 +8,8 @@ import { jsPDF } from 'jspdf';
 import { VERSION } from './version.js';
 import { canLock, isLocked, lockText, unlockText } from './lockcore.js';
 
-const KEY = 'taking_care_v1';
+try { Object.keys(localStorage).filter((k) => k.indexOf('taking_care_') === 0).forEach((k) => { const n = 'skycare_' + k.slice(12); if (localStorage.getItem(n) === null) localStorage.setItem(n, localStorage.getItem(k)); }); } catch (e) { }
+const KEY = 'skycare_v1';
 const KIND = { P: 'I want to learn it', H: 'I need help', D: 'I know it' };
 const FEELS = [
   ['happy', '\u{1F604}', 'Happy'], ['calm', '\u{1F60C}', 'Calm'], ['okay', '\u{1F642}', 'Okay'], ['tired', '\u{1F634}', 'Tired'],
@@ -71,7 +72,7 @@ function applyAccess() {
   if (S.xclues) r.setAttribute('data-xc', ''); else r.removeAttribute('data-xc');
   if (S.wide) r.setAttribute('data-wide', ''); else r.removeAttribute('data-wide');
 }
-const WKEY = 'taking_care_wall_v1';
+const WKEY = 'skycare_wall_v1';
 function loadWall() { try { return JSON.parse(localStorage.getItem(WKEY) || 'null') || { img: '', dim: 35 }; } catch (e) { return { img: '', dim: 35 }; } }
 let WALL = loadWall();
 function saveWall() { try { localStorage.setItem(WKEY, JSON.stringify(WALL)); return true; } catch (e) { return false; } }
@@ -532,7 +533,7 @@ function profileText() {
 }
 const SYN = 29.530588853;
 const NEWREF = Date.UTC(2000, 0, 6, 18, 14);
-const MKEY = 'taking_care_moon_v1';
+const MKEY = 'skycare_moon_v1';
 const PF = { 'New Moon': 0, 'First Quarter': 0.25, 'Full Moon': 0.5, 'Last Quarter': 0.75 };
 let MC = {};
 try { MC = JSON.parse(localStorage.getItem(MKEY) || '{}') || {}; } catch (e) { MC = {}; }
@@ -860,7 +861,7 @@ const PATH_SECS = {
 const PATH_SEC = { Christianity: 'bible', Judaism: 'torah', Islam: 'quran', Buddhism: 'dharma', Hinduism: 'sadhana', Sikhism: 'gurbani', Agnostic: 'reflect', Atheist: 'reflect', 'Spiritual, no set religion': 'spirit' };
 const activeSecs = () => { const out = []; (S.paths || []).forEach((p) => { const id = PATH_SEC[p]; if (id && out.indexOf(id) < 0) out.push(id); }); return out; };
 
-const LKEY = 'taking_care_live_v1';
+const LKEY = 'skycare_live_v1';
 let LIVE = {};
 try { LIVE = JSON.parse(localStorage.getItem(LKEY) || '{}') || {}; } catch (e) { LIVE = {}; }
 const liveSave = () => { try { localStorage.setItem(LKEY, JSON.stringify(LIVE)); } catch (e) { } };

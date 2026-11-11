@@ -1,4 +1,4 @@
-package app.takingcare.guide;
+package app.skycare.app;
 
 import android.app.ActivityManager;
 import android.content.Intent;
