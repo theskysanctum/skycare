@@ -229,3 +229,19 @@ button,input,textarea,select{font-family:inherit}
 :root[data-wall] .card,:root[data-wall] .apptile{background:color-mix(in srgb,var(--card) 90%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 :root[data-wall] main>.dayrow,:root[data-wall] main>.legend,:root[data-wall] main>h2,:root[data-wall] main>.mute{background:color-mix(in srgb,var(--card) 90%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-radius:12px;padding:8px 12px}
 :root[data-wall] main>h2{width:fit-content}
+
+#view.in-r{animation:tc-in-r .26s cubic-bezier(.2,.7,.2,1)}
+#view.in-l{animation:tc-in-l .26s cubic-bezier(.2,.7,.2,1)}
+@keyframes tc-in-r{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
+@keyframes tc-in-l{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:none}}
+#sheet:not([hidden]){animation:tc-fade .2s ease-out}
+#sheet:not([hidden]) #sheetbox{animation:tc-up .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes tc-fade{from{opacity:0}to{opacity:1}}
+@keyframes tc-up{from{opacity:0;transform:translateY(36px) scale(.98)}to{opacity:1;transform:none}}
+.btn,.apptile,.seg button,.dayrow,#tabs button,#theme{transition:transform .14s ease,background-color .2s ease,color .2s ease,opacity .2s ease}
+.btn:active,.apptile:active,.seg button:active,#theme:active{transform:scale(.95)}
+#tabs button:active{transform:scale(.9)}
+#tabs button span{display:inline-block;transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+#tabs button.on span{transform:translateY(-2px) scale(1.18)}
+@media (prefers-reduced-motion:reduce){#view,#view *,#sheet,#sheet *,#tabs *{animation:none!important;transition:none!important}}
+:root[data-pal=nd] #view,:root[data-pal=nd] #view *,:root[data-pal=nd] #sheet,:root[data-pal=nd] #sheet *,:root[data-pal=nd] #tabs *{animation:none!important;transition:none!important}
