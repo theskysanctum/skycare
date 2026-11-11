@@ -1,5 +1,5 @@
 #!/bin/sh
-REPO=${1:-/home/claude/universal-safety-care-inventory}
+REPO=${1:-$(git rev-parse --show-toplevel)}
 N=$(( $(git -C "$REPO" rev-list --count HEAD) + 1 ))
 V="1.0.$N"
 APP=$(cd "$(dirname "$0")/.." && pwd)
