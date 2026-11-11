@@ -48,7 +48,7 @@ h3{font-size:18px;margin:0 0 6px}
 .chk.done .box{background:var(--purple);border-color:var(--purple)}
 .chk.done .lbl{text-decoration:line-through;color:var(--mute)}
 .x{border:0;background:none;color:var(--mute);font-size:22px;padding:6px 10px}
-input[type=text],input[type=time],input[type=tel],textarea,select{width:100%;font-size:17px;padding:12px;border:1.5px solid var(--line);
+input[type=text],input[type=search],input[type=time],input[type=tel],textarea,select{width:100%;font-size:17px;padding:12px;border:1.5px solid var(--line);
   border-radius:12px;background:var(--surface);color:var(--ink);font-family:inherit}
 ::placeholder{color:var(--mute);opacity:.8}
 textarea{min-height:84px}
@@ -216,3 +216,14 @@ button,input,textarea,select{font-family:inherit}
   :root[data-wide] main>*{grid-column:1/-1;min-width:0}
   :root[data-wide] main>.card{grid-column:auto}
 }
+
+.appgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;margin-bottom:12px}
+.apptile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink);font-size:13px;font-weight:600;min-height:44px}
+.apptile img,.approw img{width:52px;height:52px;border-radius:12px}
+.apptile span{text-align:center;word-break:break-word;line-height:1.2}
+.noicon{width:52px;height:52px;border-radius:12px;background:var(--line);flex:none}
+.applist{max-height:48vh;overflow-y:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+.approw{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:8px 2px;text-align:left;color:var(--ink);font-size:16px;min-height:56px}
+.approw img,.approw .noicon{width:40px;height:40px}
+.chk{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-weight:800;flex:none}
+.chk.on{background:var(--green);border-color:var(--green)}
