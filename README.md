@@ -1,11 +1,22 @@
 # SkyCare
 
-A self-care teaching app and planner. Android app and installable web app, plus the website at https://theskysanctum.com/skycare.
+SkyCare teaches everyday self-care skills in plain words and helps you keep up with them. It is an Android app and an installable web app, built from one codebase.
+
 
 - Website: https://theskysanctum.com/skycare/
 - Web app: https://theskysanctum.com/skycare/app/
 - Personal inventory: https://theskysanctum.com/skycare/inventory/
 - Android download: https://theskysanctum.com/skycare/download/SkyCare.apk
+
+## What the app does
+
+- **Skills:** a book of self-care lessons. Import a saved personal inventory and the app builds your own lessons from it.
+- **Today:** a planner with reminders.
+- **Me:** mood check-ins and a diary.
+- **Calm:** a breathing exercise and other calming tools.
+- **Apps (Android):** an optional launcher tab. Add or remove apps under More. It can also be used as the home screen.
+- **More:** text size, theme, wallpaper, reading options, backup and restore, and locking files with a password.
+- Swipe left or right to change tabs. Everything is stored on the device. The privacy page has the details.
 
 ## What is in here
 
@@ -25,9 +36,9 @@ The site is static and has no build step. It is a project page, so it is served 
 
 1. Build the APK and replace `download/SkyCare.apk` (see `source/README.md`).
 2. Update the SHA-256 and the version text in the Download section of `index.html`. Get the hash with `sha256sum download/SkyCare.apk`.
-3. Rebuild the web app: `node source/scripts/build-web.js app` from `source/`, with the output folder set to this repo's `app/`. Commit `app/`.
+3. Rebuild the web app from `source/`: `node scripts/build-web.js ../app`. Commit `app/`.
 
-The version is `1.0.N`, where N is the commit count plus one (`source/scripts/version.sh`).
+The version is `1.0.N`, where N is the commit count plus one. Run `source/scripts/version.sh` before building. The repo needs its full history (not a shallow clone) for the count to be right.
 
 ## Notes
 
