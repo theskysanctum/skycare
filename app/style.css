@@ -206,15 +206,10 @@ button,input,textarea,select{font-family:inherit}
 
 @media (min-width:700px){
   :root[data-wide]{background:var(--soft)}
-  :root[data-wide] body{background:var(--bg);max-width:1000px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.12);position:relative}
-  :root[data-wide] header,:root[data-wide] nav,:root[data-wide] main{max-width:1000px;margin-left:auto;margin-right:auto}
+  :root[data-wide] body{background:var(--bg);max-width:820px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.12);position:relative}
+  :root[data-wide] header,:root[data-wide] nav,:root[data-wide] main{max-width:820px;margin-left:auto;margin-right:auto}
   :root[data-wide] #sheetbox{max-width:760px}
   :root[data-wide] .toast{max-width:640px}
-}
-@media (min-width:900px){
-  :root[data-wide] main{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-content:start;align-items:start;padding-left:18px;padding-right:18px}
-  :root[data-wide] main>*{grid-column:1/-1;min-width:0}
-  :root[data-wide] main>.card{grid-column:auto}
 }
 
 .appgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;margin-bottom:12px}
@@ -225,5 +220,5 @@ button,input,textarea,select{font-family:inherit}
 .applist{max-height:48vh;overflow-y:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
 .approw{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:8px 2px;text-align:left;color:var(--ink);font-size:16px;min-height:56px}
 .approw img,.approw .noicon{width:40px;height:40px}
-.chk{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-weight:800;flex:none}
-.chk.on{background:var(--green);border-color:var(--green)}
+.achk{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-weight:800;flex:none}
+.achk.on{background:var(--green);border-color:var(--green)}
