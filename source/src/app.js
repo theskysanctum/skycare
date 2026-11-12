@@ -1689,6 +1689,7 @@ function renderKeep() {
 const Apps = registerPlugin('Apps');
 let AppsImpl = Apps;
 let appList = null, appErr = '', appQ = '', appHome = null, appsOn = false, appBusy = false, appSeen = null;
+const appCmp = (a, b) => String(a.label || '').localeCompare(String(b.label || ''), undefined, { sensitivity: 'base', numeric: true });
 function appByPkg(p) { return (appList || []).find((a) => a.pkg === p); }
 function enableApps() {
   if (appsOn) return;
@@ -1727,13 +1728,13 @@ function loadApps(force) {
   appBusy = true;
   appErr = '';
   const timer = setTimeout(() => { if (appBusy) { appBusy = false; appErr = 'The app list is taking too long. Try again.'; if (tab === 'apps') render(); } }, 15000);
-  AppsImpl.list().then((r) => { clearTimeout(timer); appBusy = false; appList = r.apps || []; appSeen = r.seen; if (tab === 'apps') render(); if (!$('#sheet').hidden) showAppPicker(); loadIcons(); }).catch((e) => { clearTimeout(timer); appBusy = false; appErr = 'Could not read your apps. ' + ((e && e.message) || ''); if (tab === 'apps') render(); });
+  AppsImpl.list().then((r) => { clearTimeout(timer); appBusy = false; appList = (r.apps || []).slice().sort(appCmp); appSeen = r.seen; if (tab === 'apps') render(); if (!$('#sheet').hidden) showAppPicker(); loadIcons(); }).catch((e) => { clearTimeout(timer); appBusy = false; appErr = 'Could not read your apps. ' + ((e && e.message) || ''); if (tab === 'apps') render(); });
 }
 function viewApps() {
   setHeader('My apps');
   loadApps(false);
   refreshHome();
-  const mine = (S.apps || []).map(appByPkg).filter(Boolean);
+  const mine = (S.apps || []).map(appByPkg).filter(Boolean).sort(appCmp);
   let h = '';
   if (appErr) h += '<div class="card"><div class="mute">' + esc(appErr) + '</div><button class="btn full" style="margin-top:10px" data-a="apprefresh">Try again</button></div>';
   else if (!appList) h += '<div class="card"><div class="mute">Looking for your apps...</div></div>';
@@ -1744,7 +1745,7 @@ function viewApps() {
 }
 function showAppPicker(keepFocus) {
   const q = appQ.trim().toLowerCase();
-  const list = (appList || []).filter((a) => !q || a.label.toLowerCase().includes(q));
+  const list = (appList || []).filter((a) => !q || a.label.toLowerCase().includes(q)).sort(appCmp);
   const on = new Set(S.apps || []);
   showSheet('<h3>Choose your apps</h3><div class="mute">Check the ones you want on My apps. Uncheck to take one off.</div>' +
     '<input id="appsearch" type="search" placeholder="Search apps" value="' + esc(appQ) + '" style="margin-top:10px">' +
